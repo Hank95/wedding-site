@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import Logo from "../assets/logo-crop.svg";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -11,7 +12,7 @@ export default function WeddingPage() {
   const heroRef = useRef(null);
 
   useEffect(() => {
-    const weddingDate = new Date("2024-06-15T16:00:00"); // Set your wedding date here
+    const weddingDate = new Date("2025-10-26T17:00:00"); // Set your wedding date here
 
     const updateCountdown = () => {
       const now = new Date();
@@ -36,9 +37,9 @@ export default function WeddingPage() {
       {/* Hero Section */}
       <section ref={heroRef} className="relative h-screen">
         <img
-          src="/placeholder.svg?height=1080&width=1920"
+          src="/public/wedding_oaks.webp"
           alt="Wedding Background"
-          className="opacity-50"
+          className="opacity-30"
           style={{
             width: "100%",
             height: "100%",
@@ -50,8 +51,15 @@ export default function WeddingPage() {
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center z-10">
-            <img
+            {/* <img
               src="/placeholder.svg?height=200&width=200"
+              alt="Wedding Logo"
+              width={200}
+              height={200}
+              className="mx-auto mb-8"
+            /> */}
+            <img
+              src={Logo}
               alt="Wedding Logo"
               width={200}
               height={200}
