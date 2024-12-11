@@ -5,13 +5,12 @@ import L from "leaflet";
 import customIcon from "./customIcons";
 
 const locations = [
-  // 32.80494807716289, -79.98629283068996
   {
     name: "Legare Waring House",
     description: "Wedding Venue",
-    lat: 32.80494807716289,
-    lng: -79.98629283068996,
-    website: "https://southcarolinaparks.com/legare-waring-house",
+    lat: 32.8211,
+    lng: -79.9861,
+    website: "https://www.ccprc.com/1874/Legare-Waring-House",
   },
   {
     name: "Charleston International Airport",
@@ -21,18 +20,28 @@ const locations = [
     website: "https://www.iflychs.com/",
   },
   {
-    name: "Charleston Place",
+    name: "The Hilton Charleston",
     description: "Recommended Hotel",
-    lat: 32.7816,
-    lng: -79.9318,
-    website: "https://charlestonplace.com",
+    lat: 32.7807,
+    lng: -79.9336,
+    website:
+      "https://www.hilton.com/en/hotels/chshhhf-hilton-charleston-historic-district/",
   },
   {
-    name: "The Vendue",
+    name: "Marriott Charleston",
     description: "Recommended Hotel",
-    lat: 32.7772,
-    lng: -79.9272,
-    website: "https://www.thevendue.com/",
+    lat: 32.7876,
+    lng: -79.9373,
+    website:
+      "https://www.marriott.com/en-us/hotels/chsmc-charleston-marriott/overview/",
+  },
+  {
+    name: "Moxy Charleston Downtown",
+    description: "Recommended Hotel",
+    lat: 32.7864,
+    lng: -79.94,
+    website:
+      "https://www.marriott.com/en-us/hotels/chsmx-moxy-charleston-downtown/overview/",
   },
 ];
 

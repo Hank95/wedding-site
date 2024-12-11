@@ -8,7 +8,6 @@ import { PhotoGallery } from "../components/PhotoGallery";
 import { GuestBook } from "../components/GuestBook";
 import { WeddingParty } from "../components/WeddingParty";
 import { InteractiveMap } from "../components/InteractiveMap";
-import "./map-styles.css";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -76,18 +75,22 @@ export default function WeddingPage() {
       </Section>
 
       {/* Our Story Section */}
-      <Section>
+      {/* <Section>
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
           Our Story
         </h2>
         <OurStory />
-      </Section>
+      </Section> */}
 
+      {/* Photo Gallery */}
       {/* Photo Gallery */}
       <Section className="bg-sage-100">
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
           Our Journey in Pictures
         </h2>
+        <p className="text-center mb-8 text-lg text-sage-700">
+          Click on a location to see photos from our time there
+        </p>
         <PhotoGallery />
       </Section>
 
@@ -107,8 +110,7 @@ export default function WeddingPage() {
               <br />
               <strong>Time:</strong> 5:00 PM
               <br />
-              <strong>Location:</strong> Magnolia Plantation and Gardens,
-              Charleston, SC
+              <strong>Location:</strong> Legare Waring House, Charleston, SC
             </p>
           </div>
           <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
@@ -119,8 +121,7 @@ export default function WeddingPage() {
             <p className="mt-2">
               <strong>Time:</strong> 6:30 PM - 11:30 PM
               <br />
-              <strong>Location:</strong> Magnolia Plantation and Gardens,
-              Charleston, SC
+              <strong>Location:</strong> Legare Waring House, Charleston, SC
             </p>
           </div>
         </div>
@@ -142,44 +143,6 @@ export default function WeddingPage() {
         <InteractiveMap />
       </Section>
 
-      {/* Charleston Information */}
-      <Section className="bg-sage-100">
-        <h2 className="text-4xl font-bold mb-8 text-center font-display">
-          Discover Charleston
-        </h2>
-        <p className="text-center mb-8">
-          Join us in the charming city of Charleston, South Carolina, known for
-          its rich history, beautiful architecture, and Southern hospitality.
-        </p>
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Historic Downtown
-            </h3>
-            <p>
-              Explore the cobblestone streets, colorful row houses, and historic
-              landmarks.
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Culinary Delights
-            </h3>
-            <p>
-              Indulge in world-class cuisine and traditional Lowcountry dishes.
-            </p>
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Coastal Beauty
-            </h3>
-            <p>
-              Enjoy pristine beaches, scenic waterfronts, and beautiful gardens.
-            </p>
-          </div>
-        </div>
-      </Section>
-
       {/* Travel Information */}
       <Section>
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
@@ -193,29 +156,62 @@ export default function WeddingPage() {
             <p>
               The nearest airport is Charleston International Airport (CHS).
             </p>
-            <Link to="#" className="text-sage-600 hover:underline">
+            <a
+              href="https://www.iflychs.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sage-600 hover:underline"
+            >
               Find Flights
-            </Link>
+            </a>
           </div>
           <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
             <h3 className="text-2xl font-semibold mb-4 font-display">
               Accommodations
             </h3>
-            <p>We've arranged special rates at the following hotels:</p>
+            <p>
+              We've arranged special rates at the following hotels in downtown
+              Charleston:
+            </p>
             <ul className="list-disc list-inside mt-2">
               <li>
-                Charleston Place -{" "}
-                <Link to="#" className="text-sage-600 hover:underline">
+                The Hilton Charleston -{" "}
+                <a
+                  href="https://www.hilton.com/en/hotels/chshhhf-hilton-charleston-historic-district/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:underline"
+                >
                   Book Now
-                </Link>
+                </a>
               </li>
               <li>
-                The Vendue -{" "}
-                <Link to="#" className="text-sage-600 hover:underline">
+                Marriott Charleston -{" "}
+                <a
+                  href="https://www.marriott.com/en-us/hotels/chsmc-charleston-marriott/overview/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:underline"
+                >
                   Book Now
-                </Link>
+                </a>
+              </li>
+              <li>
+                Moxy Charleston Downtown -{" "}
+                <a
+                  href="https://www.marriott.com/en-us/hotels/chsmx-moxy-charleston-downtown/overview/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:underline"
+                >
+                  Book Now
+                </a>
               </li>
             </ul>
+            <p className="mt-4 text-sm text-sage-700">
+              Please mention the "Nobska and Henry Wedding" when booking to
+              receive our special group rate.
+            </p>
           </div>
         </div>
       </Section>
