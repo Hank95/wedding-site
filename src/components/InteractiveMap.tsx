@@ -5,29 +5,34 @@ import L from "leaflet";
 import customIcon from "./customIcons";
 
 const locations = [
+  // 32.80494807716289, -79.98629283068996
   {
     name: "Legare Waring House",
     description: "Wedding Venue",
-    lat: 32.8211,
-    lng: -79.9861,
+    lat: 32.80494807716289,
+    lng: -79.98629283068996,
+    website: "https://southcarolinaparks.com/legare-waring-house",
   },
   {
     name: "Charleston International Airport",
     description: "Arrival Point",
     lat: 32.8986,
     lng: -80.0407,
+    website: "https://www.iflychs.com/",
   },
   {
     name: "Charleston Place",
     description: "Recommended Hotel",
     lat: 32.7816,
     lng: -79.9318,
+    website: "https://charlestonplace.com",
   },
   {
     name: "The Vendue",
     description: "Recommended Hotel",
     lat: 32.7772,
     lng: -79.9272,
+    website: "https://www.thevendue.com/",
   },
 ];
 
@@ -36,6 +41,7 @@ interface Location {
   description: string;
   lat: number;
   lng: number;
+  website: string;
 }
 
 function MapView({
@@ -85,8 +91,18 @@ function MapView({
           }}
         >
           <Popup className="custom-popup">
-            <h4 className="text-lg font-semibold mb-2">{location.name}</h4>
-            <p className="text-sm text-gray-600">{location.description}</p>
+            <a
+              href={location.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block hover:bg-sage-100 transition-colors duration-200 rounded-md p-2"
+            >
+              <h4 className="text-lg font-semibold mb-2">{location.name}</h4>
+              <p className="text-sm text-gray-600">{location.description}</p>
+              <p className="text-xs text-sage-600 mt-2">
+                Click to visit website
+              </p>
+            </a>
           </Popup>
         </Marker>
       ))}
