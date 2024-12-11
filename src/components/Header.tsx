@@ -6,16 +6,20 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   const [isNavVisible, setIsNavVisible] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setIsNavVisible(scrollPosition > window.innerHeight);
+      if (scrollPosition > 100 && !hasScrolled) {
+        setIsNavVisible(true);
+        setHasScrolled(true);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [hasScrolled]);
 
   return (
     <header>

@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo-crop.svg";
+import { Countdown } from "../components/Countdown";
+import { Section } from "../components/Section";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -9,7 +11,6 @@ export default function WeddingPage() {
     minutes: 0,
     seconds: 0,
   });
-  const heroRef = useRef(null);
 
   useEffect(() => {
     const weddingDate = new Date("2025-10-26T17:00:00"); // Set your wedding date here
@@ -33,31 +34,16 @@ export default function WeddingPage() {
   }, []);
 
   return (
-    <>
+    <div className="font-serif text-sage-900">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative h-screen">
+      <section className="relative h-screen">
         <img
           src="/public/wedding_oaks.webp"
           alt="Wedding Background"
-          className="opacity-30"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center z-10">
-            {/* <img
-              src="/placeholder.svg?height=200&width=200"
-              alt="Wedding Logo"
-              width={200}
-              height={200}
-              className="mx-auto mb-8"
-            /> */}
             <img
               src={Logo}
               alt="Wedding Logo"
@@ -65,150 +51,150 @@ export default function WeddingPage() {
               height={200}
               className="mx-auto mb-8"
             />
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            <h1 className="text-6xl font-bold text-sage-800 mb-4 font-display">
               Nobska and Henry
             </h1>
-            <p className="text-xl text-gray-600">Are getting married!</p>
+            <p className="text-2xl text-sage-600 font-light">
+              Are getting married!
+            </p>
           </div>
         </div>
       </section>
 
       {/* Countdown Section */}
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">Countdown to Our Big Day</h2>
-          <div className="flex justify-center space-x-8">
-            <div>
-              <span className="text-4xl font-bold">{countdown.days}</span>
-              <p>Days</p>
-            </div>
-            <div>
-              <span className="text-4xl font-bold">{countdown.hours}</span>
-              <p>Hours</p>
-            </div>
-            <div>
-              <span className="text-4xl font-bold">{countdown.minutes}</span>
-              <p>Minutes</p>
-            </div>
-            <div>
-              <span className="text-4xl font-bold">{countdown.seconds}</span>
-              <p>Seconds</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Section className="bg-ivory-100">
+        <h2 className="text-4xl font-bold mb-8 font-display">
+          Countdown to Our Big Day
+        </h2>
+        <Countdown countdown={countdown} />
+      </Section>
 
       {/* Wedding & Reception Info */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">
-            Wedding & Reception
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Ceremony</h3>
-              <p>Join us as we exchange vows and begin our journey together.</p>
-              <p className="mt-2">
-                <strong>Date:</strong> June 15, 2024
-                <br />
-                <strong>Time:</strong> 4:00 PM
-                <br />
-                <strong>Location:</strong> Beautiful Garden Venue, 123 Flower
-                St, Anytown, USA
-              </p>
-            </div>
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Reception</h3>
-              <p>Celebrate with us over dinner, drinks, and dancing!</p>
-              <p className="mt-2">
-                <strong>Time:</strong> 6:00 PM - 11:00 PM
-                <br />
-                <strong>Location:</strong> Elegant Ballroom, 456 Party Ave,
-                Anytown, USA
-              </p>
-            </div>
+      <Section>
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Wedding & Reception
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
+              Ceremony
+            </h3>
+            <p>Join us as we exchange vows and begin our journey together.</p>
+            <p className="mt-2">
+              <strong>Date:</strong> October 26, 2025
+              <br />
+              <strong>Time:</strong> 5:00 PM
+              <br />
+              <strong>Location:</strong> Magnolia Plantation and Gardens,
+              Charleston, SC
+            </p>
+          </div>
+          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
+              Reception
+            </h3>
+            <p>Celebrate with us over dinner, drinks, and dancing!</p>
+            <p className="mt-2">
+              <strong>Time:</strong> 6:30 PM - 11:30 PM
+              <br />
+              <strong>Location:</strong> Magnolia Plantation and Gardens,
+              Charleston, SC
+            </p>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Weekend Itinerary */}
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">
-            Weekend Itinerary
-          </h2>
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-semibold mb-2">Friday, June 14</h3>
-              <p>7:00 PM - Welcome Dinner at Local Restaurant</p>
-            </div>
-            <div>
-              <h3 className="text-2xl font-semibold mb-2">Saturday, June 15</h3>
-              <p>
-                4:00 PM - Wedding Ceremony
-                <br />
-                6:00 PM - Reception
-              </p>
-            </div>
-            <div>
-              <h3 className="text-2xl font-semibold mb-2">Sunday, June 16</h3>
-              <p>11:00 AM - Farewell Brunch</p>
-            </div>
+      {/* Charleston Information */}
+      <Section className="bg-sage-100">
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Discover Charleston
+        </h2>
+        <p className="text-center mb-8">
+          Join us in the charming city of Charleston, South Carolina, known for
+          its rich history, beautiful architecture, and Southern hospitality.
+        </p>
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
+              Historic Downtown
+            </h3>
+            <p>
+              Explore the cobblestone streets, colorful row houses, and historic
+              landmarks.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
+              Culinary Delights
+            </h3>
+            <p>
+              Indulge in world-class cuisine and traditional Lowcountry dishes.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
+              Coastal Beauty
+            </h3>
+            <p>
+              Enjoy pristine beaches, scenic waterfronts, and beautiful gardens.
+            </p>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Travel Information */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">
-            Travel Information
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Flights</h3>
-              <p>The nearest airport is Anytown International Airport (XYZ).</p>
-              <Link to="#" className="text-blue-600 hover:underline">
-                Find Flights
-              </Link>
-            </div>
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Accommodations</h3>
-              <p>We've arranged special rates at the following hotels:</p>
-              <ul className="list-disc list-inside mt-2">
-                <li>
-                  Luxury Hotel -{" "}
-                  <Link to="#" className="text-blue-600 hover:underline">
-                    Book Now
-                  </Link>
-                </li>
-                <li>
-                  Cozy Inn -{" "}
-                  <Link to="#" className="text-blue-600 hover:underline">
-                    Book Now
-                  </Link>
-                </li>
-              </ul>
-            </div>
+      <Section>
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Travel Information
+        </h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
+              Flights
+            </h3>
+            <p>
+              The nearest airport is Charleston International Airport (CHS).
+            </p>
+            <Link to="#" className="text-sage-600 hover:underline">
+              Find Flights
+            </Link>
+          </div>
+          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
+              Accommodations
+            </h3>
+            <p>We've arranged special rates at the following hotels:</p>
+            <ul className="list-disc list-inside mt-2">
+              <li>
+                Charleston Place -{" "}
+                <Link to="#" className="text-sage-600 hover:underline">
+                  Book Now
+                </Link>
+              </li>
+              <li>
+                The Vendue -{" "}
+                <Link to="#" className="text-sage-600 hover:underline">
+                  Book Now
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* RSVP Call-to-Action */}
-      <section id="rsvp" className="py-16 bg-gray-800 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Celebrate With Us?
-          </h2>
-          <p className="mb-8">We can't wait to see you on our special day!</p>
-          <Link
-            to="/rsvp"
-            className="bg-white text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-gray-200 transition duration-300"
-          >
-            RSVP Now
-          </Link>
-        </div>
-      </section>
-    </>
+      <Section className="bg-sage-800 text-ivory-100">
+        <h2 className="text-4xl font-bold mb-4 font-display">
+          Ready to Celebrate With Us?
+        </h2>
+        <p className="mb-8">We can't wait to see you on our special day!</p>
+        <Link
+          to="/rsvp"
+          className="bg-ivory-100 text-sage-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-ivory-200 transition duration-300"
+        >
+          RSVP Now
+        </Link>
+      </Section>
+    </div>
   );
 }
