@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import customIcon from "./customIcons";
 
 const locations = [
   {
-    name: "Magnolia Plantation",
+    name: "Legare Waring House",
     description: "Wedding Venue",
-    lat: 32.8764,
-    lng: -80.0855,
+    lat: 32.8211,
+    lng: -79.9861,
   },
   {
     name: "Charleston International Airport",
@@ -25,11 +29,75 @@ const locations = [
     lat: 32.7772,
     lng: -79.9272,
   },
-  // Add more locations as needed
 ];
 
+interface Location {
+  name: string;
+  description: string;
+  lat: number;
+  lng: number;
+}
+
+function MapView({
+  locations,
+  selectedLocation,
+  setSelectedLocation,
+}: {
+  locations: Location[];
+  selectedLocation: Location | null;
+  setSelectedLocation: (location: Location | null) => void;
+}) {
+  const map = useMap();
+  const markerRefs = useRef<{ [key: string]: L.Marker }>({});
+
+  useEffect(() => {
+    const bounds = L.latLngBounds(locations.map((loc) => [loc.lat, loc.lng]));
+    map.fitBounds(bounds);
+  }, [map, locations]);
+
+  useEffect(() => {
+    if (selectedLocation) {
+      const { lat, lng } = selectedLocation;
+      map.setView([lat, lng], 14);
+      const marker = markerRefs.current[`${lat},${lng}`];
+      if (marker) {
+        marker.openPopup();
+      }
+    }
+  }, [selectedLocation, map]);
+
+  return (
+    <>
+      {locations.map((location) => (
+        <Marker
+          key={`${location.lat},${location.lng}`}
+          position={[location.lat, location.lng]}
+          icon={customIcon}
+          ref={(ref) => {
+            if (ref) {
+              markerRefs.current[`${location.lat},${location.lng}`] = ref;
+            }
+          }}
+          eventHandlers={{
+            click: () => {
+              setSelectedLocation(location);
+            },
+          }}
+        >
+          <Popup className="custom-popup">
+            <h4 className="text-lg font-semibold mb-2">{location.name}</h4>
+            <p className="text-sm text-gray-600">{location.description}</p>
+          </Popup>
+        </Marker>
+      ))}
+    </>
+  );
+}
+
 export function InteractiveMap() {
-  const [selectedLocation, setSelectedLocation] = useState(locations[0]);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
+    null
+  );
 
   return (
     <div className="flex flex-col md:flex-row gap-8">
@@ -54,15 +122,22 @@ export function InteractiveMap() {
           ))}
         </ul>
       </div>
-      <div className="md:w-2/3 h-96 bg-sage-100 rounded-lg flex items-center justify-center">
-        <p className="text-center text-sage-600">
-          Interactive map placeholder. Integrate with a map service like Google
-          Maps or Mapbox.
-          <br />
-          Selected location: {selectedLocation.name}
-          <br />
-          Coordinates: {selectedLocation.lat}, {selectedLocation.lng}
-        </p>
+      <div className="md:w-2/3 h-96 bg-sage-100 rounded-lg">
+        <MapContainer
+          center={[32.8211, -79.9861]}
+          zoom={13}
+          className="h-full w-full rounded-lg"
+        >
+          <TileLayer
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          />
+          <MapView
+            locations={locations}
+            selectedLocation={selectedLocation}
+            setSelectedLocation={setSelectedLocation}
+          />
+        </MapContainer>
       </div>
     </div>
   );

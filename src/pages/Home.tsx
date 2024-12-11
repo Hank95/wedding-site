@@ -8,6 +8,7 @@ import { PhotoGallery } from "../components/PhotoGallery";
 import { GuestBook } from "../components/GuestBook";
 import { WeddingParty } from "../components/WeddingParty";
 import { InteractiveMap } from "../components/InteractiveMap";
+import "./map-styles.css";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
