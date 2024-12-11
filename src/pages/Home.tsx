@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/logo-crop.svg";
 import { Countdown } from "../components/Countdown";
 import { Section } from "../components/Section";
+import { OurStory } from "../components/OurStory";
+import { PhotoGallery } from "../components/PhotoGallery";
+import { GuestBook } from "../components/GuestBook";
+import { WeddingParty } from "../components/WeddingParty";
+import { InteractiveMap } from "../components/InteractiveMap";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -13,7 +18,7 @@ export default function WeddingPage() {
   });
 
   useEffect(() => {
-    const weddingDate = new Date("2025-10-26T17:00:00"); // Set your wedding date here
+    const weddingDate = new Date("2025-10-26T17:00:00");
 
     const updateCountdown = () => {
       const now = new Date();
@@ -69,6 +74,22 @@ export default function WeddingPage() {
         <Countdown countdown={countdown} />
       </Section>
 
+      {/* Our Story Section */}
+      <Section>
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Our Story
+        </h2>
+        <OurStory />
+      </Section>
+
+      {/* Photo Gallery */}
+      <Section className="bg-sage-100">
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Our Journey in Pictures
+        </h2>
+        <PhotoGallery />
+      </Section>
+
       {/* Wedding & Reception Info */}
       <Section>
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
@@ -102,6 +123,22 @@ export default function WeddingPage() {
             </p>
           </div>
         </div>
+      </Section>
+
+      {/* Wedding Party */}
+      <Section className="bg-ivory-100">
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Meet the Wedding Party
+        </h2>
+        <WeddingParty />
+      </Section>
+
+      {/* Interactive Map */}
+      <Section>
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Explore Charleston
+        </h2>
+        <InteractiveMap />
       </Section>
 
       {/* Charleston Information */}
@@ -180,6 +217,14 @@ export default function WeddingPage() {
             </ul>
           </div>
         </div>
+      </Section>
+
+      {/* Guest Book */}
+      <Section className="bg-ivory-100">
+        <h2 className="text-4xl font-bold mb-8 text-center font-display">
+          Guest Book
+        </h2>
+        <GuestBook />
       </Section>
 
       {/* RSVP Call-to-Action */}
