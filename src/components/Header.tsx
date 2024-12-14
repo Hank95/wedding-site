@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -39,17 +37,14 @@ export default function Header() {
             <Link to="/" className="text-gray-600 hover:text-gray-900">
               Home
             </Link>
-            <Link to="/story" className="text-gray-600 hover:text-gray-900">
-              Our Story
-            </Link>
             <Link to="/registry" className="text-gray-600 hover:text-gray-900">
               Registry
             </Link>
             <Link to="/gallery" className="text-gray-600 hover:text-gray-900">
               Gallery
             </Link>
-            <Link to="/rsvp" className="text-gray-600 hover:text-gray-900">
-              RSVP
+            <Link to="/contact" className="text-gray-600 hover:text-gray-900">
+              Contact us
             </Link>
           </div>
           <button className="md:hidden">

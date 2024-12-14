@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Logo from "../assets/logo-crop.svg";
 import { Countdown } from "../components/Countdown";
 import { Section } from "../components/Section";
@@ -8,6 +7,7 @@ import { PhotoGallery } from "../components/PhotoGallery";
 import { GuestBook } from "../components/GuestBook";
 import { WeddingParty } from "../components/WeddingParty";
 import { InteractiveMap } from "../components/InteractiveMap";
+import { ContactForm } from "../components/ContactForm";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -75,14 +75,13 @@ export default function WeddingPage() {
       </Section>
 
       {/* Our Story Section */}
-      {/* <Section>
+      <Section>
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
           Our Story
         </h2>
         <OurStory />
-      </Section> */}
+      </Section>
 
-      {/* Photo Gallery */}
       {/* Photo Gallery */}
       <Section className="bg-sage-100">
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
@@ -224,18 +223,26 @@ export default function WeddingPage() {
         <GuestBook />
       </Section>
 
-      {/* RSVP Call-to-Action */}
+      {/* Contact Us */}
       <Section className="bg-sage-800 text-ivory-100">
-        <h2 className="text-4xl font-bold mb-4 font-display">
-          Ready to Celebrate With Us?
+        <h2 className="text-4xl font-bold mb-4 font-display text-center">
+          Contact Us
         </h2>
-        <p className="mb-8">We can't wait to see you on our special day!</p>
-        <Link
-          to="/rsvp"
-          className="bg-ivory-100 text-sage-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-ivory-200 transition duration-300"
-        >
-          RSVP Now
-        </Link>
+        <p className="mb-8 text-center">
+          Have questions? Reach out to us! We're here to help.
+        </p>
+        <div className="max-w-md mx-auto">
+          <ContactForm />
+        </div>
+        <p className="mt-8 text-center text-sm">
+          You can also email us directly at:{" "}
+          <a
+            href="mailto:nobskaandhenry2025@gmail.com"
+            className="underline hover:text-sage-300 transition duration-300"
+          >
+            nobskaandhenry2025@gmail.com
+          </a>
+        </p>
       </Section>
     </div>
   );
