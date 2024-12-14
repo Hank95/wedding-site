@@ -34,10 +34,10 @@ export default function Header() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link to="/">
             <img
-              src="/placeholder.svg?height=50&width=50"
+              src="/NH-Logo.webp"
               alt="Wedding Logo"
-              width={50}
-              height={50}
+              width={75}
+              height={75}
             />
           </Link>
           <div className="hidden md:flex space-x-4">

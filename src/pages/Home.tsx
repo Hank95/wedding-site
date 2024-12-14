@@ -43,14 +43,14 @@ export default function WeddingPage() {
       {/* Hero Section */}
       <section className="relative h-screen">
         <img
-          src="/public/wedding_oaks.webp"
+          src="/legare_green.webp"
           alt="Wedding Background"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center z-10">
             <img
-              src={Logo}
+              src="/nh_logo_black.webp"
               alt="Wedding Logo"
               width={200}
               height={200}
@@ -59,7 +59,7 @@ export default function WeddingPage() {
             <h1 className="text-6xl font-bold text-sage-800 mb-4 font-display">
               Nobska and Henry
             </h1>
-            <p className="text-2xl text-sage-600 font-light">
+            <p className="text-2xl text-sage-900 font-light">
               Are getting married!
             </p>
           </div>
