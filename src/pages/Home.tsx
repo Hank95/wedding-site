@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Logo from "../assets/logo-crop.svg";
 import { Countdown } from "../components/Countdown";
 import { Section } from "../components/Section";
 import { OurStory } from "../components/OurStory";

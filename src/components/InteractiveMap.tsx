@@ -22,24 +22,24 @@ const locations = [
   {
     name: "The Hilton Charleston",
     description: "Recommended Hotel",
-    lat: 32.7807,
-    lng: -79.9336,
+    lat: 32.78225143554082,
+    lng: -79.95565481025079,
     website:
       "https://www.hilton.com/en/hotels/chshhhf-hilton-charleston-historic-district/",
   },
   {
     name: "Marriott Charleston",
     description: "Recommended Hotel",
-    lat: 32.7876,
-    lng: -79.9373,
+    lat: 32.78837451644069,
+    lng: -79.95817074049997,
     website:
       "https://www.marriott.com/en-us/hotels/chsmc-charleston-marriott/overview/",
   },
   {
     name: "Moxy Charleston Downtown",
     description: "Recommended Hotel",
-    lat: 32.7864,
-    lng: -79.94,
+    lat: 32.79958186926953,
+    lng: -79.94280894232321,
     website:
       "https://www.marriott.com/en-us/hotels/chsmx-moxy-charleston-downtown/overview/",
   },
