@@ -8,9 +8,9 @@ const locations = [
   {
     name: "Legare Waring House",
     description: "Wedding Venue",
-    lat: 32.8211,
-    lng: -79.9861,
-    website: "https://www.ccprc.com/1874/Legare-Waring-House",
+    lat: 32.80433621654174,
+    lng: -79.98611524128754,
+    website: "https://southcarolinaparks.com/legare-waring-house",
   },
   {
     name: "Charleston International Airport",
