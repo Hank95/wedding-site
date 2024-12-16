@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Countdown } from "../components/Countdown";
 import { Section } from "../components/Section";
-import { OurStory } from "../components/OurStory";
+// import { OurStory } from "../components/OurStory";
 import { PhotoGallery } from "../components/PhotoGallery";
 import { GuestBook } from "../components/GuestBook";
-import { WeddingParty } from "../components/WeddingParty";
+// import { WeddingParty } from "../components/WeddingParty";
 import { InteractiveMap } from "../components/InteractiveMap";
 import { ContactForm } from "../components/ContactForm";
 
@@ -74,12 +74,12 @@ export default function WeddingPage() {
       </Section>
 
       {/* Our Story Section */}
-      <Section>
+      {/* <Section>
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
           Our Story
         </h2>
         <OurStory />
-      </Section>
+      </Section> */}
 
       {/* Photo Gallery */}
       <Section className="bg-sage-100">
@@ -126,12 +126,12 @@ export default function WeddingPage() {
       </Section>
 
       {/* Wedding Party */}
-      <Section className="bg-ivory-100">
+      {/* <Section className="bg-ivory-100">
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
           Meet the Wedding Party
         </h2>
         <WeddingParty />
-      </Section>
+      </Section> */}
 
       {/* Interactive Map */}
       <Section>
