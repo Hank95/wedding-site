@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import ErrorPage from "../pages/ErrorPage";
 import ContactPage from "../pages/ContactPage";
 import RegistryPage from "../pages/RegistryPage";
+import GalleryPage from "../pages/GalleryPage";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const BrowserRouter = createBrowserRouter([
       {
         path: "registry",
         element: <RegistryPage />,
+      },
+      {
+        path: "gallery",
+        element: <GalleryPage />,
       },
     ],
   },
