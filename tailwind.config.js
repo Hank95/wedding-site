@@ -33,6 +33,8 @@ export default {
       fontFamily: {
         'serif': ['Cormorant Garamond', 'serif'],
         'display': ['Playfair Display', 'serif'],
+        'script': ['Pinyon Script', 'cursive'],
+        'formal': ['Cormorant Garamond', 'serif'],
       },
     },
   },

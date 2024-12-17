@@ -46,20 +46,20 @@ export default function WeddingPage() {
           alt="Wedding Background"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center background-sage-900 bg-opacity-70">
           <div className="text-center z-10">
-            <img
-              src="/nh_logo_black.webp"
+            {/* <img
+              src="/NH-Logo.webp"
               alt="Wedding Logo"
               width={200}
               height={200}
               className="mx-auto mb-8"
-            />
-            <h1 className="text-6xl font-bold text-sage-800 mb-4 font-display">
+            /> */}
+            <h1 className="text-6xl font-bold text-sage-900 mb-4 font-script">
               Nobska and Henry
             </h1>
-            <p className="text-2xl text-sage-900 font-light">
-              Are getting married!
+            <p className="text-3xl text-sage-900 font-light">
+              are getting married!
             </p>
           </div>
         </div>
