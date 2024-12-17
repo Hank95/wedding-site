@@ -1,15 +1,17 @@
 import { supabase } from "../supabaseClient";
-
-const fetchGuestbookEntries = async () => {
-    const { data, error } = await supabase.from("guest_book").select("*");
-    
+const fetchGuestbookEntries = async (from: number, to: number) => {
+    const { data, count, error } = await supabase
+      .from("guest_book")
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .range(from, to);
+  
     if (error) {
-        throw new Error(error.message);
+      throw error;
     }
-    
-    return data;
-    }
-
+  
+    return { entries: data, totalCount: count };
+  };
 
 
 const addGuestbookEntry = async ({name, entry}: {name: string, entry: string}) => {

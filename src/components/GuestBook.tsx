@@ -1,11 +1,26 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { addGuestbookEntry, fetchGuestbookEntries } from "../api/guestbook";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Loader2, Send } from "lucide-react";
+import { Send, ChevronLeft, ChevronRight } from "lucide-react";
 import { GuestBookEntry } from "@/lib/types";
+
+function GhostEntry() {
+  return (
+    <Card className="mb-4">
+      <CardContent className="pt-6">
+        <div className="h-6 bg-gray-200 rounded w-1/4 mb-2"></div>
+        <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div className="h-3 bg-gray-200 rounded w-1/4 mt-2"></div>
+      </CardContent>
+    </Card>
+  );
+}
 
 export function GuestBook() {
   const [entries, setEntries] = useState<GuestBookEntry[]>([]);
@@ -15,15 +30,26 @@ export function GuestBook() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const entriesPerPage = 5; // Number of entries per page
+
   useEffect(() => {
     loadEntries();
-  }, []);
+  }, [currentPage]);
 
   const loadEntries = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const fetchedEntries = await fetchGuestbookEntries();
-      setEntries(fetchedEntries);
+      setError(null);
+      const from = (currentPage - 1) * entriesPerPage;
+      const to = from + entriesPerPage - 1;
+
+      const fetchedEntries = await fetchGuestbookEntries(from, to);
+      setEntries(fetchedEntries.entries);
+      setTotalPages(
+        Math.ceil((fetchedEntries.totalCount ?? 0) / entriesPerPage)
+      );
     } catch {
       setError("Failed to load guestbook entries. Please try again later.");
     } finally {
@@ -38,6 +64,7 @@ export function GuestBook() {
       setError(null);
       try {
         await addGuestbookEntry({ name, entry });
+        setCurrentPage(1);
         await loadEntries();
         setName("");
         setEntry("");
@@ -47,6 +74,10 @@ export function GuestBook() {
         setIsSubmitting(false);
       }
     }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -89,7 +120,7 @@ export function GuestBook() {
             <Button type="submit" disabled={isSubmitting} className="w-full">
               {isSubmitting ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                   Submitting...
                 </>
               ) : (
@@ -112,19 +143,18 @@ export function GuestBook() {
         </div>
       )}
 
-      <div className="space-y-4">
+      <div aria-live="polite">
         {isLoading ? (
-          <div className="text-center">
-            <Loader2 className="h-8 w-8 animate-spin mx-auto" />
-            <p className="mt-2 text-sage-600">Loading guestbook entries...</p>
-          </div>
+          Array(entriesPerPage)
+            .fill(0)
+            .map((_, index) => <GhostEntry key={index} />)
         ) : entries.length === 0 ? (
           <p className="text-center text-sage-600">
             No entries yet. Be the first to sign our guestbook!
           </p>
         ) : (
           entries.map((entry) => (
-            <Card key={entry.id}>
+            <Card key={entry.id} className="mb-4">
               <CardContent className="pt-6">
                 <h3 className="font-semibold text-sage-800 mb-2">
                   {entry.name}
@@ -143,6 +173,30 @@ export function GuestBook() {
           ))
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex justify-between items-center mt-4">
+          <Button
+            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+            disabled={currentPage === 1 || isLoading}
+          >
+            <ChevronLeft className="mr-2 h-4 w-4" />
+            Previous
+          </Button>
+          <span className="text-sage-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <Button
+            onClick={() =>
+              handlePageChange(Math.min(currentPage + 1, totalPages))
+            }
+            disabled={currentPage === totalPages || isLoading}
+          >
+            Next
+            <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
