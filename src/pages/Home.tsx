@@ -7,6 +7,7 @@ import { GuestBook } from "../components/GuestBook";
 // import { WeddingParty } from "../components/WeddingParty";
 import { InteractiveMap } from "../components/InteractiveMap";
 import { ContactForm } from "../components/ContactForm";
+import { WeddingEvents } from "../components/WeddingEvents";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -99,46 +100,13 @@ export default function WeddingPage() {
         <PhotoGallery />
       </Section>
 
-      {/* Wedding & Reception Info */}
+      {/* Wedding Events */}
       <Section>
         <h2 className="text-4xl font-bold mb-8 text-center font-display">
-          Wedding & Reception
+          Wedding Events
         </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Ceremony
-            </h3>
-            <p>Join us as we exchange vows and begin our journey together.</p>
-            <p className="mt-2">
-              <strong>Date:</strong> October 26, 2025
-              <br />
-              <strong>Time:</strong> 5:00 PM
-              <br />
-              <strong>Location:</strong> Legare Waring House, Charleston, SC
-            </p>
-          </div>
-          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Reception
-            </h3>
-            <p>Celebrate with us over dinner, drinks, and dancing!</p>
-            <p className="mt-2">
-              <strong>Time:</strong> 6:30 PM - 11:30 PM
-              <br />
-              <strong>Location:</strong> Legare Waring House, Charleston, SC
-            </p>
-          </div>
-        </div>
+        <WeddingEvents />
       </Section>
-
-      {/* Wedding Party */}
-      {/* <Section className="bg-ivory-100">
-        <h2 className="text-4xl font-bold mb-8 text-center font-display">
-          Meet the Wedding Party
-        </h2>
-        <WeddingParty />
-      </Section> */}
 
       {/* Interactive Map */}
       <Section>
