@@ -167,16 +167,16 @@ export function PhotoGallery() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        closeLocation();
-      }
-      if (
         lightboxRef.current &&
         !lightboxRef.current.contains(event.target as Node)
       ) {
         closeImage();
+      } else if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node) &&
+        !selectedImage
+      ) {
+        closeLocation();
       }
     };
 
@@ -184,7 +184,7 @@ export function PhotoGallery() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [closeLocation, closeImage]);
+  }, [closeLocation, closeImage, selectedImage]);
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -193,7 +193,7 @@ export function PhotoGallery() {
           <button
             key={location.name}
             onClick={() => openLocation(location)}
-            className="bg-sage-100 hover:bg-sage-200 text-sage-800 font-semibold py-4 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
+            className="bg-sage-200 hover:bg-sage-300 text-sage-800 font-semibold py-4 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
           >
             {location.name}
           </button>
