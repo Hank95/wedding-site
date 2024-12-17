@@ -38,7 +38,7 @@ export default function WeddingPage() {
   }, []);
 
   return (
-    <div className="font-serif text-sage-900">
+    <div className="font-formal text-sage-900">
       {/* Hero Section */}
       <section className="relative h-screen">
         <img
@@ -67,10 +67,17 @@ export default function WeddingPage() {
 
       {/* Countdown Section */}
       <Section className="bg-ivory-100">
-        <h2 className="text-4xl font-bold mb-8 font-display">
+        <h2 className="text-4xl font-bold mb-8 font-display text-center">
           Countdown to Our Big Day
         </h2>
         <Countdown countdown={countdown} />
+        <img
+          src="/NH-Logo.webp"
+          alt="Wedding Logo"
+          width={200}
+          height={200}
+          className="mx-auto m-8"
+        />
       </Section>
 
       {/* Our Story Section */}
