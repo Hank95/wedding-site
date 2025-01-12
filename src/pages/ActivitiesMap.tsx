@@ -247,12 +247,12 @@ export default function ActivitiesMapPage() {
   const markerRefs = useRef<{ [key: string]: L.Marker }>({});
 
   return (
-    <div
-      // Add top padding so the page content appears below the fixed header
-      className="pt-[120px] min-h-screen bg-white"
-    >
-      {/* Container for the entire layout */}
-      <div className="flex flex-col md:flex-row h-[calc(100vh-120px)]">
+    <div className="min-h-screen pt-24">
+      {" "}
+      {/* Add padding for header */}
+      <div className="flex flex-col md:flex-row h-[calc(100vh-5rem)] relative z-0">
+        {" "}
+        {/* Subtract header height */}
         {/* Left column: scrollable list (full width on mobile, 1/3 width on md+) */}
         <div className="md:w-1/3 h-1/2 md:h-full overflow-y-auto p-4 border-r border-gray-200">
           <h3 className="text-2xl font-semibold mb-4 font-display">
@@ -276,9 +276,8 @@ export default function ActivitiesMapPage() {
             ))}
           </ul>
         </div>
-
         {/* Right column: map fills the remaining space (1/2 height on mobile, full height on md+) */}
-        <div className="md:w-2/3 h-1/2 md:h-full">
+        <div className="md:w-2/3 h-1/2 md:h-full relative z-0">
           <MapContainer
             center={[32.7765, -79.9311]}
             zoom={13}
