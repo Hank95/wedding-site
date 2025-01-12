@@ -144,7 +144,7 @@ export function InteractiveMap() {
           ))}
         </ul>
       </div>
-      <div className="md:w-2/3 h-96 bg-sage-100 rounded-lg relative">
+      <div className="md:w-2/3 h-96 bg-sage-100 rounded-lg relative z-0">
         <MapContainer
           center={[32.80433621654174, -79.98611524128754]}
           zoom={13}
