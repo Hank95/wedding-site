@@ -140,6 +140,52 @@ export default function WeddingPage() {
           </div>
           <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
             <h3 className="text-2xl font-semibold mb-4 font-display">
+              Ground Transportation
+            </h3>
+            <p className="mb-4">
+              Rental cars are available at the airport through several
+              companies:
+            </p>
+            <ul className="list-disc list-inside mb-4 space-y-2">
+              <li>
+                <a
+                  href="https://www.hertz.com/rentacar/reservation/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:underline"
+                >
+                  Hertz
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.enterprise.com/en/home.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:underline"
+                >
+                  Enterprise
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.avis.com/en/home"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:underline"
+                >
+                  Avis
+                </a>
+              </li>
+            </ul>
+            <p>
+              Uber and Lyft are readily available throughout Charleston and
+              provide reliable transportation to and from the airport, as well
+              as around the city.
+            </p>
+          </div>
+          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
+            <h3 className="text-2xl font-semibold mb-4 font-display">
               Accommodations
             </h3>
             <p>

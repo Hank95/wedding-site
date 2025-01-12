@@ -66,7 +66,7 @@ const locations: Location[] = [
         }.webp`
     ),
     description:
-      "St. Lawrence University is where our story began. These images capture the beautiful campus where we met, studied, and fell in love, surrounded by the warmth of the SLU community.",
+      "When 3 out of your 4 parents call St. Lawrence their alma mater, some say it’s meant to be. Yet SLU spoke for itself: campus boasted an outdoorsy culture with gloating promises of skiing every weekend in Lake Placid, trumpeted an excellent liberal arts education paired with a close-knit community feel, and proclaimed we’d find ourselves forever changed after a four-year tenure. That was spot-on. We spent our time in upstate New York exploring the Adirondacks and building relationships with lifelong friends (there was thankfully a little studying, too). An old legend says 30% of students meet their future spouse at St. Lawrence. In our experience, the percentage is much higher. Here we go, Saints! A special thank you to James Goodhue ‘82, Newt Pendleton ‘86, and Katrine Pendleton ‘88.",
   },
 ];
 
@@ -204,7 +204,7 @@ export function PhotoGallery() {
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
           <div
             ref={modalRef}
-            className="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto mt-40"
           >
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-2xl font-semibold text-sage-800">
