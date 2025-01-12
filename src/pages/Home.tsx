@@ -182,7 +182,7 @@ export default function WeddingPage() {
               </li>
             </ul>
             <p className="mt-4 text-sm text-sage-700">
-              Please mention the "Nobska and Henry Wedding" when booking to
+              Please mention the "Goodhue/Pendleton Wedding" when booking to
               receive our special group rate.
             </p>
           </div>

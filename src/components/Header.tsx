@@ -48,7 +48,7 @@ export default function Header() {
               Registry
             </Link>
             <Link to="/gallery" className="text-sage-600 hover:text-sage-900">
-              Gallery
+              Engagement Gallery
             </Link>
             <Link to="/contact" className="text-sage-600 hover:text-sage-900">
               Contact us
