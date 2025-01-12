@@ -47,6 +47,12 @@ export default function Header() {
             <Link to="/registry" className="text-sage-600 hover:text-sage-900">
               Registry
             </Link>
+            <Link
+              to="/activities"
+              className="text-sage-600 hover:text-sage-900"
+            >
+              Activities
+            </Link>
             <Link to="/gallery" className="text-sage-600 hover:text-sage-900">
               Engagement Gallery
             </Link>

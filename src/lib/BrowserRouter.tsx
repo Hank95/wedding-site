@@ -6,6 +6,7 @@ import ContactPage from "../pages/ContactPage";
 // import RegistryPage from "../pages/RegistryPage";
 import TemporaryRegistryPage from "@/pages/TemporaryRegistryPage";
 import GalleryPage from "../pages/GalleryPage";
+import ActivitiesMap from "@/pages/ActivitiesMap";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -26,6 +27,7 @@ const BrowserRouter = createBrowserRouter([
         path: "gallery",
         element: <GalleryPage />,
       },
+      { path: "activities", element: <ActivitiesMap /> },
     ],
   },
 ]);
