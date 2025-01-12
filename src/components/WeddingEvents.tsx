@@ -5,7 +5,7 @@ export function WeddingEvents() {
     <div className="space-y-12">
       <div className="bg-ivory-100 p-8 rounded-lg shadow-md">
         <h3 className="text-3xl font-semibold mb-6 font-display text-sage-800 text-center">
-          Rehearsal Dinner & Welcome Party
+          Welcome Party
         </h3>
         <div className="grid md:grid-cols-3 gap-8">
           <div className="flex items-start justify-center">
@@ -19,14 +19,24 @@ export function WeddingEvents() {
             <Clock className="w-6 h-6 mr-3 text-sage-600 mt-1" />
             <div>
               <p className="font-semibold text-sage-700">Time</p>
-              <p>7:00 PM</p>
+              <p>8:00 PM</p>
             </div>
           </div>
           <div className="flex items-start justify-center">
             <MapPin className="w-6 h-6 mr-3 text-sage-600 mt-1" />
             <div>
               <p className="font-semibold text-sage-700">Location</p>
-              <p>TBD</p>
+              <p>
+                <a
+                  href="https://theporchonmarket.com/#about"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:text-sage-800 underline"
+                >
+                  The Porch at The Oyster House
+                </a>
+              </p>
+              <p>66 State St, Charleston, SC 29401</p>
             </div>
           </div>
         </div>
@@ -88,7 +98,18 @@ export function WeddingEvents() {
               <MapPin className="w-6 h-6 mr-3 text-sage-600 mt-1" />
               <div>
                 <p className="font-semibold text-sage-700">Location</p>
-                <p>Legare Waring House, Charleston, SC</p>
+                <p>
+                  {" "}
+                  <a
+                    href="https://southcarolinaparks.com/legare-waring-house"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sage-600 hover:text-sage-800 underline"
+                  >
+                    Legare Waring House, Charleston, SC
+                  </a>
+                </p>
+                <p>1500 Old Towne Rd, Charleston, SC 29407</p>
               </div>
             </div>
           </div>
