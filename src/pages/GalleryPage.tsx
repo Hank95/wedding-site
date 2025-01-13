@@ -24,7 +24,7 @@ export default function GalleryPage() {
   }, []);
 
   return (
-    <div className="bg-ivory-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-ivory-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8 mt-16">
       <div className="max-w-6xl mx-auto">
         <Link
           to="/"
