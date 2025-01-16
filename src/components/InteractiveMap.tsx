@@ -31,7 +31,7 @@ const locations: Location[] = [
     lat: 32.8986,
     lng: -80.0407,
     address: "5500 International Blvd, North Charleston, SC 29418",
-    type: "arrival",
+    type: "wedding",
     website: "https://www.iflychs.com/",
   },
   {
@@ -40,7 +40,7 @@ const locations: Location[] = [
     lat: 32.78225143554082,
     lng: -79.95565481025079,
     address: "237 Meeting St, Charleston, SC 29401",
-    type: "hotel",
+    type: "wedding",
     website:
       "https://www.hilton.com/en/hotels/chshhhf-hilton-charleston-historic-district/",
   },
@@ -50,7 +50,7 @@ const locations: Location[] = [
     lat: 32.78837451644069,
     lng: -79.95817074049997,
     address: "170 Lockwood Blvd, Charleston, SC 29403",
-    type: "hotel",
+    type: "wedding",
     website:
       "https://www.marriott.com/en-us/hotels/chsmc-charleston-marriott/overview/",
   },
@@ -60,7 +60,7 @@ const locations: Location[] = [
     lat: 32.780628556206686,
     lng: -79.92810311349183,
     address: "66 State St, Charleston, SC 29401",
-    type: "restaurant",
+    type: "wedding",
     website: "https://theporchonmarket.com/#about",
   },
   // Add more locations as needed
