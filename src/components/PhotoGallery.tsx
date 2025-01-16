@@ -11,7 +11,7 @@ const locations: Location[] = [
   {
     name: "Adventure",
     images: Array.from(
-      { length: 5 },
+      { length: 3 },
       (_, i) =>
         `https://tikctxevleeookrwogmj.supabase.co/storage/v1/object/public/images/adventure/adventure_${
           i + 1
@@ -60,7 +60,7 @@ We hope you grow to appreciate Charleston as much as we do! If you’re curious 
   {
     name: "St. Lawrence University",
     images: Array.from(
-      { length: 4 },
+      { length: 3 },
       (_, i) =>
         `https://tikctxevleeookrwogmj.supabase.co/storage/v1/object/public/images/slu/slu_${
           i + 1
