@@ -14,6 +14,13 @@ export default function Footer() {
             </Link>
             <span className="mx-2">|</span>
             <Link
+              to="/activities"
+              className="text-ivory-100 hover:text-sage-300 transition duration-300"
+            >
+              Activities
+            </Link>
+            <span className="mx-2">|</span>
+            <Link
               to="/registry"
               className="text-ivory-100 hover:text-sage-300 transition duration-300"
             >
