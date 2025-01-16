@@ -18,7 +18,7 @@ const locations: Location[] = [
         }.webp`
     ),
     description:
-      "Our love for adventure has taken us to breathtaking landscapes and thrilling experiences. Each photo captures a moment of excitement and the joy of exploring the world together.",
+      "Wherever we are, we’ll find an adventure. We’ve spent the past 8 years of our relationship hiking, sailing, skiing, biking, traveling, and road-tripping all over the U.S. We skied and reached the summit of many Adirondack 46ers in New York throughout college. After graduation, we drove out to Colorado and camped along I-70 until we reached Bryce Canyon National Park, where we confidently meandered the desert backcountry. We’ve sailed, hiked, and committed every inch of the Eagles Mere, PA trails and lake to memory (Henry’s known EM by heart since 1995). Name any ski area in Vermont or Maine and we’ll have a good story about each (Henry quickly loved Cannon, Nobska’s home mountain in New Hampshire). In the Great Smoky Mountains, we were awed by a herd of wild boar stampeding through the hills around us as we trekked. The deep blue waters of Narragansett Bay know us well and our annual SLU ski trip has taken us to Utah and Washington chasing waist-deep powder. Henry runs marathons. Nobska does yoga. We love nature and we like to believe She loves us back.",
   },
   {
     name: "Charleston",
@@ -29,8 +29,9 @@ const locations: Location[] = [
           i + 1
         }.webp`
     ),
-    description:
-      "Charleston holds a special place in our hearts. Its charming streets, historic architecture, and Southern hospitality have been the backdrop for many of our cherished memories.",
+    description: `To our understanding, when you love midsize coastal towns with colonial architecture, cobblestones, and rich history you end up in one of three places: Newport, Rhode Island (check); Annapolis, Maryland (we’re curious!); or Charleston, South Carolina. In 2022 we took a chance on a place we’d visited only once together five years prior by packing up a Uhaul and heading South. The splendor of soft Spanish moss juxtaposed with spiky palmetto trees draws you in immediately. Steeples punctuate the skyline, their bells echoing over marshlands that shimmer like liquid gold at sunset. The air carries aromas of salt and jasmine. People are friendly and the colors vibrant. We spend our days enjoying the pristine dunes of Sullivan’s Island, sampling the world-renowned restaurant scene, and basking in the Lowcountry sunshine. By some stroke of luck, we made friends here that we feel blessed to now call family, in the remarkable way one can only hope for when moving far away. Charleston feels like a living, breathing poem and therefore the perfect backdrop to formally commit a life of love and adventure together in marriage.\r\n 
+
+We hope you grow to appreciate Charleston as much as we do! If you’re curious to feel the culture or want to learn more about the history before arriving, our favorite reads are: anything by Pat Conroy, “The Demon of Unrest” by Erik Larson (Henry), and Josephine Pinckney’s “Three O’Clock Dinner” (Nobska).`,
   },
   {
     name: "London",
@@ -42,7 +43,7 @@ const locations: Location[] = [
         }.webp`
     ),
     description:
-      "We met in London on study abroad in August 2016. Both of us knew of each other at St. Lawrence (shoutout to the Best Man, Michael Weaver) but we hadn’t met in person. On the first night in the North London suburb of Muswell Hill we started talking, played some Snooker and the rest was history. Our first solo date two nights later at the Maid of Muswell pub we spent the evening sharing our loves for sailing, skiing, and the great outdoors over gin & tonic’s. During the semester that followed we explored the city, Western England, Ireland, and the South of France while studying British history, politics, and theater; reconvening (almost) nightly at the Maid in Muswell Hill for a game of Gin Rummy. It rained a lot. We fell in love. It was a magical time. 8 years later Muswell (“Muzzy”) the Labrador Retriever watched her parents get engaged on her favorite beach. It was raining.",
+      "We met in London during study abroad in August of 2016. Both of us knew of the other at St. Lawrence (shoutout to the Best Man, Michael Weaver) but we hadn’t met in-person. On the first night of our program, in the North London suburb of Muswell Hill, we started talking, played some Snooker and the rest was history. Our first solo date was two nights later at the Maid of Muswell pub. We spent the evening sharing our mutual loves for sailing, skiing, and the great outdoors over Gin & Tonic’s. During the semester that followed we explored the city, Western England, Ireland, and the South of France while studying British history, politics, and theater; reconvening (almost) nightly at the Maid for games of Gin Rummy. It rained a lot. We fell in love. It was a magical time. 8 years later Muswell (“Muzzy”) the Labrador Retriever watched her parents get engaged on her favorite beach. It was raining. (See engagement gallery for photos.)",
   },
   {
     name: "Newport",
@@ -54,7 +55,7 @@ const locations: Location[] = [
         }.webp`
     ),
     description:
-      "Newport's coastal beauty and Gilded Age charm provided a perfect setting for romance. We enjoyed leisurely walks along the Cliff Walk and picturesque sunsets by the harbor.",
+      "Post-graduation Henry decided to live on a boat in Rhode Island and embrace the Pendleton family’s New England roots. Luckily, Massachusetts native Nobska was just an hour north in Boston for graduate school. When winter rolled around and temperatures dropped Henry packed himself up and moved to Newport, where Nobska joined him on weekends and in the summer to teach junior sailing programs. Visiting Cape Cod Henry was able to see the famous Nobska Lighthouse and have a pint in Woods Hole at the Captain Kidd, where James Goodhue first saw Cynthia (née Anderson) laughing on a barstool in the 80’s. We have many fond memories of speeding through the waves of Narragansett Bay, weighing anchor for weekends on Block Island, and bantering (sometimes not so calmly) about which of us is the better skipper. ",
   },
   {
     name: "St. Lawrence University",
@@ -66,7 +67,7 @@ const locations: Location[] = [
         }.webp`
     ),
     description:
-      "When 3 out of your 4 parents call St. Lawrence their alma mater, some say it’s meant to be. Yet SLU spoke for itself: campus boasted an outdoorsy culture with gloating promises of skiing every weekend in Lake Placid, trumpeted an excellent liberal arts education paired with a close-knit community feel, and proclaimed we’d find ourselves forever changed after a four-year tenure. That was spot-on. We spent our time in upstate New York exploring the Adirondacks and building relationships with lifelong friends (there was thankfully a little studying, too). An old legend says 30% of students meet their future spouse at St. Lawrence. In our experience, the percentage is much higher. Here we go, Saints! A special thank you to James Goodhue ‘82, Newt Pendleton ‘86, and Katrine Pendleton ‘88.",
+      "When 3 out of your 4 parents call St. Lawrence their alma mater, some say it’s meant to be. Yet SLU spoke for itself: campus boasted an outdoorsy culture with gloating promises of skiing every weekend in Lake Placid, trumpeted an excellent liberal arts education paired with a close-knit community feel, and proclaimed we’d find ourselves forever changed after a four-year tenure. That was spot-on. We spent our time in upstate New York exploring the Adirondacks and building relationships with lifelong friends (there was thankfully a little studying, too). An old legend says 30% of students meet their future spouse at St. Lawrence. In our experience, the percentage is much higher. Here we go, Saints! A special thank you to James Goodhue ‘82, Newton “Tripp” Pendleton ‘86, and Katrine Pendleton ‘88.",
   },
 ];
 
