@@ -78,6 +78,13 @@ export default function Header() {
               Home
             </Link>
             <Link
+              to="/activities"
+              className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
+              onClick={toggleMenu}
+            >
+              Activities
+            </Link>
+            <Link
               to="/registry"
               className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
               onClick={toggleMenu}
@@ -89,7 +96,7 @@ export default function Header() {
               className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
               onClick={toggleMenu}
             >
-              Gallery
+              Engagement Gallery
             </Link>
             <Link
               to="/contact"
