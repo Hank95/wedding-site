@@ -61,7 +61,7 @@ const locations: Location[] = [
     lng: -79.92810311349183,
     address: "66 State St, Charleston, SC 29401",
     type: "wedding",
-    website: "https://theporchonmarket.com/#about",
+    website: "https://oysterhouse.menu",
   },
   // Add more locations as needed
 ];
