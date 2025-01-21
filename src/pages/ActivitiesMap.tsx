@@ -26,6 +26,15 @@ const activityLocations: ActivityLocation[] = [
     website: "https://leonsoystershop.com/",
   },
   {
+    name: "Graft Wine Bar",
+    description: "Intimate wine bar with small plates",
+    lat: 32.79870546869047,
+    lng: -79.94609927322949,
+    address: "700 King St B, Charleston, SC 29403",
+    type: "restaurant",
+    website: "https://graftchs.com/",
+  },
+  {
     name: "Amen Street Fish & Raw Bar",
     description: "Seafood restaurant & raw bar",
     lat: 32.78036429169939,
@@ -81,7 +90,7 @@ const activityLocations: ActivityLocation[] = [
   },
   {
     name: "Chubby Fish",
-    description: "Fresh seafood (Call ahead for reservations)",
+    description: "Cozy spot for creative, locally-inspired seafood dishes.",
     lat: 32.793349953247635,
     lng: -79.94424447452097,
     address: "252 Coming St, Charleston, SC 29403",
