@@ -227,6 +227,19 @@ export default function WeddingPage() {
                 </a>
               </li>
             </ul>
+            <p className="mt-4">
+              For those looking for house rentals, StayDuvet offers a variety of
+              options. Wedding guests can get a 5% discount using the promo code
+              "JCROOMBLOCKS".
+            </p>
+            <a
+              href="https://www.stayduvet.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sage-600 hover:underline"
+            >
+              Check StayDuvet Rentals
+            </a>
             <p className="mt-4 text-sm text-sage-700">
               Please mention the "Goodhue/Pendleton Wedding" when booking to
               receive our special group rate.
