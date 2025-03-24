@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type RSVPFormType, rsvpSchema } from "@/pages/RSVPPage";
+import { type RSVPFormType, rsvpSchema } from "@/lib/rsvpSchema";
 import { Button } from "@/components/ui/button";
 import {
   Form,

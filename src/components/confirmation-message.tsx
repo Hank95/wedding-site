@@ -1,4 +1,4 @@
-import type { RSVPFormType } from "@/pages/RSVPPage";
+import { RSVPFormType } from "@/lib/rsvpSchema";
 import { CheckCircle2 } from "lucide-react";
 
 export function ConfirmationMessage({ data }: { data: RSVPFormType | null }) {
