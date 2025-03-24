@@ -7,6 +7,7 @@ import ContactPage from "../pages/ContactPage";
 import TemporaryRegistryPage from "@/pages/TemporaryRegistryPage";
 import GalleryPage from "../pages/GalleryPage";
 import ActivitiesMap from "@/pages/ActivitiesMap";
+import RSVPForm from "@/pages/RSVPPage";
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const BrowserRouter = createBrowserRouter([
         element: <GalleryPage />,
       },
       { path: "activities", element: <ActivitiesMap /> },
+      {
+        path: "rsvp",
+        element: <RSVPForm />,
+      },
     ],
   },
 ]);

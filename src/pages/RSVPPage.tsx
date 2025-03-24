@@ -1,180 +1,163 @@
-// src/components/RSVPForm.tsx
-import React, { useState } from "react";
-import { supabase } from "../supabaseClient";
+"use client";
 
-const RSVPForm: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    attending: "true", // Stored as string, converted to boolean on submission
-    plusOneName: "",
-    dietaryRestrictions: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+import { useState } from "react";
+import { z } from "zod";
+import { Card } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { RSVPForm } from "./rsvp-form";
+import { ConfirmationMessage } from "./confirmation-message";
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+// Define schema for RSVP form validation
+export const rsvpSchema = z.object({
+  fullName: z.string().min(2, "Please enter your name"),
+  email: z.string().email("Please enter a valid email address"),
+  attending: z.enum(["yes", "no"], {
+    required_error: "Please select whether you'll be attending",
+  }),
+  guestCount: z.number().min(1).max(10),
+  guestNames: z.string().optional(),
+  mealPreference: z.enum(["beef", "chicken", "fish", "vegetarian"], {
+    required_error: "Please select a meal preference",
+  }),
+  dietaryRestrictions: z.string().optional(),
+  songRequest: z.string().optional(),
+  message: z.string().optional(),
+});
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+export type RSVPFormType = z.infer<typeof rsvpSchema>;
 
-    // Convert attending value to boolean
-    const attendingBool = formData.attending === "true";
+export default function RSVPPage() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedData, setSubmittedData] = useState<RSVPFormType | null>(null);
+  const { toast } = useToast();
 
+  const handleSubmit = async (formData: RSVPFormType) => {
     try {
-      const { error } = await supabase.from("rsvps").insert([
-        {
-          name: formData.name,
-          email: formData.email,
-          attending: attendingBool,
-          plus_one_name: formData.plusOneName,
-          dietary_restrictions: formData.dietaryRestrictions,
-          message: formData.message,
-        },
-      ]);
+      // In a real implementation, you would send this data to your Supabase database
+      // const { error } = await supabase.from("rsvps").insert([{
+      //   full_name: formData.fullName,
+      //   email: formData.email,
+      //   attending: formData.attending === "yes",
+      //   guest_count: formData.guestCount,
+      //   guest_names: formData.guestNames,
+      //   meal_preference: formData.mealPreference,
+      //   dietary_restrictions: formData.dietaryRestrictions,
+      //   song_request: formData.songRequest,
+      //   message: formData.message,
+      // }])
 
-      if (error) throw error;
-      setSubmitted(true);
-      setError("");
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Simulating a successful database insertion
+      setSubmittedData(formData);
+      setIsSubmitted(true);
+      toast({
+        title: "RSVP submitted!",
+        description: "Thank you for your response.",
+      });
+    } catch (error) {
+      console.error("Error submitting RSVP:", error);
+      toast({
+        title: "Submission failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
     }
   };
 
   return (
-    <div className="p-4">
-      {submitted ? (
-        <div className="text-center text-green-600 font-semibold">
-          Thank you for your RSVP!
+    <div className="font-formal text-sage-900">
+      {/* Hero Section */}
+      <section className="relative h-64 md:h-96">
+        <img
+          src="/legare_green.webp"
+          alt="Wedding Background"
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
+        />
+        <div className="absolute inset-0 flex items-center justify-center bg-sage-900 bg-opacity-40">
+          <div className="text-center z-10">
+            <h1 className="text-5xl font-bold text-sage-900 mb-4 font-script">
+              RSVP
+            </h1>
+            <p className="text-xl text-sage-900 font-light">
+              We can't wait to celebrate with you!
+            </p>
+          </div>
         </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {error && <div className="text-red-500 text-center">{error}</div>}
+      </section>
 
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Name:
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-200"
+      {/* RSVP Form Section */}
+      <section className="max-w-4xl mx-auto py-16 px-4">
+        <Card className="p-8 bg-ivory-100 shadow-xl rounded-xl border-sage-200 border">
+          <div className="mb-8 text-center">
+            <img
+              src="/NH-Logo.webp"
+              alt="Wedding Logo"
+              width={150}
+              height={150}
+              className="mx-auto mb-6"
             />
+            <h2 className="text-3xl font-bold mb-3 font-display text-sage-800">
+              Please RSVP by August 15, 2025
+            </h2>
+            <p className="text-sage-700">
+              We're excited to have you join us for our special day. Please let
+              us know if you'll be able to attend.
+            </p>
           </div>
 
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email:
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-200"
-            />
-          </div>
+          {isSubmitted ? (
+            <ConfirmationMessage data={submittedData} />
+          ) : (
+            <RSVPForm onSubmit={handleSubmit} />
+          )}
+        </Card>
+      </section>
 
-          <div>
-            <label
-              htmlFor="attending"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Will you be attending?
-            </label>
-            <select
-              id="attending"
-              name="attending"
-              value={formData.attending}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-200"
-            >
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
+      {/* FAQ Section */}
+      <section className="max-w-4xl mx-auto py-12 px-4">
+        <h2 className="text-3xl font-bold mb-8 text-center font-display text-sage-800">
+          Frequently Asked Questions
+        </h2>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="bg-sage-50 p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-2 font-display text-sage-800">
+              What's the dress code?
+            </h3>
+            <p className="text-sage-700">
+              We request Semi-Formal/Cocktail attire for our celebration.
+            </p>
           </div>
-
-          <div>
-            <label
-              htmlFor="plusOneName"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Plus One Name (if applicable):
-            </label>
-            <input
-              type="text"
-              id="plusOneName"
-              name="plusOneName"
-              value={formData.plusOneName}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-200"
-            />
+          <div className="bg-sage-50 p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-2 font-display text-sage-800">
+              Can I bring my children?
+            </h3>
+            <p className="text-sage-700">
+              While we love your little ones, our celebration is adults-only.
+              Thank you for understanding.
+            </p>
           </div>
-
-          <div>
-            <label
-              htmlFor="dietaryRestrictions"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Dietary Restrictions:
-            </label>
-            <input
-              type="text"
-              id="dietaryRestrictions"
-              name="dietaryRestrictions"
-              value={formData.dietaryRestrictions}
-              onChange={handleChange}
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-200"
-            />
+          <div className="bg-sage-50 p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-2 font-display text-sage-800">
+              What if I have dietary restrictions?
+            </h3>
+            <p className="text-sage-700">
+              Please indicate any dietary restrictions in the RSVP form, and
+              we'll do our best to accommodate your needs.
+            </p>
           </div>
-
-          <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Message (Optional):
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              rows={4}
-              className="mt-1 block w-full p-2 border rounded-md focus:ring focus:ring-blue-200"
-            />
+          <div className="bg-sage-50 p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-semibold mb-2 font-display text-sage-800">
+              Will there be transportation?
+            </h3>
+            <p className="text-sage-700">
+              We'll provide shuttle service between the ceremony and reception
+              venues. Details will be shared closer to the wedding date.
+            </p>
           </div>
-
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            Submit RSVP
-          </button>
-        </form>
-      )}
+        </div>
+      </section>
     </div>
   );
-};
-
-export default RSVPForm;
+}
