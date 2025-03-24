@@ -4,10 +4,11 @@ import tailwindcssAnimate from "tailwindcss-animate"
 const config = {
   darkMode: ["class", ".dark"],
   content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
     "*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -20,6 +21,29 @@ const config = {
     },
     extend: {
       colors: {
+        // Wedding colors with original values
+        sage: {
+          "100": "#f1f4ed",
+          "200": "#e3e9db",
+          "300": "#d5deca",
+          "400": "#c7d3b8",
+          "500": "#b9c8a6",
+          "600": "#9aad85",
+          "700": "#7c9264",
+          "800": "#5d7743",
+          "900": "#3f5c22",
+        },
+        ivory: {
+          "100": "#fefef9",
+          "200": "#fdfdf3",
+          "300": "#fcfced",
+          "400": "#fbfbe7",
+          "500": "#fafae1",
+          "600": "#f8f8d1",
+          "700": "#f6f6c1",
+          "800": "#f4f4b1",
+          "900": "#f2f2a1",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -53,36 +77,21 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Wedding colors
-        sage: {
-          50: "#f2f5f2",
-          100: "#e6ebe6",
-          200: "#c7d4c8",
-          300: "#a7bda9",
-          400: "#8aa78c",
-          500: "#6d906f",
-          600: "#57745a",
-          700: "#415845",
-          800: "#2b3b2d",
-          900: "#161d16",
-        },
-        ivory: {
-          50: "#fffffe",
-          100: "#f9f7f2",
-          200: "#f4efe5",
-          300: "#efe7d8",
-          400: "#eadfcb",
-          500: "#e5d7be",
-          600: "#b7ac98",
-          700: "#898172",
-          800: "#5c564c",
-          900: "#2e2b26",
+        // Chart colors from original config
+        chart: {
+          "1": "hsl(var(--chart-1))",
+          "2": "hsl(var(--chart-2))",
+          "3": "hsl(var(--chart-3))",
+          "4": "hsl(var(--chart-4))",
+          "5": "hsl(var(--chart-5))",
         },
       },
       fontFamily: {
-        formal: ["Georgia", "serif"],
+        // Original font family definitions
+        serif: ["Cormorant Garamond", "serif"],
         display: ["Playfair Display", "serif"],
-        script: ["Great Vibes", "cursive"],
+        script: ["Pinyon Script", "cursive"],
+        formal: ["Cormorant Garamond", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

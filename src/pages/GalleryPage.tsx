@@ -45,18 +45,27 @@ export default function GalleryPage() {
               } ${
                 loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
-              style={{ transitionDelay: `${index * 50}ms` }}
+              style={{
+                transitionDelay: `${index * 50}ms`,
+                backgroundColor: "#f1f1f1", // Light background for loading state
+              }}
               onClick={() => openLightbox(photo.id)}
             >
-              <img
-                src={photo.url}
-                alt={photo.alt}
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white text-lg font-semibold opacity-0 hover:opacity-100 transition-opacity duration-300">
-                  View
-                </span>
+              {/* Simplified image rendering */}
+              <div className="w-full h-full">
+                <img
+                  src={photo.url || "/placeholder.svg"}
+                  alt={photo.alt}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+              {/* Simple overlay without complex transitions */}
+              <div className="absolute inset-0 bg-black opacity-0 hover:opacity-30 transition-opacity duration-300 flex items-center justify-center">
+                <span className="text-white text-lg font-semibold">View</span>
               </div>
             </div>
           ))}
@@ -66,9 +75,14 @@ export default function GalleryPage() {
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
           <div className="relative max-w-4xl w-full">
             <img
-              src={engagementPhotos[selectedPhoto].url}
+              src={engagementPhotos[selectedPhoto].url || "/placeholder.svg"}
               alt={engagementPhotos[selectedPhoto].alt}
-              className="w-full h-auto max-h-[90vh] object-contain"
+              style={{
+                width: "100%",
+                height: "auto",
+                maxHeight: "90vh",
+                objectFit: "contain",
+              }}
             />
             <button
               onClick={closeLightbox}
