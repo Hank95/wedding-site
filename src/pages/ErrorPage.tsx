@@ -40,7 +40,7 @@ const ErrorPage: React.FC = () => {
         </p>
         <p className="text-gray-600 dark:text-gray-400 mt-4">{errorMessage}</p>
         <Link
-          className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-md shadow-sm text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-50 mt-8"
+          className="inline-flex items-center justify-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-md shadow-xs text-sm font-medium transition-colors focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-50 mt-8"
           to="/"
         >
           Take me back to Earth

@@ -42,7 +42,7 @@ export function ContactForm() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-sage-300 shadow-sm focus:border-sage-500 focus:ring focus:ring-sage-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-sage-300 shadow-xs focus:border-sage-500 focus:ring-3 focus:ring-sage-200 focus:ring-opacity-50"
         />
       </div>
       <div>
@@ -58,7 +58,7 @@ export function ContactForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-sage-300 shadow-sm focus:border-sage-500 focus:ring focus:ring-sage-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-sage-300 shadow-xs focus:border-sage-500 focus:ring-3 focus:ring-sage-200 focus:ring-opacity-50"
         />
       </div>
       <div>
@@ -74,12 +74,12 @@ export function ContactForm() {
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={4}
-          className="mt-1 block w-full rounded-md border-sage-300 shadow-sm focus:border-sage-500 focus:ring focus:ring-sage-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-sage-300 shadow-xs focus:border-sage-500 focus:ring-3 focus:ring-sage-200 focus:ring-opacity-50"
         ></textarea>
       </div>
       <button
         type="submit"
-        className="w-full bg-sage-600 text-white py-2 px-4 rounded-md hover:bg-sage-700 focus:outline-none focus:ring-2 focus:ring-sage-500 focus:ring-opacity-50 transition duration-300"
+        className="w-full bg-sage-600 text-white py-2 px-4 rounded-md hover:bg-sage-700 focus:outline-hidden focus:ring-2 focus:ring-sage-500 focus:ring-opacity-50 transition duration-300"
       >
         Send Message
       </button>

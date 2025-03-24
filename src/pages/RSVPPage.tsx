@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { z } from "zod";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { RSVPForm } from "./rsvp-form";
-import { ConfirmationMessage } from "./confirmation-message";
+import { toast } from "sonner";
+import { RSVPForm } from "../components/rsvp-form";
+import { ConfirmationMessage } from "../components/confirmation-message";
 
 // Define schema for RSVP form validation
 export const rsvpSchema = z.object({
@@ -13,11 +13,6 @@ export const rsvpSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   attending: z.enum(["yes", "no"], {
     required_error: "Please select whether you'll be attending",
-  }),
-  guestCount: z.number().min(1).max(10),
-  guestNames: z.string().optional(),
-  mealPreference: z.enum(["beef", "chicken", "fish", "vegetarian"], {
-    required_error: "Please select a meal preference",
   }),
   dietaryRestrictions: z.string().optional(),
   songRequest: z.string().optional(),
@@ -29,7 +24,6 @@ export type RSVPFormType = z.infer<typeof rsvpSchema>;
 export default function RSVPPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedData, setSubmittedData] = useState<RSVPFormType | null>(null);
-  const { toast } = useToast();
 
   const handleSubmit = async (formData: RSVPFormType) => {
     try {
@@ -52,17 +46,10 @@ export default function RSVPPage() {
       // Simulating a successful database insertion
       setSubmittedData(formData);
       setIsSubmitted(true);
-      toast({
-        title: "RSVP submitted!",
-        description: "Thank you for your response.",
-      });
+      toast.success("RSVP submitted successfully!");
     } catch (error) {
       console.error("Error submitting RSVP:", error);
-      toast({
-        title: "Submission failed",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
+      toast.error("An error occurred. Please try again.");
     }
   };
 
