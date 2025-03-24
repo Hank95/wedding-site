@@ -54,7 +54,7 @@ export default function RSVPPage() {
   };
 
   return (
-    <div className="font-formal text-sage-900">
+    <div className="font-formal text-sage-900 min-h-screen pt-24">
       {/* Hero Section */}
       <section className="relative h-64 md:h-96">
         <img
@@ -62,7 +62,7 @@ export default function RSVPPage() {
           alt="Wedding Background"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
         />
-        <div className="absolute inset-0 flex items-center justify-center bg-sage-900 bg-opacity-40">
+        <div className="absolute inset-0 flex items-center justify-center background-sage-900 bg-opacity-70">
           <div className="text-center z-10">
             <h1 className="text-5xl font-bold text-sage-900 mb-4 font-script">
               RSVP
@@ -86,7 +86,7 @@ export default function RSVPPage() {
               className="mx-auto mb-6"
             />
             <h2 className="text-3xl font-bold mb-3 font-display text-sage-800">
-              Please RSVP by August 15, 2025
+              Please RSVP by September 5, 2025
             </h2>
             <p className="text-sage-700">
               We're excited to have you join us for our special day. Please let
