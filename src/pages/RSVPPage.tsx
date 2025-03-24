@@ -1,11 +1,10 @@
-"use client";
-
 import { useState } from "react";
 import { z } from "zod";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { RSVPForm } from "../components/rsvp-form";
 import { ConfirmationMessage } from "../components/confirmation-message";
+import { supabase } from "@/supabaseClient";
 
 // Define schema for RSVP form validation
 export const rsvpSchema = z.object({
@@ -27,23 +26,23 @@ export default function RSVPPage() {
 
   const handleSubmit = async (formData: RSVPFormType) => {
     try {
-      // In a real implementation, you would send this data to your Supabase database
-      // const { error } = await supabase.from("rsvps").insert([{
-      //   full_name: formData.fullName,
-      //   email: formData.email,
-      //   attending: formData.attending === "yes",
-      //   guest_count: formData.guestCount,
-      //   guest_names: formData.guestNames,
-      //   meal_preference: formData.mealPreference,
-      //   dietary_restrictions: formData.dietaryRestrictions,
-      //   song_request: formData.songRequest,
-      //   message: formData.message,
-      // }])
+      // Convert attending value to boolean for database
+      const attendingBool = formData.attending === "yes";
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Insert data into Supabase
+      const { error } = await supabase.from("rsvps").insert([
+        {
+          name: formData.fullName,
+          email: formData.email,
+          attending: attendingBool,
+          dietary_restrictions: formData.dietaryRestrictions || null,
+          message: formData.message || null,
+        },
+      ]);
 
-      // Simulating a successful database insertion
+      if (error) throw error;
+
+      // Update state on success
       setSubmittedData(formData);
       setIsSubmitted(true);
       toast.success("RSVP submitted successfully!");

@@ -60,7 +60,6 @@ export type Database = {
           id: string
           message: string | null
           name: string
-          plus_one_name: string | null
         }
         Insert: {
           attending: boolean
@@ -70,7 +69,6 @@ export type Database = {
           id?: string
           message?: string | null
           name: string
-          plus_one_name?: string | null
         }
         Update: {
           attending?: boolean
@@ -80,7 +78,6 @@ export type Database = {
           id?: string
           message?: string | null
           name?: string
-          plus_one_name?: string | null
         }
         Relationships: []
       }
