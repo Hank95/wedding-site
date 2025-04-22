@@ -55,7 +55,7 @@ const locations: Location[] = [
       "https://www.marriott.com/en-us/hotels/chsmc-charleston-marriott/overview/",
   },
   {
-    name: "The Porch at The Oyster House",
+    name: "The Oyster House",
     description: "Welcome Party",
     lat: 32.780628556206686,
     lng: -79.92810311349183,

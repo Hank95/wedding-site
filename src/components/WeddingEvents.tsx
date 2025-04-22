@@ -43,7 +43,7 @@ export function WeddingEvents() {
           title="Welcome Party"
           date="October 25, 2025"
           time="8:00 PM"
-          location="The Porch at The Oyster House"
+          location="The Oyster House"
           address="66 State St, Charleston, SC 29401"
           locationUrl="https://theporchonmarket.com/#about"
           description="Join us for a relaxed evening to kick off our wedding weekend."

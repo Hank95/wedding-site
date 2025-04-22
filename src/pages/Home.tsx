@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { Countdown } from "../components/Countdown";
 import { Section } from "../components/Section";
-// import { OurStory } from "../components/OurStory";
 import { PhotoGallery } from "../components/PhotoGallery";
 import { GuestBook } from "../components/GuestBook";
-// import { WeddingParty } from "../components/WeddingParty";
 import { InteractiveMap } from "../components/InteractiveMap";
 import { ContactForm } from "../components/ContactForm";
 import { WeddingEvents } from "../components/WeddingEvents";
@@ -49,13 +47,6 @@ export default function WeddingPage() {
         />
         <div className="absolute inset-0 flex items-center justify-center background-sage-900 bg-opacity-70">
           <div className="text-center z-10">
-            {/* <img
-              src="/NH-Logo.webp"
-              alt="Wedding Logo"
-              width={200}
-              height={200}
-              className="mx-auto mb-8"
-            /> */}
             <h1 className="text-6xl font-bold text-sage-900 mb-4 font-script">
               Nobska and Henry
             </h1>
@@ -80,14 +71,6 @@ export default function WeddingPage() {
           className="mx-auto m-8"
         />
       </Section>
-
-      {/* Our Story Section */}
-      {/* <Section>
-        <h2 className="text-4xl font-bold mb-8 text-center font-display">
-          Our Story
-        </h2>
-        <OurStory />
-      </Section> */}
 
       {/* Photo Gallery */}
       <Section className="bg-sage-100">
