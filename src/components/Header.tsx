@@ -73,14 +73,14 @@ export default function Header() {
               Contact us
             </Link>
             <Link to="/rsvp">
-              <Button className="bg-sage-700 hover:bg-sage-800 text-white font-display px-6 py-2 rounded-md border-2 border-sage-700 hover:border-sage-800 shadow-md transition-all duration-200 transform hover:scale-105">
+              <Button className="bg-sage-700 hover:bg-sage-800 text-white font-display px-6 py-2 rounded-md border-2 border-sage-700 hover:border-sage-800 shadow-md transition-all duration-200 transform hover:scale-105 cursor-pointer">
                 RSVP
               </Button>
             </Link>
           </div>
           <div className="md:hidden flex items-center space-x-4">
             <Link to="/rsvp">
-              <Button className="bg-sage-700 hover:bg-sage-800 text-white font-display px-4 py-1 text-sm rounded-md border-2 border-sage-700 hover:border-sage-800 shadow-sm">
+              <Button className="bg-sage-700 hover:bg-sage-800 text-white font-display px-4 py-1 text-sm rounded-md border-2 border-sage-700 hover:border-sage-800 shadow-sm cursor-pointer transition-all duration-200 transform hover:scale-105">
                 RSVP
               </Button>
             </Link>
@@ -88,7 +88,7 @@ export default function Header() {
               {isMenuOpen ? (
                 <X className="h-6 w-6 text-sage-600" />
               ) : (
-                <Menu className="h-6 w-6 text-sage-600" />
+                <Menu className="h-6 w-6 text-sage-600 cursor-pointer" />
               )}
             </button>
           </div>

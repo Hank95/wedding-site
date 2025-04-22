@@ -6,6 +6,8 @@ import { GuestBook } from "../components/GuestBook";
 import { InteractiveMap } from "../components/InteractiveMap";
 import { ContactForm } from "../components/ContactForm";
 import { WeddingEvents } from "../components/WeddingEvents";
+import { Plane, Car, Hotel, ExternalLink } from "lucide-react"; // Import icons
+import { Button } from "@/components/ui/button"; // Import Button component if available
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -99,134 +101,130 @@ export default function WeddingPage() {
         <InteractiveMap />
       </Section>
 
-      {/* Travel Information */}
-      <Section>
-        <h2 className="text-4xl font-bold mb-8 text-center font-display">
-          Travel Information
+      {/* Travel Information - Redesigned */}
+      <Section className="bg-sage-50">
+        <h2 className="text-4xl font-bold mb-12 text-center font-display">
+          Travel & Accommodations
         </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Flights
-            </h3>
-            <p>
+        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Flights Card */}
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+            <div className="flex items-center mb-4">
+              <Plane className="w-8 h-8 mr-3 text-sage-700" />
+              <h3 className="text-2xl font-semibold font-display text-sage-800">
+                Flights
+              </h3>
+            </div>
+            <p className="text-sage-700 mb-4 flex-grow">
               The nearest airport is Charleston International Airport (CHS).
+              Easy access from many major cities.
             </p>
-            <a
-              href="https://www.iflychs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sage-600 hover:underline"
-            >
-              Find Flights
-            </a>
+            <Button asChild variant="outline" className="mt-auto">
+              <a
+                href="https://www.iflychs.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center"
+              >
+                Visit CHS Website
+                <ExternalLink className="w-4 h-4 ml-2" />
+              </a>
+            </Button>
           </div>
-          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Ground Transportation
-            </h3>
-            <p className="mb-4">
-              Rental cars are available at the airport through several
-              companies:
-            </p>
-            <ul className="list-disc list-inside mb-4 space-y-2">
-              <li>
-                <a
-                  href="https://www.hertz.com/rentacar/reservation/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sage-600 hover:underline"
-                >
-                  Hertz
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.enterprise.com/en/home.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sage-600 hover:underline"
-                >
-                  Enterprise
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.avis.com/en/home"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sage-600 hover:underline"
-                >
-                  Avis
-                </a>
-              </li>
-            </ul>
-            <p>
-              Uber and Lyft are readily available throughout Charleston and
-              provide reliable transportation to and from the airport, as well
-              as around the city.
-            </p>
+
+          {/* Ground Transportation Card */}
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+            <div className="flex items-center mb-4">
+              <Car className="w-8 h-8 mr-3 text-sage-700" />
+              <h3 className="text-2xl font-semibold font-display text-sage-800">
+                Getting Around
+              </h3>
+            </div>
+            <div className="text-sage-700 mb-4 flex-grow">
+              <p className="mb-3">
+                Rental cars are available at CHS. Consider booking in advance.
+              </p>
+              <p className="font-medium mb-1">Rental Agencies:</p>
+              <ul className="list-disc list-inside mb-4 space-y-1 text-sm">
+                <li>Hertz</li>
+                <li>Enterprise</li>
+                <li>Avis</li>
+              </ul>
+              <p>
+                Uber and Lyft are readily available for convenient city travel
+                and airport transfers.
+              </p>
+            </div>
           </div>
-          <div className="bg-ivory-100 p-6 rounded-lg shadow-md">
-            <h3 className="text-2xl font-semibold mb-4 font-display">
-              Accommodations
-            </h3>
-            <p>
-              We've arranged special rates at the following hotels in downtown
-              Charleston:
-            </p>
-            <ul className="list-disc list-inside mt-2">
-              <li>
-                The Hilton Charleston -{" "}
+
+          {/* Accommodations Card */}
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+            <div className="flex items-center mb-4">
+              <Hotel className="w-8 h-8 mr-3 text-sage-700" />
+              <h3 className="text-2xl font-semibold font-display text-sage-800">
+                Accommodations
+              </h3>
+            </div>
+            <div className="text-sage-700 mb-4 flex-grow">
+              <p className="mb-3">
+                We've arranged special rates at these downtown hotels. Mention
+                the "Goodhue/Pendleton Wedding".
+              </p>
+              <ul className="space-y-2 mb-4">
+                {[
+                  {
+                    name: "The Hilton Charleston",
+                    url: "https://www.hilton.com/en/hotels/chshhhf-hilton-charleston-historic-district/",
+                  },
+                  {
+                    name: "Marriott Charleston",
+                    url: "https://www.marriott.com/en-us/hotels/chsmc-charleston-marriott/overview/",
+                  },
+                  {
+                    name: "Moxy Charleston Downtown",
+                    url: "https://www.marriott.com/en-us/hotels/chsmx-moxy-charleston-downtown/overview/",
+                  },
+                ].map((hotel) => (
+                  <li key={hotel.name}>
+                    <Button
+                      asChild
+                      variant="link"
+                      className="p-0 h-auto font-normal text-sage-700"
+                    >
+                      <a
+                        href={hotel.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center"
+                      >
+                        {hotel.name}
+                        <ExternalLink className="w-3 h-3 ml-1.5" />
+                      </a>
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+              <p className="mb-2">
+                For house rentals, check StayDuvet. Use code{" "}
+                <strong className="font-semibold">JCROOMBLOCKS</strong> for a 5%
+                discount.
+              </p>
+              <Button
+                asChild
+                variant="link"
+                className="p-0 h-auto font-normal text-sage-700"
+              >
                 <a
-                  href="https://www.hilton.com/en/hotels/chshhhf-hilton-charleston-historic-district/"
+                  href="https://www.stayduvet.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sage-600 hover:underline"
+                  className="inline-flex items-center"
                 >
-                  Book Now
+                  Visit StayDuvet
+                  <ExternalLink className="w-3 h-3 ml-1.5" />
                 </a>
-              </li>
-              <li>
-                Marriott Charleston -{" "}
-                <a
-                  href="https://www.marriott.com/en-us/hotels/chsmc-charleston-marriott/overview/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sage-600 hover:underline"
-                >
-                  Book Now
-                </a>
-              </li>
-              <li>
-                Moxy Charleston Downtown -{" "}
-                <a
-                  href="https://www.marriott.com/en-us/hotels/chsmx-moxy-charleston-downtown/overview/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sage-600 hover:underline"
-                >
-                  Book Now
-                </a>
-              </li>
-            </ul>
-            <p className="mt-4">
-              For those looking for house rentals, StayDuvet offers a variety of
-              options. Wedding guests can get a 5% discount using the promo code
-              "JCROOMBLOCKS".
-            </p>
-            <a
-              href="https://www.stayduvet.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sage-600 hover:underline"
-            >
-              Check StayDuvet Rentals
-            </a>
-            <p className="mt-4 text-sm text-sage-700">
-              Please mention the "Goodhue/Pendleton Wedding" when booking to
-              receive our special group rate.
-            </p>
+              </Button>
+            </div>
           </div>
         </div>
       </Section>

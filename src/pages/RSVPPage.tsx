@@ -98,7 +98,8 @@ export default function RSVPPage() {
               What's the dress code?
             </h3>
             <p className="text-sage-700">
-              We request Semi-Formal/Cocktail attire for our celebration.
+              The dress code for the wedding ceremony and reception is Black Tie
+              Optional. For the Welcome Party, it's Cocktail Attire.
             </p>
           </div>
           <div className="bg-sage-50 p-6 rounded-lg shadow-md">

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { CalendarDays, MapPin, Clock } from "lucide-react";
+import {
+  CalendarDays,
+  MapPin,
+  Clock,
+  Shirt,
+  PartyPopper,
+  Gem,
+} from "lucide-react";
 
 interface EventCardProps {
   title: string;
@@ -9,12 +16,7 @@ interface EventCardProps {
   address: string;
   locationUrl: string;
   description: string;
-}
-
-interface EventDetailsProps {
-  title: string;
-  time?: string;
-  description: string;
+  dressCode?: string;
 }
 
 interface InfoItemProps {
@@ -47,55 +49,75 @@ export function WeddingEvents() {
           address="66 State St, Charleston, SC 29401"
           locationUrl="https://theporchonmarket.com/#about"
           description="Join us for a relaxed evening to kick off our wedding weekend."
+          dressCode="Cocktail Attire"
         />
       )}
 
       <div className="bg-ivory-100 p-8 rounded-lg shadow-md">
-        <h3 className="text-3xl font-semibold mb-6 font-display text-sage-800 text-center">
+        <h3 className="text-3xl font-semibold mb-8 font-display text-sage-800 text-center">
           Wedding Day
         </h3>
-        <div className="grid md:grid-cols-2 gap-8">
-          <EventDetails
-            title="Ceremony"
-            time="5:00 PM"
-            description="Join us as we exchange vows and begin our journey together."
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 border-b border-sage-200 pb-8">
+          <InfoItem
+            icon={<CalendarDays className="w-6 h-6 text-sage-600" />}
+            title="Date"
+            content="October 26, 2025"
           />
-          <EventDetails
-            title="Reception"
-            description="Celebrate with us over dinner, drinks, and dancing immediately following the ceremony!"
+          <InfoItem
+            icon={<MapPin className="w-6 h-6 text-sage-600" />}
+            title="Location"
+            content={
+              <>
+                <a
+                  href="https://southcarolinaparks.com/legare-waring-house"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sage-600 hover:text-sage-800 underline"
+                >
+                  Legare Waring House
+                </a>
+                <p className="text-sm text-gray-600">
+                  1500 Old Towne Rd, Charleston, SC 29407
+                </p>
+              </>
+            }
+          />
+          <InfoItem
+            icon={<Shirt className="w-6 h-6 text-sage-600" />}
+            title="Dress Code"
+            content="Black Tie Optional"
           />
         </div>
-        {!isWeddingDay && (
-          <div className="border-t border-sage-200 pt-8 mt-8">
-            <h4 className="text-2xl font-semibold text-sage-700 text-center mb-6">
-              Venue Information
-            </h4>
-            <div className="grid md:grid-cols-2 gap-8">
-              <InfoItem
-                icon={<CalendarDays className="w-6 h-6 text-sage-600" />}
-                title="Date"
-                content="October 26, 2025"
-              />
-              <InfoItem
-                icon={<MapPin className="w-6 h-6 text-sage-600" />}
-                title="Location"
-                content={
-                  <>
-                    <a
-                      href="https://southcarolinaparks.com/legare-waring-house"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sage-600 hover:text-sage-800 underline"
-                    >
-                      Legare Waring House, Charleston, SC
-                    </a>
-                    <p>1500 Old Towne Rd, Charleston, SC 29407</p>
-                  </>
-                }
-              />
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-3 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start">
+              <Gem className="w-6 h-6 mr-3 text-sage-600 flex-shrink-0" />
+              <h4 className="text-2xl font-semibold text-sage-700">Ceremony</h4>
             </div>
+            <div className="flex items-center justify-center md:justify-start pl-9">
+              <Clock className="w-5 h-5 mr-2 text-sage-500 flex-shrink-0" />
+              <p className="font-medium text-sage-600">5:00 PM</p>
+            </div>
+            <p className="text-sage-600 italic pl-9">
+              Join us as we exchange vows and begin our journey together.
+            </p>
           </div>
-        )}
+
+          <div className="space-y-3 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start">
+              <PartyPopper className="w-6 h-6 mr-3 text-sage-600 flex-shrink-0" />
+              <h4 className="text-2xl font-semibold text-sage-700">
+                Reception
+              </h4>
+            </div>
+            <p className="text-sage-600 italic pl-9">
+              Celebrate with us over dinner, drinks, and dancing immediately
+              following the ceremony!
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -109,13 +131,18 @@ function EventCard({
   address,
   locationUrl,
   description,
+  dressCode,
 }: EventCardProps) {
+  const gridColsClass = dressCode
+    ? "md:grid-cols-2 lg:grid-cols-4"
+    : "md:grid-cols-3";
+
   return (
     <div className="bg-ivory-100 p-8 rounded-lg shadow-md">
       <h3 className="text-3xl font-semibold mb-6 font-display text-sage-800 text-center">
         {title}
       </h3>
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className={`grid gap-6 ${gridColsClass} mb-6`}>
         <InfoItem
           icon={<CalendarDays className="w-6 h-6 text-sage-600" />}
           title="Date"
@@ -139,28 +166,18 @@ function EventCard({
               >
                 {location}
               </a>
-              <p>{address}</p>
+              <p className="text-sm text-gray-600">{address}</p>
             </>
           }
         />
+        {dressCode && (
+          <InfoItem
+            icon={<Shirt className="w-6 h-6 text-sage-600" />}
+            title="Dress Code"
+            content={dressCode}
+          />
+        )}
       </div>
-      <p className="text-sage-600 italic mt-6 text-center">{description}</p>
-    </div>
-  );
-}
-
-function EventDetails({ title, time, description }: EventDetailsProps) {
-  return (
-    <div className="space-y-4">
-      <h4 className="text-2xl font-semibold text-sage-700 text-center">
-        {title}
-      </h4>
-      {time && (
-        <div className="flex items-center justify-center">
-          <Clock className="w-6 h-6 mr-3 text-sage-600" />
-          <p className="font-semibold text-sage-700">{time}</p>
-        </div>
-      )}
       <p className="text-sage-600 italic text-center">{description}</p>
     </div>
   );
@@ -168,11 +185,15 @@ function EventDetails({ title, time, description }: EventDetailsProps) {
 
 function InfoItem({ icon, title, content }: InfoItemProps) {
   return (
-    <div className="flex items-start justify-center">
-      <div className="mr-3 mt-1">{icon}</div>
-      <div>
+    <div className="flex items-start justify-center text-center md:justify-start md:text-left">
+      <div className="mr-3 mt-1 flex-shrink-0">{icon}</div>
+      <div className="flex-grow">
         <p className="font-semibold text-sage-700">{title}</p>
-        {typeof content === "string" ? <p>{content}</p> : content}
+        {typeof content === "string" ? (
+          <p className="text-gray-700">{content}</p>
+        ) : (
+          content
+        )}
       </div>
     </div>
   );
