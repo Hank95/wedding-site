@@ -174,7 +174,7 @@ export default function WeddingPage() {
                 {[
                   {
                     name: "The Hilton Charleston",
-                    url: "https://www.hilton.com/en/hotels/chshhhf-hilton-charleston-historic-district/",
+                    url: "https://www.hilton.com/en/hotels/chsdwgi-hilton-garden-inn-charleston-waterfront-downtown/",
                   },
                   {
                     name: "Marriott Charleston",
@@ -182,7 +182,7 @@ export default function WeddingPage() {
                   },
                   {
                     name: "Moxy Charleston Downtown",
-                    url: "https://www.marriott.com/en-us/hotels/chsmx-moxy-charleston-downtown/overview/",
+                    url: "https://www.marriott.com/en-us/hotels/chsox-moxy-charleston-downtown/overview/",
                   },
                 ].map((hotel) => (
                   <li key={hotel.name}>
