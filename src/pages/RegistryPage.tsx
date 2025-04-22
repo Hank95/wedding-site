@@ -14,8 +14,6 @@ export default function RegistryPage() {
       script.src = "https://widget.zola.com/js/widget.js";
       document.body.appendChild(script);
     }
-    // Optional cleanup remains the same
-    // return () => { ... };
   }, []);
 
   return (
