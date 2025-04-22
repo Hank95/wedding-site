@@ -1,3 +1,4 @@
+
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
@@ -5,181 +6,93 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* HSL-based variables (used by shadcn/ui etc.) */
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
-
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
-
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
-
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
-
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
-
   --color-popover: hsl(var(--popover));
   --color-popover-foreground: hsl(var(--popover-foreground));
-
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
 
-  --color-sage-50: #f2f5f2;
-  --color-sage-100: #e6ebe6;
-  --color-sage-200: #c7d4c8;
-  --color-sage-300: #a7bda9;
-  --color-sage-400: #8aa78c;
-  --color-sage-500: #6d906f;
-  --color-sage-600: #57745a;
-  --color-sage-700: #415845;
-  --color-sage-800: #2b3b2d;
-  --color-sage-900: #161d16;
+  /* === Added from tailwind.config.ts === */
 
-  --color-ivory-50: #fffffe;
-  --color-ivory-100: #f9f7f2;
-  --color-ivory-200: #f4efe5;
-  --color-ivory-300: #efe7d8;
-  --color-ivory-400: #eadfcb;
-  --color-ivory-500: #e5d7be;
-  --color-ivory-600: #b7ac98;
-  --color-ivory-700: #898172;
-  --color-ivory-800: #5c564c;
-  --color-ivory-900: #2e2b26;
+  /* Wedding Colors */
+  --color-sage-100: #f1f4ed;
+  --color-sage-200: #e3e9db;
+  --color-sage-300: #d5deca;
+  --color-sage-400: #c7d3b8;
+  --color-sage-500: #b9c8a6;
+  --color-sage-600: #9aad85;
+  --color-sage-700: #7c9264;
+  --color-sage-800: #5d7743;
+  --color-sage-900: #3f5c22; /* Updated from config */
 
-  --font-formal: Georgia, serif;
-  --font-display: Playfair Display, serif;
-  --font-script: Great Vibes, cursive;
+  --color-ivory-100: #fefef9;
+  --color-ivory-200: #fdfdf3;
+  --color-ivory-300: #fcfced;
+  --color-ivory-400: #fbfbe7;
+  --color-ivory-500: #fafae1;
+  --color-ivory-600: #f8f8d1;
+  --color-ivory-700: #f6f6c1;
+  --color-ivory-800: #f4f4b1;
+  --color-ivory-900: #f2f2a1;
 
+  /* Fonts */
+  --font-serif: "Cormorant Garamond", serif;
+  --font-display: "Playfair Display", serif;
+  --font-script: "Pinyon Script", cursive;
+  --font-formal: "Cormorant Garamond", serif; /* Added 'formal' */
+
+  /* Border Radius (Ensure --radius is defined below, e.g., in @layer base) */
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 
+  /* Animations & Keyframes */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
   @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
   }
   @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
   }
+
+  /* === End Added Section === */
 }
 
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
-    max-width: none;
-  }
-  @media (width >= 1400px) {
+  /* Default is mobile-first, so no max-width needed here */
+  /* This simulates the '2xl' screen */
+  @media (min-width: 1400px) {
     max-width: 1400px;
   }
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
-}
-
-/* :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
+/* Base layer for HSL variables and global styles */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -206,8 +119,9 @@ button:focus-visible {
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem; /* Ensure this is defined */
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -232,14 +146,19 @@ button:focus-visible {
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    /* Apply a default font if desired, e.g., the formal font */
+    /* @apply font-formal; */
   }
 }
+
+/* You can add other global styles or component styles below */
