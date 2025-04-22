@@ -60,7 +60,7 @@ export function RSVPForm({
                 <FormLabel className="text-sage-800">Full Name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter your full name"
+                    placeholder="Enter your full name(s)"
                     className="bg-white border-sage-300 focus:border-sage-500"
                     {...field}
                   />

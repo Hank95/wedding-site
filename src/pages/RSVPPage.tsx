@@ -125,8 +125,7 @@ export default function RSVPPage() {
               Will there be transportation?
             </h3>
             <p className="text-sage-700">
-              We'll provide shuttle service between the ceremony and reception
-              venues. Details will be shared closer to the wedding date.
+              Please stay tuned for more information on transportation options!
             </p>
           </div>
         </div>
