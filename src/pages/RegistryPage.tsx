@@ -1,28 +1,29 @@
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 
-const registries = [
-  {
-    name: "Amazon",
-    url: "https://www.amazon.com/wedding/registry",
-    logo: "/placeholder.svg?height=100&width=200&text=Amazon+Logo",
-  },
-  {
-    name: "Crate & Barrel",
-    url: "https://www.crateandbarrel.com/gift-registry/",
-    logo: "/placeholder.svg?height=100&width=200&text=Crate+%26+Barrel+Logo",
-  },
-  {
-    name: "Bed Bath & Beyond",
-    url: "https://www.bedbathandbeyond.com/store/registry/",
-    logo: "/placeholder.svg?height=100&width=200&text=Bed+Bath+%26+Beyond+Logo",
-  },
-];
+// Removed the registries array
 
 export default function RegistryPage() {
+  useEffect(() => {
+    const scriptId = "zola-wjs";
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.async = true;
+      script.src = "https://widget.zola.com/js/widget.js";
+      document.body.appendChild(script);
+    }
+    // Optional cleanup remains the same
+    // return () => { ... };
+  }, []);
+
   return (
     <div className="min-h-screen bg-ivory-100 py-12 px-4 sm:px-6 lg:px-8 pt-20">
-      <div className="max-w-3xl mx-auto mt-6">
+      {/* Adjusted max-width for potentially wider Zola embed */}
+      <div className="max-w-4xl mx-auto mt-6">
+        {" "}
+        {/* Changed max-w-3xl to max-w-4xl */}
         <Link
           to="/"
           className="inline-flex items-center text-sage-600 hover:text-sage-800 mb-8"
@@ -33,29 +34,23 @@ export default function RegistryPage() {
         <h1 className="text-4xl font-bold text-sage-800 mb-8 font-display text-center">
           Our Registry
         </h1>
-        <p className="text-lg text-sage-700 mb-8 text-center">
-          Thank you for thinking of us! We've registered at the following
-          stores:
+        {/* Updated paragraph */}
+        <p className="text-lg text-sage-700 mb-12 text-center">
+          {" "}
+          {/* Increased mb */}
+          Thank you for thinking of us! You can find our complete wedding
+          registry on Zola below.
         </p>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {registries.map((registry) => (
-            <a
-              key={registry.name}
-              href={registry.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white shadow-md rounded-lg p-6 flex flex-col items-center justify-center transition-transform hover:scale-105"
-            >
-              <img
-                src={registry.logo}
-                alt={`${registry.name} Logo`}
-                className="mb-4"
-              />
-              <span className="text-sage-600 font-semibold">
-                {registry.name}
-              </span>
-            </a>
-          ))}
+        {/* Removed the grid div and the .map function for other registries */}
+        {/* Zola Embed Section - Removed extra top margin/border */}
+        <div>
+          <a
+            className="zola-registry-embed"
+            href="https://www.zola.com/wedding/henryandnobska"
+            data-registry-key="henryandnobska"
+          >
+            Our Zola Wedding Registry
+          </a>
         </div>
       </div>
     </div>

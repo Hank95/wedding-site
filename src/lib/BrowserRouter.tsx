@@ -3,8 +3,7 @@ import App from "../App";
 import Home from "../pages/Home";
 import ErrorPage from "../pages/ErrorPage";
 import ContactPage from "../pages/ContactPage";
-// import RegistryPage from "../pages/RegistryPage";
-import TemporaryRegistryPage from "@/pages/TemporaryRegistryPage";
+import RegistryPage from "../pages/RegistryPage";
 import GalleryPage from "../pages/GalleryPage";
 import ActivitiesMap from "@/pages/ActivitiesMap";
 import RSVPForm from "@/pages/RSVPPage";
@@ -22,7 +21,7 @@ const BrowserRouter = createBrowserRouter([
       },
       {
         path: "registry",
-        element: <TemporaryRegistryPage />,
+        element: <RegistryPage />,
       },
       {
         path: "gallery",
