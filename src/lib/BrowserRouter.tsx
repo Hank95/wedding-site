@@ -1,12 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
+import { lazy } from "react";
 import App from "../App";
-import Home from "../pages/Home";
 import ErrorPage from "../pages/ErrorPage";
-import ContactPage from "../pages/ContactPage";
-import RegistryPage from "../pages/RegistryPage";
-import GalleryPage from "../pages/GalleryPage";
-import ActivitiesMap from "@/pages/ActivitiesMap";
-import RSVPForm from "@/pages/RSVPPage";
+
+// Lazy load page components for code splitting
+const Home = lazy(() => import("../pages/Home"));
+const ContactPage = lazy(() => import("../pages/ContactPage"));
+const RegistryPage = lazy(() => import("../pages/RegistryPage"));
+const GalleryPage = lazy(() => import("../pages/GalleryPage"));
+const ActivitiesMap = lazy(() => import("@/pages/ActivitiesMap"));
+const RSVPForm = lazy(() => import("@/pages/RSVPPage"));
 
 const BrowserRouter = createBrowserRouter([
   {

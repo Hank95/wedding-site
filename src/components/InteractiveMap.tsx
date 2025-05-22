@@ -117,7 +117,14 @@ export function InteractiveMap() {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
+  const [isMapLoading, setIsMapLoading] = useState(true);
   const markerRefs = useRef<{ [key: string]: L.Marker }>({});
+
+  // Simulate map loading time
+  useEffect(() => {
+    const timer = setTimeout(() => setIsMapLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="relative flex flex-col md:flex-row gap-8">
@@ -145,11 +152,19 @@ export function InteractiveMap() {
         </ul>
       </div>
       <div className="md:w-2/3 h-96 bg-sage-100 rounded-lg relative z-0">
-        <MapContainer
-          center={[32.80433621654174, -79.98611524128754]}
-          zoom={13}
-          className="h-full w-full rounded-lg"
-        >
+        {isMapLoading ? (
+          <div className="h-full w-full flex items-center justify-center rounded-lg">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sage-700 mx-auto mb-2"></div>
+              <p className="text-sage-600">Loading map...</p>
+            </div>
+          </div>
+        ) : (
+          <MapContainer
+            center={[32.80433621654174, -79.98611524128754]}
+            zoom={13}
+            className="h-full w-full rounded-lg"
+          >
           <TileLayer
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -197,6 +212,7 @@ export function InteractiveMap() {
             markerRefs={markerRefs}
           />
         </MapContainer>
+        )}
       </div>
     </div>
   );

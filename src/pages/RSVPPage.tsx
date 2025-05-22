@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { RSVPForm } from "../components/rsvp-form";
 import { ConfirmationMessage } from "../components/confirmation-message";
+import { LazyImage } from "../components/LazyImage";
 import { supabase } from "@/supabaseClient";
 import { RSVPFormType } from "@/lib/rsvpSchema";
 
@@ -42,10 +43,11 @@ export default function RSVPPage() {
     <div className="font-formal text-sage-900 min-h-screen pt-24">
       {/* Hero Section */}
       <section className="relative h-64 md:h-96">
-        <img
+        <LazyImage
           src="/legare_green.webp"
-          alt="Wedding Background"
+          alt="Beautiful wedding venue with oak trees"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
+          loading="eager"
         />
         <div className="absolute inset-0 flex items-center justify-center background-sage-900 bg-opacity-70">
           <div className="text-center z-10">

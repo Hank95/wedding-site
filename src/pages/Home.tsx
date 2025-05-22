@@ -6,6 +6,7 @@ import { GuestBook } from "../components/GuestBook";
 import { InteractiveMap } from "../components/InteractiveMap";
 import { ContactForm } from "../components/ContactForm";
 import { WeddingEvents } from "../components/WeddingEvents";
+import { LazyImage } from "../components/LazyImage";
 import { Plane, Car, Hotel, ExternalLink } from "lucide-react"; // Import icons
 import { Button } from "@/components/ui/button"; // Import Button component if available
 
@@ -42,10 +43,11 @@ export default function WeddingPage() {
     <div className="font-formal text-sage-900">
       {/* Hero Section */}
       <section className="relative h-screen">
-        <img
+        <LazyImage
           src="/legare_green.webp"
-          alt="Wedding Background"
+          alt="Beautiful wedding venue with oak trees"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
+          loading="eager"
         />
         <div className="absolute inset-0 flex items-center justify-center background-sage-900 bg-opacity-70">
           <div className="text-center z-10">
@@ -65,12 +67,10 @@ export default function WeddingPage() {
           Countdown to Our Big Day
         </h2>
         <Countdown countdown={countdown} />
-        <img
+        <LazyImage
           src="/NH-Logo.webp"
-          alt="Wedding Logo"
-          width={200}
-          height={200}
-          className="mx-auto m-8"
+          alt="Nobska and Henry Wedding Logo"
+          className="w-[200px] h-[200px] object-contain mx-auto m-8"
         />
       </Section>
 
