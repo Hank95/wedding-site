@@ -151,18 +151,26 @@ export function PhotoGallery() {
 
   const openLocation = (location: Location) => {
     setSelectedLocation(location);
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
   };
 
   const closeLocation = useCallback(() => {
     setSelectedLocation(null);
+    // Restore body scroll when modal is closed
+    document.body.style.overflow = 'unset';
   }, []);
 
   const openImage = (image: string) => {
     setSelectedImage(image);
+    // Prevent body scroll when lightbox is open
+    document.body.style.overflow = 'hidden';
   };
 
   const closeImage = useCallback(() => {
     setSelectedImage(null);
+    // Restore body scroll when lightbox is closed
+    document.body.style.overflow = 'unset';
   }, []);
 
   useEffect(() => {
@@ -187,6 +195,13 @@ export function PhotoGallery() {
     };
   }, [closeLocation, closeImage, selectedImage]);
 
+  // Cleanup effect to restore body scroll on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   return (
     <div className="max-w-6xl mx-auto">
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -202,24 +217,25 @@ export function PhotoGallery() {
       </div>
 
       {selectedLocation && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-40 p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-start justify-center z-[60] p-2 md:p-4 overflow-y-auto pt-20 md:pt-24">
           <div
             ref={modalRef}
-            className="bg-white rounded-lg p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto mt-40"
+            className="bg-white rounded-lg p-4 md:p-6 max-w-4xl w-full my-4 md:my-8 min-h-fit"
           >
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-2xl font-semibold text-sage-800">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-xl md:text-2xl font-semibold text-sage-800 pr-4">
                 {selectedLocation.name}
               </h3>
               <button
                 onClick={closeLocation}
-                className="text-sage-600 hover:text-sage-800"
+                className="text-sage-600 hover:text-sage-800 p-2 -m-2 flex-shrink-0"
+                aria-label="Close modal"
               >
                 <X size={24} />
               </button>
             </div>
-            <p className="text-sage-700 mb-6">{selectedLocation.description}</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <p className="text-sage-700 mb-6 text-sm md:text-base leading-relaxed">{selectedLocation.description}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {selectedLocation.images.map((image, index) => (
                 <LazyImage
                   key={index}
@@ -234,7 +250,7 @@ export function PhotoGallery() {
       )}
 
       {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[70]">
           <div ref={lightboxRef} className="relative max-w-full max-h-[90vh]">
             <img
               src={selectedImage}

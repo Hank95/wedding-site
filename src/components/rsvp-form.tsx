@@ -95,34 +95,41 @@ export function RSVPForm({
           name="attending"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel className="text-sage-800">
-                Will you be attending?
+              <FormLabel className="text-sage-800 text-lg font-medium">
+                Will you be attending our wedding?
               </FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1"
+                  className="flex flex-col space-y-3"
+                  aria-required="true"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="yes" className="text-sage-600" />
+                      <RadioGroupItem 
+                        value="yes" 
+                        className="text-sage-600 h-5 w-5" 
+                      />
                     </FormControl>
-                    <FormLabel className="font-normal cursor-pointer">
+                    <FormLabel className="font-normal cursor-pointer text-base py-2 min-h-[2.5rem] flex items-center">
                       Joyfully Accept
                     </FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
-                      <RadioGroupItem value="no" className="text-sage-600" />
+                      <RadioGroupItem 
+                        value="no" 
+                        className="text-sage-600 h-5 w-5" 
+                      />
                     </FormControl>
-                    <FormLabel className="font-normal cursor-pointer">
+                    <FormLabel className="font-normal cursor-pointer text-base py-2 min-h-[2.5rem] flex items-center">
                       Regretfully Decline
                     </FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-red-600 font-medium" />
             </FormItem>
           )}
         />
@@ -140,7 +147,7 @@ export function RSVPForm({
                   <FormControl>
                     <Input
                       placeholder="Please specify any dietary restrictions"
-                      className="bg-white border-sage-300 focus:border-sage-500"
+                      className="bg-white border-sage-300 focus:border-sage-500 h-12 text-base"
                       {...field}
                     />
                   </FormControl>
@@ -171,11 +178,12 @@ export function RSVPForm({
           )}
         />
 
-        <div className="flex justify-center pt-4">
+        <div className="flex justify-center pt-6">
           <Button
             type="submit"
             disabled={loading}
-            className="bg-sage-700 hover:bg-sage-800 text-white px-8 py-6 text-lg font-display rounded-md"
+            className="bg-sage-700 hover:bg-sage-800 disabled:bg-sage-400 text-white px-12 py-4 text-lg font-display rounded-md min-h-[3rem] transition-all duration-200 focus:ring-2 focus:ring-sage-500 focus:ring-offset-2"
+            aria-describedby={loading ? "loading-status" : undefined}
           >
             {loading
               ? "Submitting..."

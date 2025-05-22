@@ -33,9 +33,41 @@ export default function Header() {
     }
   }, [hasScrolled, isHomePage]);
 
-  const toggleMenu = () => {
+  const toggleMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setIsMenuOpen(!isMenuOpen);
   };
+
+  // Handle keyboard navigation
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape' && isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  // Close menu when clicking outside or navigating
+  useEffect(() => {
+    if (isMenuOpen) {
+      const handleClickOutside = (event: MouseEvent) => {
+        const target = event.target as Element;
+        // Don't close if clicking on the menu button or menu content
+        if (target?.closest('[aria-controls="mobile-menu"]') || target?.closest('#mobile-menu')) {
+          return;
+        }
+        setIsMenuOpen(false);
+      };
+      
+      // Add a small delay to prevent immediate closing when opening
+      const timer = setTimeout(() => {
+        document.addEventListener('click', handleClickOutside);
+      }, 10);
+      
+      return () => {
+        clearTimeout(timer);
+        document.removeEventListener('click', handleClickOutside);
+      };
+    }
+  }, [isMenuOpen]);
 
   return (
     <header>
@@ -43,6 +75,9 @@ export default function Header() {
         className={`fixed top-0 left-0 right-0 bg-ivory-100 shadow-md transition-transform duration-300 z-50 ${
           isNavVisible || !isHomePage ? "translate-y-0" : "-translate-y-full"
         }`}
+        onKeyDown={handleKeyDown}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Link to="/">
@@ -84,49 +119,65 @@ export default function Header() {
                 RSVP
               </Button>
             </Link>
-            <button onClick={toggleMenu}>
+            <button 
+              onClick={toggleMenu}
+              className="p-2 rounded-md hover:bg-sage-100 focus:outline-none focus:ring-2 focus:ring-sage-500 focus:ring-inset"
+              aria-label="Toggle navigation menu"
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+            >
               {isMenuOpen ? (
                 <X className="h-6 w-6 text-sage-600" />
               ) : (
-                <Menu className="h-6 w-6 text-sage-600 cursor-pointer" />
+                <Menu className="h-6 w-6 text-sage-600" />
               )}
             </button>
           </div>
         </div>
         {isMenuOpen && (
-          <div className="md:hidden bg-ivory-100 py-2">
+          <div 
+            id="mobile-menu"
+            className="md:hidden bg-ivory-100 py-2 border-t border-sage-200"
+            role="menu"
+            aria-labelledby="mobile-menu-button"
+          >
             <Link
               to="/"
-              className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
+              className="block px-6 py-3 text-sage-600 hover:bg-sage-100 focus:bg-sage-100 focus:outline-none transition-colors"
               onClick={toggleMenu}
+              role="menuitem"
             >
               Home
             </Link>
             <Link
               to="/activities"
-              className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
+              className="block px-6 py-3 text-sage-600 hover:bg-sage-100 focus:bg-sage-100 focus:outline-none transition-colors"
               onClick={toggleMenu}
+              role="menuitem"
             >
               Activities
             </Link>
             <Link
               to="/registry"
-              className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
+              className="block px-6 py-3 text-sage-600 hover:bg-sage-100 focus:bg-sage-100 focus:outline-none transition-colors"
               onClick={toggleMenu}
+              role="menuitem"
             >
               Registry
             </Link>
             <Link
               to="/gallery"
-              className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
+              className="block px-6 py-3 text-sage-600 hover:bg-sage-100 focus:bg-sage-100 focus:outline-none transition-colors"
               onClick={toggleMenu}
+              role="menuitem"
             >
               Engagement Gallery
             </Link>
             <Link
               to="/contact"
-              className="block px-4 py-2 text-sage-600 hover:bg-sage-100"
+              className="block px-6 py-3 text-sage-600 hover:bg-sage-100 focus:bg-sage-100 focus:outline-none transition-colors"
               onClick={toggleMenu}
+              role="menuitem"
             >
               Contact us
             </Link>

@@ -2,9 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 import App from "../App";
 import ErrorPage from "../pages/ErrorPage";
+import Home from "../pages/Home"; // Eagerly load Home to prevent CLS
 
-// Lazy load page components for code splitting
-const Home = lazy(() => import("../pages/Home"));
+// Lazy load other page components for code splitting
 const ContactPage = lazy(() => import("../pages/ContactPage"));
 const RegistryPage = lazy(() => import("../pages/RegistryPage"));
 const GalleryPage = lazy(() => import("../pages/GalleryPage"));

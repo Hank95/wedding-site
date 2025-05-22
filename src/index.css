@@ -3,6 +3,19 @@
 
 @plugin 'tailwindcss-animate';
 
+/* Prevent layout shift by ensuring minimum height for app container */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure main content takes available space and footer stays at bottom */
+#main-content {
+  flex: 1;
+  min-height: calc(100vh - 120px); /* Reserve space for header and footer */
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {

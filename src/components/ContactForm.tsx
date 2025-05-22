@@ -101,7 +101,7 @@ export function ContactForm() {
                 <FormControl>
                   <Input
                     placeholder="Your name"
-                    className="bg-white border-sage-300 focus:border-sage-500 text-sage-900"
+                    className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
                     {...field}
                   />
                 </FormControl>
@@ -122,7 +122,7 @@ export function ContactForm() {
                   <Input
                     type="email"
                     placeholder="your.email@example.com"
-                    className="bg-white border-sage-300 focus:border-sage-500 text-sage-900"
+                    className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
                     {...field}
                   />
                 </FormControl>
@@ -142,7 +142,7 @@ export function ContactForm() {
                 <FormControl>
                   <Input
                     placeholder="What's this about?"
-                    className="bg-white border-sage-300 focus:border-sage-500 text-sage-900"
+                    className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
                     {...field}
                   />
                 </FormControl>

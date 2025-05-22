@@ -7,6 +7,7 @@ import {
   PartyPopper,
   Gem,
 } from "lucide-react";
+import { AddToCalendar } from "./AddToCalendar";
 
 interface EventCardProps {
   title: string;
@@ -41,16 +42,18 @@ export function WeddingEvents() {
   return (
     <div className="space-y-12 max-w-4xl mx-auto">
       {!isWeddingDay && (
-        <EventCard
-          title="Welcome Party"
-          date="October 25, 2025"
-          time="8:00 PM"
-          location="The Oyster House"
-          address="66 State St, Charleston, SC 29401"
-          locationUrl="https://theporchonmarket.com/#about"
-          description="Join us for a relaxed evening to kick off our wedding weekend."
-          dressCode="Cocktail Attire"
-        />
+        <div className="space-y-4">
+          <EventCard
+            title="Welcome Party"
+            date="October 25, 2025"
+            time="8:00 PM"
+            location="The Oyster House"
+            address="66 State St, Charleston, SC 29401"
+            locationUrl="https://theporchonmarket.com/#about"
+            description="Join us for a relaxed evening to kick off our wedding weekend."
+            dressCode="Cocktail Attire"
+          />
+        </div>
       )}
 
       <div className="bg-ivory-100 p-8 rounded-lg shadow-md">
@@ -118,6 +121,20 @@ export function WeddingEvents() {
             </p>
           </div>
         </div>
+
+        <div className="text-center mt-8 pt-6 border-t border-sage-200">
+          <AddToCalendar
+            event={{
+              title: "Nobska & Henry's Wedding Ceremony & Reception",
+              startDate: "2025-10-26T17:00:00",
+              endDate: "2025-10-26T23:00:00",
+              description:
+                "Join us as we exchange vows and celebrate with dinner, drinks, and dancing! Black tie optional.",
+              location:
+                "Legare Waring House, 1500 Old Towne Rd, Charleston, SC 29407",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -179,6 +196,18 @@ function EventCard({
         )}
       </div>
       <p className="text-sage-600 italic text-center">{description}</p>
+      <div className="text-center mt-6 pt-4 border-t border-sage-200">
+        <AddToCalendar
+          event={{
+            title: "Nobska & Henry's Welcome Party",
+            startDate: "2025-10-25T20:00:00",
+            endDate: "2025-10-25T23:00:00",
+            description:
+              "Join us for a relaxed evening to kick off our wedding weekend. Cocktail attire.",
+            location: "The Oyster House, 66 State St, Charleston, SC 29401",
+          }}
+        />
+      </div>
     </div>
   );
 }
