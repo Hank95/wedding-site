@@ -27,12 +27,12 @@ serve(async (req) => {
       throw new Error('RESEND_API_KEY is not set')
     }
 
-    const domainEmail = '<onboarding@resend.dev>' // Replace with your domain email
+    const domainEmail = '<noreply@mail.nobskaandhenry.com>' // Replace with your domain email
 
     // Email to you (notification)
     const notificationEmail = {
       from: `Wedding RSVP ${domainEmail}`, // Replace with your domain
-      to: ['hhpendleton@gmail.com'], // Replace with your email(s)
+      to: ['nobskaandhenry2025@gmail.com'], // Replace with your email(s)
       subject: `New Wedding RSVP from ${record.name || 'Guest'}`,
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: 'Georgia', serif; background-color: #f1f4ed;">
@@ -202,21 +202,17 @@ serve(async (req) => {
                 <p style="color: #5d7743; margin: 0 0 15px 0; font-size: 14px;">
                   Save the date and never miss our special day!
                 </p>
-                <a href="data:text/calendar;charset=utf8,BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Wedding//Wedding//EN
-BEGIN:VEVENT
-UID:nobska-henry-wedding-2025@nobskaandhenry.com
-DTSTART:20251026T210000Z
-DTEND:20251027T020000Z
-SUMMARY:Nobska & Henry's Wedding
-DESCRIPTION:Join us as we exchange vows and begin our journey together. Reception with dinner, drinks, and dancing immediately following the ceremony!
-LOCATION:Legare Waring House, 1500 Old Towne Rd, Charleston, SC 29407
-URL:https://nobskaandhenry.com
-END:VEVENT
-END:VCALENDAR" style="background: #5d7743; color: #fefef9; padding: 10px 20px; text-decoration: none; border-radius: 6px; font-size: 14px; display: inline-block; font-family: 'Georgia', serif;">
-                  📅 Download Calendar Event
-                </a>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                  <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Nobska%20%26%20Henry%27s%20Wedding&dates=20251026T170000/20251026T230000&details=Join%20us%20as%20we%20exchange%20vows%20and%20begin%20our%20journey%20together.%20Reception%20with%20dinner%2C%20drinks%2C%20and%20dancing%20immediately%20following%20the%20ceremony%21&location=Legare%20Waring%20House%2C%201500%20Old%20Towne%20Rd%2C%20Charleston%2C%20SC%2029407&sprop=website%3Ahttps%3A%2F%2Fnobskaandhenry.com" target="_blank" style="background: #5d7743; color: #fefef9; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 12px; display: inline-block; font-family: 'Georgia', serif;">
+                    📅 Google Calendar
+                  </a>
+                  <a href="https://outlook.live.com/calendar/0/deeplink/compose?subject=Nobska%20%26%20Henry%27s%20Wedding&startdt=2025-10-26T17%3A00%3A00&enddt=2025-10-26T23%3A00%3A00&body=Join%20us%20as%20we%20exchange%20vows%20and%20begin%20our%20journey%20together.%20Reception%20with%20dinner%2C%20drinks%2C%20and%20dancing%20immediately%20following%20the%20ceremony%21&location=Legare%20Waring%20House%2C%201500%20Old%20Towne%20Rd%2C%20Charleston%2C%20SC%2029407" target="_blank" style="background: #7c9264; color: #fefef9; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 12px; display: inline-block; font-family: 'Georgia', serif;">
+                    📅 Outlook
+                  </a>
+                  <a href="https://nobskaandhenry.com/calendar/wedding.ics" target="_blank" style="background: #9aad85; color: #fefef9; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 12px; display: inline-block; font-family: 'Georgia', serif;">
+                    📅 Download .ics
+                  </a>
+                </div>
               </div>
             ` : ''}
 

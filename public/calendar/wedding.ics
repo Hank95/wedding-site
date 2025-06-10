@@ -1,0 +1,18 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nobska & Henry//Wedding//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:nobska-henry-wedding-2025@nobskaandhenry.com
+DTSTAMP:20250610T000000Z
+DTSTART:20251026T170000
+DTEND:20251026T230000
+SUMMARY:Nobska & Henry's Wedding
+DESCRIPTION:Join us as we exchange vows and begin our journey together. Reception with dinner, drinks, and dancing immediately following the ceremony!
+LOCATION:Legare Waring House, 1500 Old Towne Rd, Charleston, SC 29407
+URL:https://nobskaandhenry.com
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
