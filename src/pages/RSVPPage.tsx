@@ -16,18 +16,35 @@ export default function RSVPPage() {
       // Convert attending value to boolean for database
       const attendingBool = formData.attending === "yes";
 
+      // Prepare the record data for both database and email
+      const recordData = {
+        name: formData.fullName,
+        email: formData.email,
+        attending: attendingBool,
+        dietary_restrictions: formData.dietaryRestrictions || null,
+        message: formData.message || null,
+        created_at: new Date().toISOString(),
+      };
+
       // Insert data into Supabase
-      const { error } = await supabase.from("rsvps").insert([
-        {
-          name: formData.fullName,
-          email: formData.email,
-          attending: attendingBool,
-          dietary_restrictions: formData.dietaryRestrictions || null,
-          message: formData.message || null,
-        },
-      ]);
+      const { error } = await supabase.from("rsvps").insert([recordData]);
 
       if (error) throw error;
+
+      // Send email notification via edge function
+      try {
+        const { error: functionError } = await supabase.functions.invoke('send-rsvp-notification', {
+          body: { record: recordData }
+        });
+        
+        if (functionError) {
+          console.error('Email notification failed:', functionError);
+          // Don't throw here - we still want to show success for the RSVP submission
+        }
+      } catch (emailError) {
+        console.error('Email notification error:', emailError);
+        // Don't throw here - we still want to show success for the RSVP submission
+      }
 
       // Update state on success
       setSubmittedData(formData);
