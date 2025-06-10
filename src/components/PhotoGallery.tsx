@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { X } from "lucide-react";
+import { analytics } from "@/lib/analytics";
 
 interface Location {
   name: string;
@@ -151,6 +152,7 @@ export function PhotoGallery() {
 
   const openLocation = (location: Location) => {
     setSelectedLocation(location);
+    analytics.galleryModalOpened();
     // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
   };
@@ -163,6 +165,8 @@ export function PhotoGallery() {
 
   const openImage = (image: string) => {
     setSelectedImage(image);
+    const imageIndex = selectedLocation?.images.indexOf(image) || 0;
+    analytics.galleryImageViewed(imageIndex);
     // Prevent body scroll when lightbox is open
     document.body.style.overflow = 'hidden';
   };

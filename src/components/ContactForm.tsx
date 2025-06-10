@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import { analytics } from "@/lib/analytics";
 
 export function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -34,6 +35,8 @@ export function ContactForm() {
   const onSubmit = async (data: ContactFormType) => {
     setIsSubmitting(true);
     setError(null);
+    
+    analytics.contactFormStarted();
 
     try {
       // Insert data into Supabase
@@ -52,8 +55,10 @@ export function ContactForm() {
 
       // Show success message
       setIsSubmitted(true);
+      analytics.contactFormSubmitted();
     } catch (err) {
       console.error("Error submitting contact form:", err);
+      analytics.errorOccurred("contact_submission", err instanceof Error ? err.message : "Unknown error");
       setError(
         err instanceof Error
           ? err.message

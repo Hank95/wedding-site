@@ -1,8 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { analytics } from "@/lib/analytics";
 
 // Loading component for Suspense fallback
 function PageLoader() {
@@ -19,6 +20,12 @@ function PageLoader() {
 export default function App() {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+
+  // Track page views
+  useEffect(() => {
+    const pageName = location.pathname === '/' ? 'home' : location.pathname.slice(1);
+    analytics.pageVisited(pageName);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col">

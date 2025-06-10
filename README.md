@@ -9,6 +9,7 @@ Visit the live site: [nobskaandhenry.com](https://nobskaandhenry.com)
 ## ✨ Features
 
 ### Core Functionality
+
 - **Responsive Design** - Optimized for all devices (mobile, tablet, desktop)
 - **RSVP Management** - Complete form handling with email notifications
 - **Photo Gallery** - Elegant image showcase with lazy loading
@@ -17,6 +18,7 @@ Visit the live site: [nobskaandhenry.com](https://nobskaandhenry.com)
 - **Gift Registry** - Integrated registry information
 
 ### Technical Highlights
+
 - **Email Notifications** - Automated RSVP confirmations via Supabase Edge Functions
 - **Calendar Integration** - Google Calendar, Outlook, and .ics downloads
 - **SEO Optimized** - Meta tags, structured data, and performance optimization
@@ -25,6 +27,7 @@ Visit the live site: [nobskaandhenry.com](https://nobskaandhenry.com)
 - **Performance** - Lazy loading, code splitting, and optimized assets
 
 ### User Experience
+
 - **Countdown Timer** - Dynamic countdown to the wedding day
 - **Custom Color Palette** - Sage and ivory theme throughout
 - **Professional Typography** - Georgia serif fonts for elegance
@@ -34,6 +37,7 @@ Visit the live site: [nobskaandhenry.com](https://nobskaandhenry.com)
 ## 🛠 Tech Stack
 
 ### Frontend
+
 - **React 18** - Modern React with hooks and suspense
 - **TypeScript** - Full type safety and developer experience
 - **Vite** - Fast development and optimized production builds
@@ -41,6 +45,7 @@ Visit the live site: [nobskaandhenry.com](https://nobskaandhenry.com)
 - **Tailwind CSS v4** - Utility-first styling with custom design system
 
 ### UI Components
+
 - **Shadcn/ui** - High-quality React components built on Radix UI
 - **Radix UI** - Accessible, unstyled UI primitives
 - **Lucide React** - Beautiful, customizable icons
@@ -48,22 +53,26 @@ Visit the live site: [nobskaandhenry.com](https://nobskaandhenry.com)
 - **Zod** - TypeScript-first schema validation
 
 ### Backend & Database
+
 - **Supabase** - Backend-as-a-Service with PostgreSQL
 - **Supabase Auth** - User authentication (if needed)
 - **Row Level Security** - Database security policies
 - **Real-time Subscriptions** - Live data updates
 
 ### Maps & Location
+
 - **Leaflet** - Interactive maps with custom markers
 - **React Leaflet** - React integration for Leaflet maps
 - **Custom Map Styling** - Branded map markers and popups
 
 ### Email & Notifications
+
 - **Resend API** - Transactional email service
 - **Supabase Edge Functions** - Serverless functions for email logic
 - **Custom Email Templates** - Branded HTML email designs
 
 ### Development Tools
+
 - **ESLint** - Code linting with TypeScript support
 - **PostCSS** - CSS processing and optimization
 - **Autoprefixer** - Automatic vendor prefixes
@@ -111,24 +120,28 @@ public/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 - Supabase account
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/wedding-site.git
    cd wedding-site
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Environment Setup**
+
    ```bash
    # Create .env.local file
    VITE_SUPABASE_URL=your_supabase_url
@@ -136,6 +149,7 @@ public/
    ```
 
 4. **Database Setup**
+
    ```bash
    # Generate TypeScript types from Supabase
    npm run update-types
@@ -183,12 +197,14 @@ CREATE TABLE guest_book (
 The email notification system uses Supabase Edge Functions with Resend:
 
 ### Features
+
 - **RSVP Notifications** - Instant email to couple when RSVP submitted
 - **Guest Confirmations** - Branded confirmation emails to guests
 - **Calendar Integration** - Automatic calendar invites
 - **Responsive Templates** - Beautiful HTML emails with sage/ivory branding
 
 ### Setup
+
 1. Deploy the edge function: `supabase functions deploy send-rsvp-notification`
 2. Set environment variable: `RESEND_API_KEY` in Supabase dashboard
 3. Configure your domain email in the function
@@ -196,6 +212,7 @@ The email notification system uses Supabase Edge Functions with Resend:
 ## 🎨 Design System
 
 ### Color Palette
+
 ```css
 /* Sage Colors */
 --sage-100: #f1f4ed;
@@ -217,6 +234,7 @@ The email notification system uses Supabase Edge Functions with Resend:
 ```
 
 ### Typography
+
 - **Headers**: Georgia serif for elegance
 - **Body**: System fonts for readability
 - **Accent**: Custom wedding fonts where appropriate
@@ -249,11 +267,13 @@ npm run build && npm run preview  # Test production build locally
 The site is optimized for static hosting services:
 
 ### Recommended Hosts
+
 - **Netlify** - Automatic deployments from Git
-- **Vercel** - Optimized for React applications  
+- **Vercel** - Optimized for React applications
 - **Cloudflare Pages** - Fast global CDN
 
 ### Build Configuration
+
 - Output: `dist/` directory
 - SPA Routing: `public/_redirects` handles client-side routing
 - Assets: Optimized and cached with proper headers
@@ -296,4 +316,4 @@ This is a personal project, but feedback and suggestions are welcome!
 
 ---
 
-**Built with ❤️ for Nobska & Henry's special day**
+**Built for out day.**

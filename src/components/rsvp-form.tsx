@@ -15,7 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { analytics } from "@/lib/analytics";
 
 export function RSVPForm({
   onSubmit,
@@ -35,12 +36,20 @@ export function RSVPForm({
     },
   });
 
+  // Track when user starts filling out the form
+  useEffect(() => {
+    analytics.rsvpStarted();
+  }, []);
+
   async function handleSubmit(data: RSVPFormType) {
     setLoading(true);
     try {
+      analytics.rsvpSubmitted(data.attending === "yes");
       await onSubmit(data);
+      analytics.rsvpCompleted(data.attending === "yes");
     } catch (error) {
       console.error("Error submitting form:", error);
+      analytics.errorOccurred("rsvp_submission", error instanceof Error ? error.message : "Unknown error");
     } finally {
       setLoading(false);
     }
