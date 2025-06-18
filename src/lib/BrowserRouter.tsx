@@ -9,7 +9,8 @@ const ContactPage = lazy(() => import("../pages/ContactPage"));
 const RegistryPage = lazy(() => import("../pages/RegistryPage"));
 const GalleryPage = lazy(() => import("../pages/GalleryPage"));
 const ActivitiesMap = lazy(() => import("@/pages/ActivitiesMap"));
-const RSVPForm = lazy(() => import("@/pages/RSVPPage"));
+// const RSVPForm = lazy(() => import("@/pages/RSVPPage"));
+const EnhancedRSVPPage = lazy(() => import("@/pages/EnhancedRSVPPage"));
 
 const BrowserRouter = createBrowserRouter([
   {
@@ -33,7 +34,7 @@ const BrowserRouter = createBrowserRouter([
       { path: "activities", element: <ActivitiesMap /> },
       {
         path: "rsvp",
-        element: <RSVPForm />,
+        element: <EnhancedRSVPPage />,
       },
     ],
   },

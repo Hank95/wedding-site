@@ -57,42 +57,126 @@ export type Database = {
         }
         Relationships: []
       }
+      guests: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          first_name: string
+          id: string
+          is_rehearsal_dinner_invited: boolean
+          is_welcome_party_invited: boolean
+          last_name: string
+          party_size: number
+          phone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          first_name: string
+          id?: string
+          is_rehearsal_dinner_invited?: boolean
+          is_welcome_party_invited?: boolean
+          last_name: string
+          party_size?: number
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          first_name?: string
+          id?: string
+          is_rehearsal_dinner_invited?: boolean
+          is_welcome_party_invited?: boolean
+          last_name?: string
+          party_size?: number
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       rsvps: {
         Row: {
           attending: boolean
           created_at: string
           dietary_restrictions: string | null
           email: string
+          guest_count_ceremony: number | null
+          guest_count_rehearsal: number | null
+          guest_count_welcome: number | null
+          guest_id: string | null
           id: string
           message: string | null
           name: string
+          rehearsal_dinner_attending: boolean | null
+          updated_at: string | null
+          welcome_party_attending: boolean | null
         }
         Insert: {
           attending: boolean
           created_at?: string
           dietary_restrictions?: string | null
           email: string
+          guest_count_ceremony?: number | null
+          guest_count_rehearsal?: number | null
+          guest_count_welcome?: number | null
+          guest_id?: string | null
           id?: string
           message?: string | null
           name: string
+          rehearsal_dinner_attending?: boolean | null
+          updated_at?: string | null
+          welcome_party_attending?: boolean | null
         }
         Update: {
           attending?: boolean
           created_at?: string
           dietary_restrictions?: string | null
           email?: string
+          guest_count_ceremony?: number | null
+          guest_count_rehearsal?: number | null
+          guest_count_welcome?: number | null
+          guest_id?: string | null
           id?: string
           message?: string | null
           name?: string
+          rehearsal_dinner_attending?: boolean | null
+          updated_at?: string | null
+          welcome_party_attending?: boolean | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "rsvps_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "guests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      migrate_existing_rsvps_to_guests: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      search_guests_by_name: {
+        Args: { search_first_name?: string; search_last_name?: string }
+        Returns: {
+          id: string
+          first_name: string
+          last_name: string
+          email: string
+          party_size: number
+          is_welcome_party_invited: boolean
+          is_rehearsal_dinner_invited: boolean
+          similarity_score: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
