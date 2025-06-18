@@ -3,7 +3,6 @@ import { supabase } from "@/supabaseClient"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, Search, User } from "lucide-react"
 import { GuestSearchResult } from "@/types/database.types"
 
@@ -39,7 +38,14 @@ export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
       if (searchError) throw searchError
 
       if (data && data.length > 0) {
-        setSearchResults(data)
+        // Add missing fields for type compatibility
+        const results = data.map(result => ({
+          ...result,
+          phone: null as string | null,
+          created_at: null as string | null,
+          updated_at: null as string | null,
+        }))
+        setSearchResults(results)
       } else {
         setShowNoResults(true)
       }

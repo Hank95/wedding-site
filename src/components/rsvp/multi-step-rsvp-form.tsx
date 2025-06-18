@@ -142,7 +142,7 @@ export function MultiStepRSVPForm({
   if (guest.is_rehearsal_dinner_invited) {
     steps.push({
       title: "Rehearsal Dinner",
-      description: "Friday, October 25th, 2025 at 6:00 PM - The Oyster House",
+      description: "Friday, October 25th, 2025 at 5:00 PM - The Oyster House",
       fields: ["rehearsal_dinner_attending", "guest_count_rehearsal"],
     });
   }

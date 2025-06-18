@@ -41,7 +41,7 @@ export default function EnhancedRSVPPage() {
     <div className="container max-w-3xl mx-auto px-4 py-8 mt-24">
       <div className="text-center mb-12">
         <h1 className="text-5xl font-display text-sage-800 mb-4">RSVP</h1>
-        <p className="text-xl text-sage-700 font-medium">Please respond by May 1st, 2025</p>
+        <p className="text-xl text-sage-700 font-medium">Please respond by September 5th, 2025</p>
       </div>
 
       {state === "lookup" && (

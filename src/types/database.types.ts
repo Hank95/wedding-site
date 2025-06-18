@@ -7,8 +7,8 @@ export interface Guest {
   party_size: number
   is_welcome_party_invited: boolean
   is_rehearsal_dinner_invited: boolean
-  created_at: string
-  updated_at: string
+  created_at: string | null
+  updated_at: string | null
   plus_one_first_name: string | null
   plus_one_last_name: string | null
 }
@@ -23,10 +23,12 @@ export interface RSVP {
   guest_id: string | null
   welcome_party_attending: boolean | null
   rehearsal_dinner_attending: boolean | null
-  guest_count_welcome: number
-  guest_count_ceremony: number
-  guest_count_rehearsal: number
+  guest_count_welcome: number | null
+  guest_count_ceremony: number | null
+  guest_count_rehearsal: number | null
   created_at: string
+  plus_one_first_name: string | null
+  plus_one_last_name: string | null
 }
 
 export interface RSVPWithGuest extends RSVP {

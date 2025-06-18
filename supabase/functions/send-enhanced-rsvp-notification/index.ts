@@ -210,7 +210,7 @@ serve(async (req) => {
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">🍽️ Rehearsal Dinner</h4>
                     <p style="margin: 0; opacity: 0.9;">
-                      Friday, October 25th, 2025 at 6:00 PM<br>
+                      Friday, October 25th, 2025 at 5:00 PM<br>
                       The Oyster House<br>
                       66 State St, Charleston, SC 29401
                     </p>
