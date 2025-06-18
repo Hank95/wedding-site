@@ -19,6 +19,8 @@ interface RSVPData {
   guest_count_rehearsal: number
   dietary_restrictions?: string | null
   message?: string | null
+  plus_one_first_name?: string | null
+  plus_one_last_name?: string | null
   created_at: string
 }
 
@@ -30,6 +32,8 @@ interface GuestData {
   party_size: number
   is_welcome_party_invited: boolean
   is_rehearsal_dinner_invited: boolean
+  plus_one_first_name?: string | null
+  plus_one_last_name?: string | null
 }
 
 serve(async (req) => {
@@ -96,6 +100,9 @@ serve(async (req) => {
               <h2 style="color: #3f5c22; margin: 0 0 15px 0; font-size: 20px;">${guest.first_name} ${guest.last_name}</h2>
               <p style="color: #5d7743; margin: 5px 0;"><strong>Email:</strong> ${rsvp.email}</p>
               <p style="color: #5d7743; margin: 5px 0;"><strong>Party Size:</strong> ${guest.party_size}</p>
+              ${rsvp.plus_one_first_name && rsvp.plus_one_last_name ? `
+                <p style="color: #5d7743; margin: 5px 0;"><strong>Guest:</strong> ${rsvp.plus_one_first_name} ${rsvp.plus_one_last_name}</p>
+              ` : ''}
             </div>
             
             <div style="background: #e3e9db; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
@@ -178,6 +185,13 @@ serve(async (req) => {
                   </div>
                 ` : ''}
                 
+                ${rsvp.plus_one_first_name && rsvp.plus_one_last_name ? `
+                  <div style="background: #fcfced; border-radius: 8px; padding: 15px;">
+                    <strong style="color: #7c9264; display: block; margin-bottom: 5px;">👤 Your Guest:</strong>
+                    <span style="color: #5d7743;">${rsvp.plus_one_first_name} ${rsvp.plus_one_last_name}</span>
+                  </div>
+                ` : ''}
+                
                 ${rsvp.message ? `
                   <div style="background: #e3e9db; border-radius: 8px; padding: 15px;">
                     <strong style="color: #3f5c22; display: block; margin-bottom: 5px;">💬 Your Message:</strong>
@@ -192,13 +206,24 @@ serve(async (req) => {
               <div style="background: linear-gradient(135deg, #7c9264 0%, #5d7743 100%); border-radius: 12px; padding: 25px; color: #fefef9; margin: 25px 0;">
                 <h3 style="margin: 0 0 20px 0; font-size: 20px; text-align: center;">📅 Event Details</h3>
                 
+                ${guest.is_rehearsal_dinner_invited && rsvp.rehearsal_dinner_attending ? `
+                  <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                    <h4 style="margin: 0 0 10px 0; font-size: 16px;">🍽️ Rehearsal Dinner</h4>
+                    <p style="margin: 0; opacity: 0.9;">
+                      Friday, October 25th, 2025 at 6:00 PM<br>
+                      The Oyster House<br>
+                      66 State St, Charleston, SC 29401
+                    </p>
+                  </div>
+                ` : ''}
+                
                 ${guest.is_welcome_party_invited && rsvp.welcome_party_attending ? `
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">🥂 Welcome Party</h4>
                     <p style="margin: 0; opacity: 0.9;">
-                      Friday, October 25th, 2025<br>
+                      Friday, October 25th, 2025 at 8:00 PM<br>
                       The Oyster House<br>
-                      Charleston, SC
+                      66 State St, Charleston, SC 29401
                     </p>
                   </div>
                 ` : ''}
@@ -211,17 +236,6 @@ serve(async (req) => {
                       Legare Waring House<br>
                       1500 Old Towne Rd, Charleston, SC 29407<br>
                       <em>Black Tie Optional</em>
-                    </p>
-                  </div>
-                ` : ''}
-                
-                ${guest.is_rehearsal_dinner_invited && rsvp.rehearsal_dinner_attending ? `
-                  <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px;">
-                    <h4 style="margin: 0 0 10px 0; font-size: 16px;">🍽️ Rehearsal Dinner</h4>
-                    <p style="margin: 0; opacity: 0.9;">
-                      Friday, October 25th, 2025<br>
-                      The Oyster House<br>
-                      Charleston, SC
                     </p>
                   </div>
                 ` : ''}

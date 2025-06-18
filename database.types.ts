@@ -68,6 +68,8 @@ export type Database = {
           last_name: string
           party_size: number
           phone: string | null
+          plus_one_first_name: string | null
+          plus_one_last_name: string | null
           updated_at: string | null
         }
         Insert: {
@@ -80,6 +82,8 @@ export type Database = {
           last_name: string
           party_size?: number
           phone?: string | null
+          plus_one_first_name?: string | null
+          plus_one_last_name?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -92,6 +96,8 @@ export type Database = {
           last_name?: string
           party_size?: number
           phone?: string | null
+          plus_one_first_name?: string | null
+          plus_one_last_name?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -109,6 +115,8 @@ export type Database = {
           id: string
           message: string | null
           name: string
+          plus_one_first_name: string | null
+          plus_one_last_name: string | null
           rehearsal_dinner_attending: boolean | null
           updated_at: string | null
           welcome_party_attending: boolean | null
@@ -125,6 +133,8 @@ export type Database = {
           id?: string
           message?: string | null
           name: string
+          plus_one_first_name?: string | null
+          plus_one_last_name?: string | null
           rehearsal_dinner_attending?: boolean | null
           updated_at?: string | null
           welcome_party_attending?: boolean | null
@@ -141,6 +151,8 @@ export type Database = {
           id?: string
           message?: string | null
           name?: string
+          plus_one_first_name?: string | null
+          plus_one_last_name?: string | null
           rehearsal_dinner_attending?: boolean | null
           updated_at?: string | null
           welcome_party_attending?: boolean | null
@@ -165,7 +177,7 @@ export type Database = {
         Returns: undefined
       }
       search_guests_by_name: {
-        Args: { search_first_name?: string; search_last_name?: string }
+        Args: { search_term?: string }
         Returns: {
           id: string
           first_name: string
@@ -174,6 +186,8 @@ export type Database = {
           party_size: number
           is_welcome_party_invited: boolean
           is_rehearsal_dinner_invited: boolean
+          plus_one_first_name: string
+          plus_one_last_name: string
           similarity_score: number
         }[]
       }

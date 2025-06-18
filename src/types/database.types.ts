@@ -9,6 +9,8 @@ export interface Guest {
   is_rehearsal_dinner_invited: boolean
   created_at: string
   updated_at: string
+  plus_one_first_name: string | null
+  plus_one_last_name: string | null
 }
 
 export interface RSVP {

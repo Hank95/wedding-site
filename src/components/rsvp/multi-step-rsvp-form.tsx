@@ -142,7 +142,7 @@ export function MultiStepRSVPForm({
   if (guest.is_rehearsal_dinner_invited) {
     steps.push({
       title: "Rehearsal Dinner",
-      description: "Friday, October 25th, 2025 at The Oyster House, Charleston",
+      description: "Friday, October 25th, 2025 at 6:00 PM - The Oyster House",
       fields: ["rehearsal_dinner_attending", "guest_count_rehearsal"],
     });
   }
@@ -150,7 +150,7 @@ export function MultiStepRSVPForm({
   if (guest.is_welcome_party_invited) {
     steps.push({
       title: "Welcome Party",
-      description: "Friday, October 25th, 2025 at The Oyster House, Charleston",
+      description: "Friday, October 25th, 2025 at 8:00 PM - The Oyster House",
       fields: ["welcome_party_attending", "guest_count_welcome"],
     });
   }
@@ -158,7 +158,8 @@ export function MultiStepRSVPForm({
   // Always include ceremony step
   steps.push({
     title: "Wedding Ceremony & Reception",
-    description: "Saturday, October 26th, 2025 at 5:00 PM",
+    description:
+      "Saturday, October 26th, 2025 at 5:00 PM - Legare Waring House",
     fields: ["ceremony_reception_attending", "guest_count_ceremony"],
   });
 
@@ -231,6 +232,8 @@ export function MultiStepRSVPForm({
           : 0,
         dietary_restrictions: formData.dietary_restrictions || null,
         message: formData.message || null,
+        plus_one_first_name: guest.plus_one_first_name || null,
+        plus_one_last_name: guest.plus_one_last_name || null,
         created_at: new Date().toISOString(),
       } as RSVPFormData;
 
@@ -303,6 +306,9 @@ export function MultiStepRSVPForm({
     }
   };
 
+  console.log(" guest plus one first name", guest.plus_one_first_name);
+  console.log(" guest plus one last name", guest.plus_one_last_name);
+
   const renderStepContent = () => {
     const step = steps[currentStep];
 
@@ -348,8 +354,10 @@ export function MultiStepRSVPForm({
                 name="guest_count_ceremony"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>How many guests will be attending?</FormLabel>
-                    <FormDescription>
+                    <FormLabel className="text-sage-800 font-medium text-base">
+                      How many guests will be attending?
+                    </FormLabel>
+                    <FormDescription className="text-sage-600">
                       Including yourself (maximum {guest.party_size})
                     </FormDescription>
                     <FormControl>
@@ -357,6 +365,7 @@ export function MultiStepRSVPForm({
                         type="number"
                         min={1}
                         max={guest.party_size}
+                        className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
                         {...field}
                         onChange={(e) =>
                           field.onChange(
@@ -365,7 +374,7 @@ export function MultiStepRSVPForm({
                         }
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-600" />
                   </FormItem>
                 )}
               />
@@ -412,8 +421,10 @@ export function MultiStepRSVPForm({
                 name="guest_count_welcome"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>How many guests will be attending?</FormLabel>
-                    <FormDescription>
+                    <FormLabel className="text-sage-800 font-medium text-base">
+                      How many guests will be attending?
+                    </FormLabel>
+                    <FormDescription className="text-sage-600">
                       Including yourself (maximum {guest.party_size})
                     </FormDescription>
                     <FormControl>
@@ -421,6 +432,7 @@ export function MultiStepRSVPForm({
                         type="number"
                         min={1}
                         max={guest.party_size}
+                        className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
                         {...field}
                         onChange={(e) =>
                           field.onChange(
@@ -429,7 +441,7 @@ export function MultiStepRSVPForm({
                         }
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-600" />
                   </FormItem>
                 )}
               />
@@ -478,8 +490,10 @@ export function MultiStepRSVPForm({
                 name="guest_count_rehearsal"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>How many guests will be attending?</FormLabel>
-                    <FormDescription>
+                    <FormLabel className="text-sage-800 font-medium text-base">
+                      How many guests will be attending?
+                    </FormLabel>
+                    <FormDescription className="text-sage-600">
                       Including yourself (maximum {guest.party_size})
                     </FormDescription>
                     <FormControl>
@@ -487,6 +501,7 @@ export function MultiStepRSVPForm({
                         type="number"
                         min={1}
                         max={guest.party_size}
+                        className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
                         {...field}
                         onChange={(e) =>
                           field.onChange(
@@ -495,7 +510,7 @@ export function MultiStepRSVPForm({
                         }
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-600" />
                   </FormItem>
                 )}
               />
@@ -520,7 +535,7 @@ export function MultiStepRSVPForm({
                     <Input
                       type="email"
                       placeholder="john@example.com"
-                      value={typeof field.value === 'string' ? field.value : ''}
+                      value={typeof field.value === "string" ? field.value : ""}
                       onChange={field.onChange}
                       onBlur={field.onBlur}
                       name={field.name}
@@ -531,6 +546,27 @@ export function MultiStepRSVPForm({
                 </FormItem>
               )}
             />
+
+            {/* Guest Information - show if guest has additional guest in database */}
+            {guest.plus_one_first_name && guest.plus_one_last_name && (
+              <div className="space-y-3 border-t pt-4">
+                <div>
+                  <h4 className="font-medium text-sm">Your Guest</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Additional guest included in this invitation
+                  </p>
+                </div>
+
+                <div className="bg-sage/10 border border-sage/20 rounded-lg p-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">👤</span>
+                    <span className="font-medium text-sage-dark">
+                      {guest.plus_one_first_name} {guest.plus_one_last_name}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <FormField
               control={form.control}
@@ -545,7 +581,7 @@ export function MultiStepRSVPForm({
                   <FormControl>
                     <Textarea
                       placeholder="Vegetarian, gluten-free, nut allergy, etc."
-                      value={typeof field.value === 'string' ? field.value : ''}
+                      value={typeof field.value === "string" ? field.value : ""}
                       onChange={field.onChange}
                       onBlur={field.onBlur}
                       name={field.name}
@@ -567,7 +603,7 @@ export function MultiStepRSVPForm({
                   <FormControl>
                     <Textarea
                       placeholder="Share your well wishes or any other notes..."
-                      value={typeof field.value === 'string' ? field.value : ''}
+                      value={typeof field.value === "string" ? field.value : ""}
                       onChange={field.onChange}
                       onBlur={field.onBlur}
                       name={field.name}
@@ -593,7 +629,9 @@ export function MultiStepRSVPForm({
           <div className="flex items-center justify-between">
             <div>
               <CardTitle>
-                RSVP for {guest.first_name} {guest.last_name}
+                {guest.plus_one_first_name && guest.plus_one_last_name
+                  ? `RSVP for ${guest.first_name} ${guest.last_name} & ${guest.plus_one_first_name} ${guest.plus_one_last_name}`
+                  : `RSVP for ${guest.first_name} ${guest.last_name}`}
               </CardTitle>
               <CardDescription>
                 Party of {guest.party_size} | Step {currentStep + 1} of{" "}
