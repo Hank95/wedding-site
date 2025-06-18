@@ -16,14 +16,16 @@ export default function RSVPPage() {
       // Convert attending value to boolean for database
       const attendingBool = formData.attending === "yes";
 
-      // Prepare the record data for both database and email
+      // Prepare the record data for both database and email - using dummy values for new required fields
       const recordData = {
-        name: formData.fullName,
-        email: formData.email,
+        guest_id: "00000000-0000-0000-0000-000000000000", // Dummy UUID for legacy form
+        guest_first_name: formData.fullName.split(' ')[0] || formData.fullName,
+        guest_last_name: formData.fullName.split(' ').slice(1).join(' ') || "",
         attending: attendingBool,
         dietary_restrictions: formData.dietaryRestrictions || null,
         message: formData.message || null,
-        created_at: new Date().toISOString(),
+        welcome_party_attending: null,
+        rehearsal_dinner_attending: null,
       };
 
       // Insert data into Supabase

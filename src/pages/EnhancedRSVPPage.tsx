@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GuestLookup } from "@/components/rsvp/guest-lookup";
 import { MultiStepRSVPForm } from "@/components/rsvp/multi-step-rsvp-form";
 import { ConfirmationMessage } from "@/components/confirmation-message";
-import { GuestSearchResult } from "@/types/database.types";
+import { Invitation } from "@/types/database.types";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,13 +11,13 @@ type RSVPState = "lookup" | "form" | "success";
 
 export default function EnhancedRSVPPage() {
   const [state, setState] = useState<RSVPState>("lookup");
-  const [selectedGuest, setSelectedGuest] = useState<GuestSearchResult | null>(
+  const [selectedInvitation, setSelectedInvitation] = useState<Invitation | null>(
     null
   );
   const [isAttending, setIsAttending] = useState(true);
 
-  const handleGuestSelected = (guest: GuestSearchResult) => {
-    setSelectedGuest(guest);
+  const handleInvitationSelected = (invitation: Invitation) => {
+    setSelectedInvitation(invitation);
     setState("form");
   };
 
@@ -28,12 +28,12 @@ export default function EnhancedRSVPPage() {
 
   const handleBackToSearch = () => {
     setState("lookup");
-    setSelectedGuest(null);
+    setSelectedInvitation(null);
   };
 
   const handleNewRSVP = () => {
     setState("lookup");
-    setSelectedGuest(null);
+    setSelectedInvitation(null);
     setIsAttending(true);
   };
 
@@ -46,7 +46,7 @@ export default function EnhancedRSVPPage() {
 
       {state === "lookup" && (
         <>
-          <GuestLookup onGuestSelected={handleGuestSelected} />
+          <GuestLookup onInvitationSelected={handleInvitationSelected} />
 
           <div className="mt-8">
             <div className="bg-ivory-100 p-6 rounded-lg border border-sage-200 shadow-md">
@@ -69,9 +69,9 @@ export default function EnhancedRSVPPage() {
         </>
       )}
 
-      {state === "form" && selectedGuest && (
+      {state === "form" && selectedInvitation && (
         <MultiStepRSVPForm
-          guest={selectedGuest}
+          invitation={selectedInvitation}
           onSuccess={handleRSVPSuccess}
           onBack={handleBackToSearch}
         />
@@ -81,11 +81,10 @@ export default function EnhancedRSVPPage() {
         <div className="space-y-6">
           <ConfirmationMessage
             data={
-              selectedGuest
+              selectedInvitation
                 ? {
-                    fullName:
-                      selectedGuest.first_name + " " + selectedGuest.last_name,
-                    email: selectedGuest.email ?? "",
+                    fullName: selectedInvitation.guests.map(g => `${g.firstName} ${g.lastName}`).join(" & "),
+                    email: selectedInvitation.email ?? "",
                     attending: isAttending ? "yes" : "no",
                   }
                 : null

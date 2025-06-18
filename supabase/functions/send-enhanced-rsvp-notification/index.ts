@@ -7,33 +7,34 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-interface RSVPData {
-  id: string
-  name: string
-  email: string
-  attending: boolean
-  welcome_party_attending?: boolean | null
-  rehearsal_dinner_attending?: boolean | null
-  guest_count_ceremony: number
-  guest_count_welcome: number
-  guest_count_rehearsal: number
-  dietary_restrictions?: string | null
-  message?: string | null
-  plus_one_first_name?: string | null
-  plus_one_last_name?: string | null
-  created_at: string
+interface GuestResponse {
+  firstName: string
+  lastName: string
+  ceremony_reception_attending: boolean
+  welcome_party_attending?: boolean
+  rehearsal_dinner_attending?: boolean
+  dietary_restrictions?: string
+  message?: string
 }
 
-interface GuestData {
+interface Invitation {
   id: string
-  first_name: string
-  last_name: string
-  email?: string | null
+  guests: Array<{
+    firstName: string
+    lastName: string
+    position: number
+  }>
   party_size: number
   is_welcome_party_invited: boolean
   is_rehearsal_dinner_invited: boolean
-  plus_one_first_name?: string | null
-  plus_one_last_name?: string | null
+  email?: string | null
+  phone?: string | null
+}
+
+interface RequestData {
+  invitation: Invitation
+  guestResponses: GuestResponse[]
+  email: string
 }
 
 serve(async (req) => {
@@ -43,7 +44,7 @@ serve(async (req) => {
   }
 
   try {
-    const { rsvp, guest }: { rsvp: RSVPData; guest: GuestData } = await req.json()
+    const { invitation, guestResponses, email }: RequestData = await req.json()
     
     // Get your Resend API key from environment variables
     const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')
@@ -57,38 +58,47 @@ serve(async (req) => {
     // Build event attendance summary
     const eventSummary = []
     
-    if (rsvp.attending) {
-      eventSummary.push(`✅ Ceremony & Reception: ${rsvp.guest_count_ceremony} guest(s)`)
+    // Count attendance for each event
+    const ceremonyAttending = guestResponses.filter(r => r.ceremony_reception_attending).length
+    const ceremonyTotal = guestResponses.length
+    
+    if (ceremonyAttending > 0) {
+      eventSummary.push(`✅ Ceremony & Reception: ${ceremonyAttending} of ${ceremonyTotal} guest(s)`)
     } else {
-      eventSummary.push(`❌ Ceremony & Reception: Not attending`)
+      eventSummary.push(`❌ Ceremony & Reception: No one attending`)
     }
 
-    if (guest.is_welcome_party_invited) {
-      if (rsvp.welcome_party_attending) {
-        eventSummary.push(`✅ Welcome Party: ${rsvp.guest_count_welcome} guest(s)`)
+    if (invitation.is_welcome_party_invited) {
+      const welcomeAttending = guestResponses.filter(r => r.welcome_party_attending).length
+      if (welcomeAttending > 0) {
+        eventSummary.push(`✅ Welcome Party: ${welcomeAttending} of ${ceremonyTotal} guest(s)`)
       } else {
-        eventSummary.push(`❌ Welcome Party: Not attending`)
+        eventSummary.push(`❌ Welcome Party: No one attending`)
       }
     }
 
-    if (guest.is_rehearsal_dinner_invited) {
-      if (rsvp.rehearsal_dinner_attending) {
-        eventSummary.push(`✅ Rehearsal Dinner: ${rsvp.guest_count_rehearsal} guest(s)`)
+    if (invitation.is_rehearsal_dinner_invited) {
+      const rehearsalAttending = guestResponses.filter(r => r.rehearsal_dinner_attending).length
+      if (rehearsalAttending > 0) {
+        eventSummary.push(`✅ Rehearsal Dinner: ${rehearsalAttending} of ${ceremonyTotal} guest(s)`)
       } else {
-        eventSummary.push(`❌ Rehearsal Dinner: Not attending`)
+        eventSummary.push(`❌ Rehearsal Dinner: No one attending`)
       }
     }
 
-    // Determine if guest is attending any event
-    const isAttendingAny = rsvp.attending || 
-                          rsvp.welcome_party_attending || 
-                          rsvp.rehearsal_dinner_attending
+    // Determine if anyone is attending any event
+    const isAttendingAny = guestResponses.some(r => 
+      r.ceremony_reception_attending || r.welcome_party_attending || r.rehearsal_dinner_attending
+    )
 
+    // Get guest names for subject
+    const guestNames = invitation.guests.map(g => `${g.firstName} ${g.lastName}`).join(' & ')
+    
     // Email to couple (notification)
     const notificationEmail = {
       from: `Wedding RSVP ${domainEmail}`,
       to: ['nobskaandhenry2025@gmail.com'],
-      subject: `New Wedding RSVP from ${guest.first_name} ${guest.last_name}`,
+      subject: `New Wedding RSVP from ${guestNames}`,
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: 'Georgia', serif; background-color: #f1f4ed;">
           <div style="background: linear-gradient(135deg, #7c9264 0%, #5d7743 100%); padding: 30px; text-align: center;">
@@ -97,12 +107,15 @@ serve(async (req) => {
           
           <div style="background: #fefef9; padding: 30px; margin: 0;">
             <div style="background: #f1f4ed; border-left: 4px solid #7c9264; padding: 20px; margin-bottom: 20px; border-radius: 4px;">
-              <h2 style="color: #3f5c22; margin: 0 0 15px 0; font-size: 20px;">${guest.first_name} ${guest.last_name}</h2>
-              <p style="color: #5d7743; margin: 5px 0;"><strong>Email:</strong> ${rsvp.email}</p>
-              <p style="color: #5d7743; margin: 5px 0;"><strong>Party Size:</strong> ${guest.party_size}</p>
-              ${rsvp.plus_one_first_name && rsvp.plus_one_last_name ? `
-                <p style="color: #5d7743; margin: 5px 0;"><strong>Guest:</strong> ${rsvp.plus_one_first_name} ${rsvp.plus_one_last_name}</p>
-              ` : ''}
+              <h2 style="color: #3f5c22; margin: 0 0 15px 0; font-size: 20px;">${guestNames}</h2>
+              <p style="color: #5d7743; margin: 5px 0;"><strong>Email:</strong> ${email}</p>
+              <p style="color: #5d7743; margin: 5px 0;"><strong>Party Size:</strong> ${invitation.party_size}</p>
+              <div style="color: #5d7743; margin: 5px 0;">
+                <strong>Guests:</strong>
+                <ul style="margin: 5px 0; padding-left: 20px;">
+                  ${invitation.guests.map(guest => `<li>${guest.firstName} ${guest.lastName}</li>`).join('')}
+                </ul>
+              </div>
             </div>
             
             <div style="background: #e3e9db; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
@@ -110,23 +123,27 @@ serve(async (req) => {
               ${eventSummary.map(event => `<p style="margin: 5px 0; color: #5d7743;">${event}</p>`).join('')}
             </div>
             
-            ${rsvp.dietary_restrictions ? `
+            ${guestResponses.some(r => r.dietary_restrictions) ? `
               <div style="background: #fcfced; border: 1px solid #fafae1; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
                 <strong style="color: #7c9264;">🍽️ Dietary Restrictions:</strong>
-                <p style="margin: 5px 0 0 0; color: #5d7743;">${rsvp.dietary_restrictions}</p>
+                ${guestResponses.filter(r => r.dietary_restrictions).map(r => 
+                  `<p style="margin: 5px 0 0 0; color: #5d7743;"><strong>${r.firstName} ${r.lastName}:</strong> ${r.dietary_restrictions}</p>`
+                ).join('')}
               </div>
             ` : ''}
             
-            ${rsvp.message ? `
+            ${guestResponses.some(r => r.message) ? `
               <div style="background: #e3e9db; border: 1px solid #c7d3b8; border-radius: 8px; padding: 15px;">
-                <strong style="color: #3f5c22;">💬 Message:</strong>
-                <p style="margin: 5px 0 0 0; color: #5d7743; font-style: italic;">"${rsvp.message}"</p>
+                <strong style="color: #3f5c22;">💬 Messages:</strong>
+                ${guestResponses.filter(r => r.message).map(r => 
+                  `<p style="margin: 5px 0 0 0; color: #5d7743; font-style: italic;"><strong>${r.firstName} ${r.lastName}:</strong> "${r.message}"</p>`
+                ).join('')}
               </div>
             ` : ''}
             
             <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #d5deca; text-align: center;">
               <p style="color: #7c9264; font-size: 14px; margin: 0;">
-                📅 Submitted: ${new Date(rsvp.created_at).toLocaleString()}
+                📅 Submitted: ${new Date().toLocaleString()}
               </p>
             </div>
           </div>
@@ -137,7 +154,7 @@ serve(async (req) => {
     // Email to the guest (confirmation)
     const confirmationEmail = {
       from: `Nobska & Henry ${domainEmail}`,
-      to: [rsvp.email],
+      to: [email],
       subject: isAttendingAny ? 'We can\'t wait to celebrate with you! 🎉' : 'Thank you for letting us know ❤️',
       html: `
         <div style="max-width: 600px; margin: 0 auto; font-family: 'Georgia', serif; background-color: #f1f4ed;">
@@ -155,7 +172,7 @@ serve(async (req) => {
           <div style="background: #fefef9; padding: 40px 30px;">
             <div style="text-align: center; margin-bottom: 30px;">
               <h2 style="color: #3f5c22; margin: 0 0 10px 0; font-size: 24px;">
-                Hello ${guest.first_name}! 👋
+                Hello ${invitation.guests.map(g => g.firstName).join(' & ')}! 👋
               </h2>
               <p style="color: #5d7743; font-size: 16px; line-height: 1.6; margin: 0;">
                 ${isAttendingAny 
@@ -178,24 +195,21 @@ serve(async (req) => {
                   </div>
                 `).join('')}
                 
-                ${rsvp.dietary_restrictions ? `
+                ${guestResponses.some(r => r.dietary_restrictions) ? `
                   <div style="background: #fcfced; border-radius: 8px; padding: 15px;">
                     <strong style="color: #7c9264; display: block; margin-bottom: 5px;">🍽️ Dietary Restrictions:</strong>
-                    <span style="color: #5d7743;">${rsvp.dietary_restrictions}</span>
+                    ${guestResponses.filter(r => r.dietary_restrictions).map(r => 
+                      `<div style="margin: 5px 0;"><strong>${r.firstName} ${r.lastName}:</strong> ${r.dietary_restrictions}</div>`
+                    ).join('')}
                   </div>
                 ` : ''}
                 
-                ${rsvp.plus_one_first_name && rsvp.plus_one_last_name ? `
-                  <div style="background: #fcfced; border-radius: 8px; padding: 15px;">
-                    <strong style="color: #7c9264; display: block; margin-bottom: 5px;">👤 Your Guest:</strong>
-                    <span style="color: #5d7743;">${rsvp.plus_one_first_name} ${rsvp.plus_one_last_name}</span>
-                  </div>
-                ` : ''}
-                
-                ${rsvp.message ? `
+                ${guestResponses.some(r => r.message) ? `
                   <div style="background: #e3e9db; border-radius: 8px; padding: 15px;">
-                    <strong style="color: #3f5c22; display: block; margin-bottom: 5px;">💬 Your Message:</strong>
-                    <em style="color: #5d7743;">"${rsvp.message}"</em>
+                    <strong style="color: #3f5c22; display: block; margin-bottom: 5px;">💬 Your Messages:</strong>
+                    ${guestResponses.filter(r => r.message).map(r => 
+                      `<div style="margin: 5px 0;"><strong>${r.firstName} ${r.lastName}:</strong> <em>"${r.message}"</em></div>`
+                    ).join('')}
                   </div>
                 ` : ''}
               </div>
@@ -206,7 +220,7 @@ serve(async (req) => {
               <div style="background: linear-gradient(135deg, #7c9264 0%, #5d7743 100%); border-radius: 12px; padding: 25px; color: #fefef9; margin: 25px 0;">
                 <h3 style="margin: 0 0 20px 0; font-size: 20px; text-align: center;">📅 Event Details</h3>
                 
-                ${guest.is_rehearsal_dinner_invited && rsvp.rehearsal_dinner_attending ? `
+                ${invitation.is_rehearsal_dinner_invited && guestResponses.some(r => r.rehearsal_dinner_attending) ? `
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">🍽️ Rehearsal Dinner</h4>
                     <p style="margin: 0; opacity: 0.9;">
@@ -217,7 +231,7 @@ serve(async (req) => {
                   </div>
                 ` : ''}
                 
-                ${guest.is_welcome_party_invited && rsvp.welcome_party_attending ? `
+                ${invitation.is_welcome_party_invited && guestResponses.some(r => r.welcome_party_attending) ? `
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">🥂 Welcome Party</h4>
                     <p style="margin: 0; opacity: 0.9;">
@@ -228,7 +242,7 @@ serve(async (req) => {
                   </div>
                 ` : ''}
                 
-                ${rsvp.attending ? `
+                ${guestResponses.some(r => r.ceremony_reception_attending) ? `
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">💒 Wedding Ceremony & Reception</h4>
                     <p style="margin: 0; opacity: 0.9;">
@@ -310,7 +324,7 @@ serve(async (req) => {
 
     // Send confirmation email to guest
     let confirmationResult = null
-    if (rsvp.email) {
+    if (email) {
       const confirmationResponse = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {

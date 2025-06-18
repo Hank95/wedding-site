@@ -61,12 +61,69 @@ export type Database = {
         Row: {
           created_at: string | null
           email: string | null
-          first_name: string
+          guest_1_first_name: string
+          guest_1_last_name: string
+          guest_2_first_name: string | null
+          guest_2_last_name: string | null
+          guest_3_first_name: string | null
+          guest_3_last_name: string | null
+          guest_4_first_name: string | null
+          guest_4_last_name: string | null
           id: string
-          is_rehearsal_dinner_invited: boolean
-          is_welcome_party_invited: boolean
-          last_name: string
+          is_rehearsal_dinner_invited: boolean | null
+          is_welcome_party_invited: boolean | null
           party_size: number
+          phone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          guest_1_first_name: string
+          guest_1_last_name: string
+          guest_2_first_name?: string | null
+          guest_2_last_name?: string | null
+          guest_3_first_name?: string | null
+          guest_3_last_name?: string | null
+          guest_4_first_name?: string | null
+          guest_4_last_name?: string | null
+          id?: string
+          is_rehearsal_dinner_invited?: boolean | null
+          is_welcome_party_invited?: boolean | null
+          party_size?: number
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          guest_1_first_name?: string
+          guest_1_last_name?: string
+          guest_2_first_name?: string | null
+          guest_2_last_name?: string | null
+          guest_3_first_name?: string | null
+          guest_3_last_name?: string | null
+          guest_4_first_name?: string | null
+          guest_4_last_name?: string | null
+          id?: string
+          is_rehearsal_dinner_invited?: boolean | null
+          is_welcome_party_invited?: boolean | null
+          party_size?: number
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      guests_backup: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          first_name: string | null
+          id: string | null
+          is_rehearsal_dinner_invited: boolean | null
+          is_welcome_party_invited: boolean | null
+          last_name: string | null
+          party_size: number | null
           phone: string | null
           plus_one_first_name: string | null
           plus_one_last_name: string | null
@@ -75,12 +132,12 @@ export type Database = {
         Insert: {
           created_at?: string | null
           email?: string | null
-          first_name: string
-          id?: string
-          is_rehearsal_dinner_invited?: boolean
-          is_welcome_party_invited?: boolean
-          last_name: string
-          party_size?: number
+          first_name?: string | null
+          id?: string | null
+          is_rehearsal_dinner_invited?: boolean | null
+          is_welcome_party_invited?: boolean | null
+          last_name?: string | null
+          party_size?: number | null
           phone?: string | null
           plus_one_first_name?: string | null
           plus_one_last_name?: string | null
@@ -89,12 +146,12 @@ export type Database = {
         Update: {
           created_at?: string | null
           email?: string | null
-          first_name?: string
-          id?: string
-          is_rehearsal_dinner_invited?: boolean
-          is_welcome_party_invited?: boolean
-          last_name?: string
-          party_size?: number
+          first_name?: string | null
+          id?: string | null
+          is_rehearsal_dinner_invited?: boolean | null
+          is_welcome_party_invited?: boolean | null
+          last_name?: string | null
+          party_size?: number | null
           phone?: string | null
           plus_one_first_name?: string | null
           plus_one_last_name?: string | null
@@ -105,54 +162,39 @@ export type Database = {
       rsvps: {
         Row: {
           attending: boolean
-          created_at: string
+          created_at: string | null
           dietary_restrictions: string | null
-          email: string
-          guest_count_ceremony: number | null
-          guest_count_rehearsal: number | null
-          guest_count_welcome: number | null
-          guest_id: string | null
+          guest_first_name: string
+          guest_id: string
+          guest_last_name: string
           id: string
           message: string | null
-          name: string
-          plus_one_first_name: string | null
-          plus_one_last_name: string | null
           rehearsal_dinner_attending: boolean | null
           updated_at: string | null
           welcome_party_attending: boolean | null
         }
         Insert: {
-          attending: boolean
-          created_at?: string
+          attending?: boolean
+          created_at?: string | null
           dietary_restrictions?: string | null
-          email: string
-          guest_count_ceremony?: number | null
-          guest_count_rehearsal?: number | null
-          guest_count_welcome?: number | null
-          guest_id?: string | null
+          guest_first_name: string
+          guest_id: string
+          guest_last_name: string
           id?: string
           message?: string | null
-          name: string
-          plus_one_first_name?: string | null
-          plus_one_last_name?: string | null
           rehearsal_dinner_attending?: boolean | null
           updated_at?: string | null
           welcome_party_attending?: boolean | null
         }
         Update: {
           attending?: boolean
-          created_at?: string
+          created_at?: string | null
           dietary_restrictions?: string | null
-          email?: string
-          guest_count_ceremony?: number | null
-          guest_count_rehearsal?: number | null
-          guest_count_welcome?: number | null
-          guest_id?: string | null
+          guest_first_name?: string
+          guest_id?: string
+          guest_last_name?: string
           id?: string
           message?: string | null
-          name?: string
-          plus_one_first_name?: string | null
-          plus_one_last_name?: string | null
           rehearsal_dinner_attending?: boolean | null
           updated_at?: string | null
           welcome_party_attending?: boolean | null
@@ -167,6 +209,63 @@ export type Database = {
           },
         ]
       }
+      rsvps_backup: {
+        Row: {
+          attending: boolean | null
+          created_at: string | null
+          dietary_restrictions: string | null
+          email: string | null
+          guest_count_ceremony: number | null
+          guest_count_rehearsal: number | null
+          guest_count_welcome: number | null
+          guest_id: string | null
+          id: string | null
+          message: string | null
+          name: string | null
+          plus_one_first_name: string | null
+          plus_one_last_name: string | null
+          rehearsal_dinner_attending: boolean | null
+          updated_at: string | null
+          welcome_party_attending: boolean | null
+        }
+        Insert: {
+          attending?: boolean | null
+          created_at?: string | null
+          dietary_restrictions?: string | null
+          email?: string | null
+          guest_count_ceremony?: number | null
+          guest_count_rehearsal?: number | null
+          guest_count_welcome?: number | null
+          guest_id?: string | null
+          id?: string | null
+          message?: string | null
+          name?: string | null
+          plus_one_first_name?: string | null
+          plus_one_last_name?: string | null
+          rehearsal_dinner_attending?: boolean | null
+          updated_at?: string | null
+          welcome_party_attending?: boolean | null
+        }
+        Update: {
+          attending?: boolean | null
+          created_at?: string | null
+          dietary_restrictions?: string | null
+          email?: string | null
+          guest_count_ceremony?: number | null
+          guest_count_rehearsal?: number | null
+          guest_count_welcome?: number | null
+          guest_id?: string | null
+          id?: string | null
+          message?: string | null
+          name?: string | null
+          plus_one_first_name?: string | null
+          plus_one_last_name?: string | null
+          rehearsal_dinner_attending?: boolean | null
+          updated_at?: string | null
+          welcome_party_attending?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -180,14 +279,19 @@ export type Database = {
         Args: { search_term?: string }
         Returns: {
           id: string
-          first_name: string
-          last_name: string
-          email: string
+          guest_1_first_name: string
+          guest_1_last_name: string
+          guest_2_first_name: string
+          guest_2_last_name: string
+          guest_3_first_name: string
+          guest_3_last_name: string
+          guest_4_first_name: string
+          guest_4_last_name: string
           party_size: number
           is_welcome_party_invited: boolean
           is_rehearsal_dinner_invited: boolean
-          plus_one_first_name: string
-          plus_one_last_name: string
+          email: string
+          phone: string
           similarity_score: number
         }[]
       }

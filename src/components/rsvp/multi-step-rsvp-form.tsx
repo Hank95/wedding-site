@@ -5,13 +5,6 @@ import { z } from "zod";
 import { supabase } from "@/supabaseClient";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Form,
   FormControl,
   FormDescription,
@@ -24,66 +17,43 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, ChevronLeft, ChevronRight, Check } from "lucide-react";
-import { GuestSearchResult } from "@/types/database.types";
+import { Loader2, ChevronLeft, ChevronRight, Check, User } from "lucide-react";
+import { Invitation, RSVP } from "@/types/database.types";
 import { trackEvent } from "@/lib/analytics";
 import { Database } from "database.types";
 
-type RSVPFormData = Database["public"]["Tables"]["rsvps"]["Insert"];
+type rsvpData = Database["public"]["Tables"]["rsvps"]["Row"];
 
 interface MultiStepRSVPFormProps {
-  guest: GuestSearchResult;
+  invitation: Invitation;
   onSuccess: (attendingAny: boolean) => void;
   onBack: () => void;
 }
 
-// Create dynamic schema based on guest invitations
-const createRSVPSchema = (guest: GuestSearchResult) => {
-  const baseSchema = {
+// Create a schema for the individual guest response
+const createGuestResponseSchema = (invitation: Invitation) => {
+  return z.object({
     email: z.string().email("Please enter a valid email address"),
-    ceremony_reception_attending: z.boolean({
-      required_error:
-        "Please let us know if you'll be attending the ceremony and reception",
-    }),
-    guest_count_ceremony: z
-      .number()
-      .min(1, "Please specify at least 1 guest")
-      .max(guest.party_size, `Maximum ${guest.party_size} guests allowed`),
-    dietary_restrictions: z.string().optional(),
-    message: z.string().optional(),
-    // Always include these fields for type safety, but make them optional if not invited
-    welcome_party_attending: guest.is_welcome_party_invited
-      ? z.boolean({
-          required_error:
-            "Please let us know if you'll be attending the welcome party",
-        })
-      : z.boolean().optional(),
-    guest_count_welcome: guest.is_welcome_party_invited
-      ? z
-          .number()
-          .min(1, "Please specify at least 1 guest")
-          .max(guest.party_size, `Maximum ${guest.party_size} guests allowed`)
-      : z.number().optional(),
-    rehearsal_dinner_attending: guest.is_rehearsal_dinner_invited
-      ? z.boolean({
-          required_error:
-            "Please let us know if you'll be attending the rehearsal dinner",
-        })
-      : z.boolean().optional(),
-    guest_count_rehearsal: guest.is_rehearsal_dinner_invited
-      ? z
-          .number()
-          .min(1, "Please specify at least 1 guest")
-          .max(guest.party_size, `Maximum ${guest.party_size} guests allowed`)
-      : z.number().optional(),
-  };
-
-  return z.object(baseSchema);
+    guestResponses: z.array(
+      z.object({
+        firstName: z.string(),
+        lastName: z.string(),
+        ceremony_reception_attending: z.boolean(),
+        welcome_party_attending: invitation.is_welcome_party_invited
+          ? z.boolean()
+          : z.boolean().optional(),
+        rehearsal_dinner_attending: invitation.is_rehearsal_dinner_invited
+          ? z.boolean()
+          : z.boolean().optional(),
+        dietary_restrictions: z.string().optional(),
+        message: z.string().optional(),
+      })
+    ),
+  });
 };
 
 export function MultiStepRSVPForm({
-  guest,
+  invitation,
   onSuccess,
   onBack,
 }: MultiStepRSVPFormProps) {
@@ -91,106 +61,103 @@ export function MultiStepRSVPForm({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const schema = createRSVPSchema(guest);
+  const schema = createGuestResponseSchema(invitation);
   type FormData = z.infer<typeof schema>;
 
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: guest.email || "",
-      ceremony_reception_attending: true,
-      guest_count_ceremony: guest.party_size,
-      welcome_party_attending: true,
-      guest_count_welcome: guest.party_size,
-      rehearsal_dinner_attending: true,
-      guest_count_rehearsal: guest.party_size,
-      dietary_restrictions: "",
-      message: "",
+      email: invitation.email || "",
+      guestResponses: invitation.guests.map((guest) => ({
+        firstName: guest.firstName,
+        lastName: guest.lastName,
+        ceremony_reception_attending: true,
+        welcome_party_attending: true,
+        rehearsal_dinner_attending: true,
+        dietary_restrictions: "",
+        message: "",
+      })),
     },
     mode: "onChange",
   });
 
-  // Reset form when guest changes to prevent stale data
+  // Reset form when invitation changes
   useEffect(() => {
     const defaultValues = {
-      email: guest.email || "",
-      ceremony_reception_attending: true,
-      guest_count_ceremony: guest.party_size,
-      welcome_party_attending: true,
-      guest_count_welcome: guest.party_size,
-      rehearsal_dinner_attending: true,
-      guest_count_rehearsal: guest.party_size,
-      dietary_restrictions: "",
-      message: "",
+      email: invitation.email || "",
+      guestResponses: invitation.guests.map((guest) => ({
+        firstName: guest.firstName,
+        lastName: guest.lastName,
+        ceremony_reception_attending: true,
+        welcome_party_attending: true,
+        rehearsal_dinner_attending: true,
+        dietary_restrictions: "",
+        message: "",
+      })),
     };
 
     form.reset(defaultValues);
     setCurrentStep(0);
     setError(null);
-  }, [guest.id, guest.email, guest.party_size, form]);
+  }, [invitation.id, invitation.email, invitation.guests, form]);
 
-  // Determine the steps based on invitations - rehearsal dinner first if invited
+  // Determine the steps based on invitations
   interface Step {
     title: string;
     description: string;
-    fields: string[];
+    type: "event" | "details";
+    event?: "ceremony" | "welcome_party" | "rehearsal_dinner";
   }
 
   const steps: Step[] = [];
 
-  // Add rehearsal dinner first if invited
-  if (guest.is_rehearsal_dinner_invited) {
+  // Add event steps based on what they're invited to
+  // Rehearsal dinner first if invited
+  if (invitation.is_rehearsal_dinner_invited) {
     steps.push({
       title: "Rehearsal Dinner",
       description: "Friday, October 25th, 2025 at 5:00 PM - The Oyster House",
-      fields: ["rehearsal_dinner_attending", "guest_count_rehearsal"],
+      type: "event",
+      event: "rehearsal_dinner",
     });
   }
 
-  if (guest.is_welcome_party_invited) {
+  // Welcome party if invited
+  if (invitation.is_welcome_party_invited) {
     steps.push({
       title: "Welcome Party",
       description: "Friday, October 25th, 2025 at 8:00 PM - The Oyster House",
-      fields: ["welcome_party_attending", "guest_count_welcome"],
+      type: "event",
+      event: "welcome_party",
     });
   }
 
-  // Always include ceremony step
+  // Ceremony (always invited)
   steps.push({
     title: "Wedding Ceremony & Reception",
-    description:
-      "Saturday, October 26th, 2025 at 5:00 PM - Legare Waring House",
-    fields: ["ceremony_reception_attending", "guest_count_ceremony"],
+    description: "Saturday, October 26th, 2025 at 5:00 PM - Legare Waring House",
+    type: "event",
+    event: "ceremony",
   });
 
   // Add details step
   steps.push({
-    title: "Additional Details",
-    description:
-      "Please provide your contact information and any special requirements",
-    fields: ["email", "dietary_restrictions", "message"],
+    title: "Contact Information & Details",
+    description: "Please provide your email and any special requirements",
+    type: "details",
   });
 
   const handleNext = async () => {
     const step = steps[currentStep];
-    let fieldsToValidate = step.fields;
+    let fieldsToValidate: string[] = [];
 
-    // For event steps, only validate guest count if attending
-    if (step.title === "Wedding Ceremony & Reception") {
-      fieldsToValidate = ["ceremony_reception_attending"];
-      if (form.getValues("ceremony_reception_attending")) {
-        fieldsToValidate.push("guest_count_ceremony");
-      }
-    } else if (step.title === "Welcome Party") {
-      fieldsToValidate = ["welcome_party_attending"];
-      if (form.getValues("welcome_party_attending")) {
-        fieldsToValidate.push("guest_count_welcome");
-      }
-    } else if (step.title === "Rehearsal Dinner") {
-      fieldsToValidate = ["rehearsal_dinner_attending"];
-      if (form.getValues("rehearsal_dinner_attending")) {
-        fieldsToValidate.push("guest_count_rehearsal");
-      }
+    if (step.type === "event" && step.event) {
+      // Validate all guest responses for this event
+      fieldsToValidate = invitation.guests.map((_, index) => 
+        `guestResponses.${index}.${step.event === "ceremony" ? "ceremony_reception" : step.event}_attending`
+      );
+    } else if (step.type === "details") {
+      fieldsToValidate = ["email"];
     }
 
     const isValid = await form.trigger(fieldsToValidate as (keyof FormData)[]);
@@ -221,74 +188,58 @@ export function MultiStepRSVPForm({
     setError(null);
 
     try {
-      // Create RSVP record
-      const rsvpData = {
-        guest_id: guest.id,
-        name: `${guest.first_name} ${guest.last_name}`,
-        email: formData.email,
-        attending: formData.ceremony_reception_attending,
-        guest_count_ceremony: formData.ceremony_reception_attending
-          ? formData.guest_count_ceremony
-          : 0,
-        dietary_restrictions: formData.dietary_restrictions || null,
-        message: formData.message || null,
-        plus_one_first_name: guest.plus_one_first_name || null,
-        plus_one_last_name: guest.plus_one_last_name || null,
-        created_at: new Date().toISOString(),
-      } as RSVPFormData;
+      // Create individual RSVP records for each guest
+      const rsvpPromises = formData.guestResponses.map(
+        async (guestResponse) => {
+          const rsvpData: Omit<RSVP, "id" | "created_at"> = {
+            guest_id: invitation.id,
+            guest_first_name: guestResponse.firstName,
+            guest_last_name: guestResponse.lastName,
+            attending: guestResponse.ceremony_reception_attending,
+            dietary_restrictions: guestResponse.dietary_restrictions || null,
+            message: guestResponse.message || null,
+            welcome_party_attending: invitation.is_welcome_party_invited
+              ? guestResponse.welcome_party_attending ?? null
+              : null,
+            rehearsal_dinner_attending: invitation.is_rehearsal_dinner_invited
+              ? guestResponse.rehearsal_dinner_attending ?? null
+              : null,
+          };
 
-      // Add optional fields if guest is invited
-      if (
-        guest.is_welcome_party_invited &&
-        "welcome_party_attending" in formData
-      ) {
-        rsvpData.welcome_party_attending = formData.welcome_party_attending;
-        rsvpData.guest_count_welcome = formData.welcome_party_attending
-          ? formData.guest_count_welcome || 1
-          : 0;
-      } else {
-        rsvpData.guest_count_welcome = 0;
-      }
+          const { error: insertError } = await supabase
+            .from("rsvps")
+            .insert(rsvpData as rsvpData);
 
-      if (
-        guest.is_rehearsal_dinner_invited &&
-        "rehearsal_dinner_attending" in formData
-      ) {
-        rsvpData.rehearsal_dinner_attending =
-          formData.rehearsal_dinner_attending;
-        rsvpData.guest_count_rehearsal = formData.rehearsal_dinner_attending
-          ? formData.guest_count_rehearsal || 1
-          : 0;
-      } else {
-        rsvpData.guest_count_rehearsal = 0;
-      }
+          if (insertError) throw insertError;
+          return rsvpData;
+        }
+      );
 
-      const { error: insertError } = await supabase
-        .from("rsvps")
-        .insert([rsvpData]);
-
-      if (insertError) throw insertError;
+      await Promise.all(rsvpPromises);
 
       // Track successful submission
       trackEvent(
         "rsvp_submitted",
         "conversion",
-        `guest_id:${guest.id}|attending_ceremony:${formData.ceremony_reception_attending}|total_guests:${formData.guest_count_ceremony}`
+        `invitation_id:${invitation.id}|party_size:${invitation.party_size}`
       );
 
-      // Trigger email notification
+      // Trigger email notification with all guest responses
       await supabase.functions.invoke("send-enhanced-rsvp-notification", {
         body: {
-          rsvp: rsvpData,
-          guest: guest,
+          invitation: invitation,
+          guestResponses: formData.guestResponses,
+          email: formData.email,
         },
       });
 
-      // Calculate if attending any event
-      const attendingAny =
-        (formData.ceremony_reception_attending ?? false) ||
-        (formData.welcome_party_attending ?? false) ||
-        (formData.rehearsal_dinner_attending ?? false);
+      // Calculate if anyone is attending any event
+      const attendingAny = formData.guestResponses.some(
+        (response) =>
+          response.ceremony_reception_attending ||
+          response.welcome_party_attending ||
+          response.rehearsal_dinner_attending
+      );
 
       onSuccess(attendingAny);
     } catch (err) {
@@ -306,401 +257,262 @@ export function MultiStepRSVPForm({
     }
   };
 
-  console.log(" guest plus one first name", guest.plus_one_first_name);
-  console.log(" guest plus one last name", guest.plus_one_last_name);
-
   const renderStepContent = () => {
     const step = steps[currentStep];
 
-    switch (step.title) {
-      case "Wedding Ceremony & Reception":
-        return (
+    if (step.type === "event" && step.event) {
+      const eventField = `${step.event === "ceremony" ? "ceremony_reception" : step.event}_attending` as const;
+
+      return (
+        <div className="space-y-6">
           <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="ceremony_reception_attending"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Will you be attending the wedding ceremony and reception?
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={(value) => field.onChange(value === "yes")}
-                      value={field.value ? "yes" : "no"}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="yes" id="ceremony-yes" />
-                        <Label htmlFor="ceremony-yes">
-                          Yes, I'll be there!
-                        </Label>
+            <h4 className="text-lg font-medium text-sage-800">
+              Who will be attending?
+            </h4>
+            
+            {invitation.guests.map((guest, index) => (
+              <div key={`${guest.firstName}-${guest.lastName}-${index}`} 
+                   className="bg-sage-50 border border-sage-200 rounded-lg p-4">
+                <FormField
+                  control={form.control}
+                  name={`guestResponses.${index}.${eventField}`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2 mb-3">
+                        <User className="h-5 w-5 text-sage-600" />
+                        <FormLabel className="text-sage-800 font-medium text-base m-0">
+                          {guest.firstName} {guest.lastName}
+                        </FormLabel>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="no" id="ceremony-no" />
-                        <Label htmlFor="ceremony-no">
-                          Sorry, I can't make it
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {form.watch("ceremony_reception_attending") && (
-              <FormField
-                control={form.control}
-                name="guest_count_ceremony"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sage-800 font-medium text-base">
-                      How many guests will be attending?
-                    </FormLabel>
-                    <FormDescription className="text-sage-600">
-                      Including yourself (maximum {guest.party_size})
-                    </FormDescription>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={1}
-                        max={guest.party_size}
-                        className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            parseInt(e.target.value) || guest.party_size
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-600" />
-                  </FormItem>
-                )}
-              />
-            )}
-          </div>
-        );
-
-      case "Welcome Party":
-        return (
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="welcome_party_attending"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Will you be attending the welcome party?
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={(value) => field.onChange(value === "yes")}
-                      value={field.value ? "yes" : "no"}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="yes" id="welcome-yes" />
-                        <Label htmlFor="welcome-yes">Yes, I'll be there!</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="no" id="welcome-no" />
-                        <Label htmlFor="welcome-no">
-                          Sorry, I can't make it
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {form.watch("welcome_party_attending") && (
-              <FormField
-                control={form.control}
-                name="guest_count_welcome"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sage-800 font-medium text-base">
-                      How many guests will be attending?
-                    </FormLabel>
-                    <FormDescription className="text-sage-600">
-                      Including yourself (maximum {guest.party_size})
-                    </FormDescription>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={1}
-                        max={guest.party_size}
-                        className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            parseInt(e.target.value) || guest.party_size
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-600" />
-                  </FormItem>
-                )}
-              />
-            )}
-          </div>
-        );
-
-      case "Rehearsal Dinner":
-        return (
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="rehearsal_dinner_attending"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Will you be attending the rehearsal dinner?
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={(value) => field.onChange(value === "yes")}
-                      value={field.value ? "yes" : "no"}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="yes" id="rehearsal-yes" />
-                        <Label htmlFor="rehearsal-yes">
-                          Yes, I'll be there!
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="no" id="rehearsal-no" />
-                        <Label htmlFor="rehearsal-no">
-                          Sorry, I can't make it
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {form.watch("rehearsal_dinner_attending") && (
-              <FormField
-                control={form.control}
-                name="guest_count_rehearsal"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sage-800 font-medium text-base">
-                      How many guests will be attending?
-                    </FormLabel>
-                    <FormDescription className="text-sage-600">
-                      Including yourself (maximum {guest.party_size})
-                    </FormDescription>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={1}
-                        max={guest.party_size}
-                        className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
-                        {...field}
-                        onChange={(e) =>
-                          field.onChange(
-                            parseInt(e.target.value) || guest.party_size
-                          )
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage className="text-red-600" />
-                  </FormItem>
-                )}
-              />
-            )}
-          </div>
-        );
-
-      case "Additional Details":
-        return (
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              key={`email-${guest.id}`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email Address</FormLabel>
-                  <FormDescription>
-                    We'll send your RSVP confirmation here
-                  </FormDescription>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="john@example.com"
-                      value={typeof field.value === "string" ? field.value : ""}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      name={field.name}
-                      autoComplete="off"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Guest Information - show if guest has additional guest in database */}
-            {guest.plus_one_first_name && guest.plus_one_last_name && (
-              <div className="space-y-3 border-t pt-4">
-                <div>
-                  <h4 className="font-medium text-sm">Your Guest</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Additional guest included in this invitation
-                  </p>
-                </div>
-
-                <div className="bg-sage/10 border border-sage/20 rounded-lg p-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">👤</span>
-                    <span className="font-medium text-sage-dark">
-                      {guest.plus_one_first_name} {guest.plus_one_last_name}
-                    </span>
-                  </div>
-                </div>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={(value) => field.onChange(value === "yes")}
+                          value={field.value ? "yes" : "no"}
+                          className="flex flex-row gap-6"
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem
+                              value="yes"
+                              id={`${index}-${step.event}-yes`}
+                            />
+                            <Label htmlFor={`${index}-${step.event}-yes`} className="cursor-pointer">
+                              Will attend
+                            </Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem
+                              value="no"
+                              id={`${index}-${step.event}-no`}
+                            />
+                            <Label htmlFor={`${index}-${step.event}-no`} className="cursor-pointer">
+                              Cannot attend
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage className="text-red-600" />
+                    </FormItem>
+                  )}
+                />
               </div>
-            )}
-
-            <FormField
-              control={form.control}
-              name="dietary_restrictions"
-              key={`dietary-${guest.id}`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Dietary Restrictions</FormLabel>
-                  <FormDescription>
-                    Please let us know of any allergies or dietary requirements
-                  </FormDescription>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Vegetarian, gluten-free, nut allergy, etc."
-                      value={typeof field.value === "string" ? field.value : ""}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      name={field.name}
-                      autoComplete="off"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="message"
-              key={`message-${guest.id}`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Message for the Couple (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Share your well wishes or any other notes..."
-                      value={typeof field.value === "string" ? field.value : ""}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      name={field.name}
-                      autoComplete="off"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            ))}
           </div>
-        );
-
-      default:
-        return null;
+        </div>
+      );
     }
+
+    if (step.type === "details") {
+      return (
+        <div className="space-y-6">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sage-800 font-medium text-base">
+                  Email Address
+                </FormLabel>
+                <FormDescription className="text-sage-600">
+                  We'll send your RSVP confirmation here
+                </FormDescription>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="john@example.com"
+                    className="bg-white border-sage-300 focus:border-sage-500 text-sage-900 h-12 text-base"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className="text-red-600" />
+              </FormItem>
+            )}
+          />
+
+          {/* Dietary restrictions and messages for each guest */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-medium text-sage-800 border-b border-sage-200 pb-2">
+              Additional Information (Optional)
+            </h4>
+
+            {invitation.guests.map((guest, index) => (
+              <div
+                key={`${guest.firstName}-${guest.lastName}-${index}`}
+                className="bg-sage-50 border border-sage-200 rounded-lg p-4 space-y-4"
+              >
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-sage-600" />
+                  <h5 className="font-medium text-sage-800">
+                    {guest.firstName} {guest.lastName}
+                  </h5>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name={`guestResponses.${index}.dietary_restrictions`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-sage-800 font-medium">
+                        Dietary Restrictions
+                      </FormLabel>
+                      <FormDescription className="text-sage-600">
+                        Please let us know of any allergies or dietary
+                        requirements for {guest.firstName}
+                      </FormDescription>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Vegetarian, gluten-free, nut allergy, etc."
+                          className="bg-white border-sage-300 focus:border-sage-500 text-sage-900"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-600" />
+                    </FormItem>
+                  )}
+                />
+
+                {index === 0 && (
+                  <FormField
+                    control={form.control}
+                    name={`guestResponses.${index}.message`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sage-800 font-medium">
+                          Message for the Couple (Optional)
+                        </FormLabel>
+                        <FormDescription className="text-sage-600">
+                          Share your well wishes or any other notes from your
+                          party
+                        </FormDescription>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Share your well wishes or any other notes..."
+                            className="bg-white border-sage-300 focus:border-sage-500 text-sage-900"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-red-600" />
+                      </FormItem>
+                    )}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  const formatInvitationNames = () => {
+    const names = invitation.guests.map((g) => `${g.firstName} ${g.lastName}`);
+    if (names.length === 1) return names[0];
+    if (names.length === 2) return names.join(" & ");
+    return names.slice(0, -1).join(", ") + " & " + names[names.length - 1];
   };
 
   return (
-    <Form {...form} key={guest.id}>
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>
-                {guest.plus_one_first_name && guest.plus_one_last_name
-                  ? `RSVP for ${guest.first_name} ${guest.last_name} & ${guest.plus_one_first_name} ${guest.plus_one_last_name}`
-                  : `RSVP for ${guest.first_name} ${guest.last_name}`}
-              </CardTitle>
-              <CardDescription>
-                Party of {guest.party_size} | Step {currentStep + 1} of{" "}
+    <Form {...form} key={invitation.id}>
+      <div className="bg-ivory-100 p-6 rounded-lg border border-sage-200 shadow-md">
+        <div className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="text-center sm:text-left">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-sage-800 font-display">
+                RSVP for {formatInvitationNames()}
+              </h2>
+              <p className="text-sage-700 mt-1">
+                Party of {invitation.party_size} | Step {currentStep + 1} of{" "}
                 {steps.length}
-              </CardDescription>
+              </p>
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-2 justify-center sm:justify-end">
               {steps.map((_, index) => (
                 <div
                   key={index}
-                  className={`h-2 w-8 rounded-full transition-colors ${
-                    index <= currentStep ? "bg-sage" : "bg-gray-200"
+                  className={`h-3 w-8 rounded-full transition-colors ${
+                    index <= currentStep ? "bg-sage-600" : "bg-sage-200"
                   }`}
                 />
               ))}
             </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium mb-1">
-                {steps[currentStep].title}
-              </h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                {steps[currentStep].description}
-              </p>
-              {renderStepContent()}
-            </div>
+        </div>
 
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-
-            <div className="flex justify-between">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={currentStep === 0 ? onBack : handlePrevious}
-                disabled={submitting}
-              >
-                <ChevronLeft className="mr-2 h-4 w-4" />
-                {currentStep === 0 ? "Back to Search" : "Previous"}
-              </Button>
-
-              <Button type="button" onClick={handleNext} disabled={submitting}>
-                {submitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting...
-                  </>
-                ) : currentStep === steps.length - 1 ? (
-                  <>
-                    <Check className="mr-2 h-4 w-4" />
-                    Submit RSVP
-                  </>
-                ) : (
-                  <>
-                    Next
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                  </>
-                )}
-              </Button>
-            </div>
+        <div className="space-y-6">
+          <div className="bg-white border border-sage-200 rounded-lg p-6">
+            <h3 className="text-xl font-semibold mb-2 text-sage-800 font-display">
+              {steps[currentStep].title}
+            </h3>
+            <p className="text-sage-700 mb-6">
+              {steps[currentStep].description}
+            </p>
+            {renderStepContent()}
           </div>
-        </CardContent>
-      </Card>
+
+          {error && (
+            <div className="p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row justify-between gap-3">
+            <Button
+              type="button"
+              onClick={currentStep === 0 ? onBack : handlePrevious}
+              disabled={submitting}
+              className="bg-white border-2 border-sage-300 text-sage-700 hover:bg-sage-50 hover:border-sage-400 font-medium py-3 px-6 rounded-md transition duration-300 h-12"
+            >
+              <ChevronLeft className="mr-2 h-4 w-4" />
+              {currentStep === 0 ? "Back to Search" : "Previous"}
+            </Button>
+
+            <Button
+              type="button"
+              onClick={handleNext}
+              disabled={submitting}
+              className="bg-sage-700 hover:bg-sage-800 text-white font-medium py-3 px-6 rounded-md transition duration-300 h-12"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Submitting...
+                </>
+              ) : currentStep === steps.length - 1 ? (
+                <>
+                  <Check className="mr-2 h-4 w-4" />
+                  Submit RSVP
+                </>
+              ) : (
+                <>
+                  Next
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
     </Form>
   );
 }

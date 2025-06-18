@@ -3,14 +3,14 @@ import { supabase } from "@/supabaseClient"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Loader2, Search, User } from "lucide-react"
-import { GuestSearchResult } from "@/types/database.types"
+import { Loader2, Search, Users } from "lucide-react"
+import { GuestSearchResult, Invitation, IndividualGuest } from "@/types/database.types"
 
 interface GuestLookupProps {
-  onGuestSelected: (guest: GuestSearchResult) => void
+  onInvitationSelected: (invitation: Invitation) => void
 }
 
-export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
+export function GuestLookup({ onInvitationSelected }: GuestLookupProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [searching, setSearching] = useState(false)
   const [searchResults, setSearchResults] = useState<GuestSearchResult[]>([])
@@ -38,14 +38,8 @@ export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
       if (searchError) throw searchError
 
       if (data && data.length > 0) {
-        // Add missing fields for type compatibility
-        const results = data.map(result => ({
-          ...result,
-          phone: null as string | null,
-          created_at: null as string | null,
-          updated_at: null as string | null,
-        }))
-        setSearchResults(results)
+        // Type assertion since our database function returns the correct structure
+        setSearchResults(data as unknown as GuestSearchResult[])
       } else {
         setShowNoResults(true)
       }
@@ -57,16 +51,89 @@ export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
     }
   }
 
-  const handleGuestSelect = (guest: GuestSearchResult) => {
-    onGuestSelected(guest)
+  const convertToInvitation = (guest: GuestSearchResult): Invitation => {
+    const guests: IndividualGuest[] = []
+    
+    // Add guest 1 (always exists)
+    guests.push({
+      firstName: guest.guest_1_first_name,
+      lastName: guest.guest_1_last_name,
+      position: 1
+    })
+
+    // Add guest 2 if exists
+    if (guest.guest_2_first_name && guest.guest_2_last_name) {
+      guests.push({
+        firstName: guest.guest_2_first_name,
+        lastName: guest.guest_2_last_name,
+        position: 2
+      })
+    }
+
+    // Add guest 3 if exists
+    if (guest.guest_3_first_name && guest.guest_3_last_name) {
+      guests.push({
+        firstName: guest.guest_3_first_name,
+        lastName: guest.guest_3_last_name,
+        position: 3
+      })
+    }
+
+    // Add guest 4 if exists
+    if (guest.guest_4_first_name && guest.guest_4_last_name) {
+      guests.push({
+        firstName: guest.guest_4_first_name,
+        lastName: guest.guest_4_last_name,
+        position: 4
+      })
+    }
+
+    return {
+      id: guest.id,
+      guests,
+      party_size: guest.party_size,
+      is_welcome_party_invited: guest.is_welcome_party_invited,
+      is_rehearsal_dinner_invited: guest.is_rehearsal_dinner_invited,
+      email: guest.email,
+      phone: guest.phone
+    }
+  }
+
+  const handleInvitationSelect = (guest: GuestSearchResult) => {
+    const invitation = convertToInvitation(guest)
+    onInvitationSelected(invitation)
   }
 
   const getEventInvitations = (guest: GuestSearchResult) => {
     const events = []
+    if (guest.is_rehearsal_dinner_invited) events.push("Rehearsal Dinner")
     if (guest.is_welcome_party_invited) events.push("Welcome Party")
     events.push("Wedding Ceremony & Reception") // Always invited
-    if (guest.is_rehearsal_dinner_invited) events.push("Rehearsal Dinner")
     return events
+  }
+
+  const formatGuestNames = (guest: GuestSearchResult) => {
+    const names = [guest.guest_1_first_name + " " + guest.guest_1_last_name]
+    
+    if (guest.guest_2_first_name && guest.guest_2_last_name) {
+      names.push(guest.guest_2_first_name + " " + guest.guest_2_last_name)
+    }
+    
+    if (guest.guest_3_first_name && guest.guest_3_last_name) {
+      names.push(guest.guest_3_first_name + " " + guest.guest_3_last_name)
+    }
+    
+    if (guest.guest_4_first_name && guest.guest_4_last_name) {
+      names.push(guest.guest_4_first_name + " " + guest.guest_4_last_name)
+    }
+    
+    if (names.length === 1) return names[0]
+    if (names.length === 2) return names.join(" & ")
+    if (names.length > 2) {
+      return names.slice(0, -1).join(", ") + " & " + names[names.length - 1]
+    }
+    
+    return names[0]
   }
 
   return (
@@ -77,7 +144,7 @@ export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
             Find Your Invitation
           </h2>
           <p className="text-sage-700">
-            Enter your name or your guest's name as it appears on your wedding invitation
+            Enter any name from your wedding invitation
           </p>
         </div>
         <form onSubmit={handleSearch} className="space-y-4">
@@ -88,7 +155,7 @@ export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
             <Input
               id="searchTerm"
               type="text"
-              placeholder="Enter your name or your guest's name"
+              placeholder="Enter any name from your invitation"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               disabled={searching}
@@ -139,25 +206,20 @@ export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
               <div 
                 key={guest.id} 
                 className="bg-white border border-sage-200 rounded-lg p-4 cursor-pointer hover:border-sage-400 hover:bg-sage-50 transition-all duration-200 shadow-sm"
-                onClick={() => handleGuestSelect(guest)}
+                onClick={() => handleInvitationSelect(guest)}
               >
                 <div className="flex items-start justify-between">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <User className="h-5 w-5 text-sage-600" />
+                      <Users className="h-5 w-5 text-sage-600" />
                       <p className="font-semibold text-sage-800 text-lg">
-                        {guest.first_name} {guest.last_name}
+                        {formatGuestNames(guest)}
                       </p>
                     </div>
                     <p className="text-sage-600">
                       Party of {guest.party_size}
                     </p>
                     <div className="text-sage-600">
-                      {guest.plus_one_first_name && guest.plus_one_last_name && (
-                        <p className="mb-2">
-                          <span className="font-medium text-sage-700">Guest:</span> {guest.plus_one_first_name} {guest.plus_one_last_name}
-                        </p>
-                      )}
                       <p className="font-medium text-sage-700 mb-1">Invited to:</p>
                       <ul className="list-disc list-inside mt-1 space-y-1">
                         {getEventInvitations(guest).map((event) => (
@@ -192,7 +254,7 @@ export function GuestLookup({ onGuestSelected }: GuestLookupProps) {
                 <li>Check the spelling of your name</li>
                 <li>Try using your full legal name as it appears on the invitation</li>
                 <li>Try searching with just your first or last name</li>
-                <li>Try searching with your guest's name if you have one</li>
+                <li>Try searching with any other name from your invitation</li>
                 <li>If you have a hyphenated name, try with and without the hyphen</li>
               </ul>
               <p className="text-sage-700 text-center">
