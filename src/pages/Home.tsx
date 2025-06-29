@@ -9,6 +9,7 @@ import { WeddingEvents } from "../components/WeddingEvents";
 import { LazyImage } from "../components/LazyImage";
 import { Plane, Car, Hotel, ExternalLink } from "lucide-react"; // Import icons
 import { Button } from "@/components/ui/button"; // Import Button component if available
+import { Link } from "react-router-dom";
 
 export default function WeddingPage() {
   const [countdown, setCountdown] = useState({
@@ -54,9 +55,17 @@ export default function WeddingPage() {
             <h1 className="text-6xl font-bold text-sage-900 mb-4 font-script">
               Nobska and Henry
             </h1>
-            <p className="text-3xl text-sage-900 font-light">
+            <p className="text-3xl text-sage-900 font-light mb-8">
               are getting married!
             </p>
+            <Link to="/rsvp">
+              <Button 
+                size="lg" 
+                className="bg-ivory-100 hover:bg-white text-sage-800 font-display px-10 py-4 text-lg rounded-md border-2 border-sage-600 hover:border-sage-700 shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer"
+              >
+                Kindly RSVP
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
