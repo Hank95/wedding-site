@@ -224,7 +224,7 @@ serve(async (req) => {
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">🍽️ Rehearsal Dinner</h4>
                     <p style="margin: 0; opacity: 0.9;">
-                      Friday, October 25th, 2025 at 5:00 PM<br>
+                      Saturday, October 25th, 2025 at 5:00 PM<br>
                       The Oyster House<br>
                       66 State St, Charleston, SC 29401
                     </p>
@@ -235,7 +235,7 @@ serve(async (req) => {
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">🥂 Welcome Party</h4>
                     <p style="margin: 0; opacity: 0.9;">
-                      Friday, October 25th, 2025 at 8:00 PM<br>
+                      Saturday, October 25th, 2025 at 8:00 PM<br>
                       The Oyster House<br>
                       66 State St, Charleston, SC 29401
                     </p>
@@ -246,7 +246,7 @@ serve(async (req) => {
                   <div style="background: rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <h4 style="margin: 0 0 10px 0; font-size: 16px;">💒 Wedding Ceremony & Reception</h4>
                     <p style="margin: 0; opacity: 0.9;">
-                      Saturday, October 26th, 2025 at 5:00 PM<br>
+                      Sunday, October 26th, 2025 at 5:00 PM<br>
                       Legare Waring House<br>
                       1500 Old Towne Rd, Charleston, SC 29407<br>
                       <em>Black Tie Optional</em>

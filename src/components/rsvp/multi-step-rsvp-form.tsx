@@ -116,7 +116,7 @@ export function MultiStepRSVPForm({
   if (invitation.is_rehearsal_dinner_invited) {
     steps.push({
       title: "Rehearsal Dinner",
-      description: "Friday, October 25th, 2025 at 5:00 PM - The Oyster House",
+      description: "Saturday, October 25th, 2025 at 5:00 PM - The Oyster House",
       type: "event",
       event: "rehearsal_dinner",
     });
@@ -126,7 +126,7 @@ export function MultiStepRSVPForm({
   if (invitation.is_welcome_party_invited) {
     steps.push({
       title: "Welcome Party",
-      description: "Friday, October 25th, 2025 at 8:00 PM - The Oyster House",
+      description: "Saturday, October 25th, 2025 at 8:00 PM - The Oyster House",
       type: "event",
       event: "welcome_party",
     });
@@ -135,7 +135,7 @@ export function MultiStepRSVPForm({
   // Ceremony (always invited)
   steps.push({
     title: "Wedding Ceremony & Reception",
-    description: "Saturday, October 26th, 2025 at 5:00 PM - Legare Waring House",
+    description: "Sunday, October 26th, 2025 at 5:00 PM - Legare Waring House",
     type: "event",
     event: "ceremony",
   });
