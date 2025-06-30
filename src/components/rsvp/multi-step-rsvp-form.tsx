@@ -204,6 +204,7 @@ export function MultiStepRSVPForm({
             rehearsal_dinner_attending: invitation.is_rehearsal_dinner_invited
               ? guestResponse.rehearsal_dinner_attending ?? null
               : null,
+            email: formData.email || null, // Add email to RSVP record
           };
 
           const { error: insertError } = await supabase

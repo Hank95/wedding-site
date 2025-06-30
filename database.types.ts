@@ -164,6 +164,7 @@ export type Database = {
           attending: boolean
           created_at: string | null
           dietary_restrictions: string | null
+          email: string | null
           guest_first_name: string
           guest_id: string
           guest_last_name: string
@@ -177,6 +178,7 @@ export type Database = {
           attending?: boolean
           created_at?: string | null
           dietary_restrictions?: string | null
+          email?: string | null
           guest_first_name: string
           guest_id: string
           guest_last_name: string
@@ -190,6 +192,7 @@ export type Database = {
           attending?: boolean
           created_at?: string | null
           dietary_restrictions?: string | null
+          email?: string | null
           guest_first_name?: string
           guest_id?: string
           guest_last_name?: string

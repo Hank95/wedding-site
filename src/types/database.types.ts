@@ -27,6 +27,7 @@ export interface RSVP {
   message: string | null
   welcome_party_attending: boolean | null
   rehearsal_dinner_attending: boolean | null
+  email: string | null
   created_at: string
 }
 

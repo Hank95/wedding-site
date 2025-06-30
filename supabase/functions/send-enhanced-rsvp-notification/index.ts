@@ -226,7 +226,7 @@ serve(async (req) => {
                     <p style="margin: 0; opacity: 0.9;">
                       Saturday, October 25th, 2025 at 5:00 PM<br>
                       The Oyster House<br>
-                      66 State St, Charleston, SC 29401
+                      35 S Market St, Charleston, SC 29401
                     </p>
                   </div>
                 ` : ''}
@@ -237,7 +237,7 @@ serve(async (req) => {
                     <p style="margin: 0; opacity: 0.9;">
                       Saturday, October 25th, 2025 at 8:00 PM<br>
                       The Oyster House<br>
-                      66 State St, Charleston, SC 29401
+                      35 S Market St, Charleston, SC 29401
                     </p>
                   </div>
                 ` : ''}

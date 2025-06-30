@@ -59,7 +59,7 @@ const locations: Location[] = [
     description: "Welcome Party",
     lat: 32.780628556206686,
     lng: -79.92810311349183,
-    address: "66 State St, Charleston, SC 29401",
+    address: "35 S Market St, Charleston, SC 29401",
     type: "wedding",
     website: "https://oysterhouse.menu",
   },

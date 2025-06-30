@@ -48,7 +48,7 @@ export function WeddingEvents() {
             date="October 25, 2025"
             time="8:00 PM"
             location="The Oyster House"
-            address="66 State St, Charleston, SC 29401"
+            address="35 S Market St, Charleston, SC 29401"
             locationUrl="https://theporchonmarket.com/#about"
             description="Join us for a relaxed evening to kick off our wedding weekend."
             dressCode="Cocktail Attire"
@@ -204,7 +204,7 @@ function EventCard({
             endDate: "2025-10-25T23:00:00",
             description:
               "Join us for a relaxed evening to kick off our wedding weekend. Cocktail attire.",
-            location: "The Oyster House, 66 State St, Charleston, SC 29401",
+            location: "The Oyster House, 35 S Market St, Charleston, SC 29401",
           }}
         />
       </div>
